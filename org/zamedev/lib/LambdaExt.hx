@@ -24,7 +24,7 @@ class LabmdaExt {
             l.add(i);
         }
 
-        return;
+        return l;
     }
 
     /**
