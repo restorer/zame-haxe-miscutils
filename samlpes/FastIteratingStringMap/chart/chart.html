@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+    <title>Benchmark</title>
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Headland+One|Khula:400,700" />
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+    <style type="text/css">
+/*
+    #27323a
+    #b8b89f
+    #52656b
+    #ef307e
+    #b3db07
+    #ebebeb
+*/
+
+body {
+    background-color: #34495e;
+}
+
+.outer {
+    width: 800px;
+}
+
+h1 {
+    font-family: 'Headland One';
+    text-align: center;
+    font-size: 32px;
+    line-height: 1;
+    color: #ebebeb;
+    margin: 15px 0 20px 0;
+    text-shadow: 1px 1px 0 #27323a,
+        2px 2px 0 #27323a,
+        3px 3px 0 #27323a,
+        4px 4px 0 #27323a,
+        5px 5px 0 #27323a,
+        6px 6px 0 #27323a,
+        7px 7px 0 #27323a,
+        8px 8px 0 #27323a,
+        9px 9px 0 #27323a;
+}
+
+h2 {
+    font-family: 'Headland One';
+    text-align: center;
+    color: #ebebeb;
+    margin: 0;
+    font-size: 24px;
+    line-height: 1;
+    margin-top: 5px;
+    padding-top: 10px;
+    border-top: 2px solid #455a6f;
+    text-shadow: 0px 2px #27323a;
+}
+
+h2 > em {
+    font-style: normal;
+    font-size: 14px;
+    color: #b8b89f;
+}
+
+.header {
+    overflow: hidden;
+    font-family: 'Khula';
+    color: #ebebeb;
+    line-height: 1;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.header-entry {
+    margin-top: 4px;
+    float: left;
+    width: 215px;
+    text-align: right;
+    padding-top: 1em;
+}
+
+.header-bar {
+    margin-top: 4px;
+    float: left;
+    padding-left: 10px;
+    width: 425px;
+    padding-top: 1em;
+    font-style: italic;
+    color: #b8b89f;
+}
+
+.header-value {
+    margin-top: 4px;
+    float: left;
+    text-align: right;
+    width: 120px;
+}
+
+.browser {
+    overflow: hidden;
+    border-top: 2px solid #455a6f;
+    padding-top: 10px;
+}
+
+.browser-image {
+    float: left;
+    width: 65px;
+    height: 65px;
+    margin-top: 112px;
+}
+
+.browser-content {
+    float: left;
+}
+
+.entry {
+    overflow: hidden;
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.entry-value {
+    font-size: 42px;
+    line-height: 52px;
+    height: 42px;
+    overflow: hidden;
+    text-align: right;
+    font-family: 'Khula';
+    font-weight: bold;
+    width: 150px;
+    color: #ebebeb;
+    float: left;
+}
+
+.entry-lines {
+    padding-left: 10px;
+    height: 42px;
+    float: left;
+}
+
+.line {
+    overflow: hidden;
+}
+
+.line-bar {
+    overflow: hidden;
+    height: 14px;
+    width: 475px;
+    float: left;
+}
+
+.line-bar-progress {
+    overflow: hidden;
+    margin-top: 2px;
+    height: 8px;
+}
+
+.line-value {
+    float: left;
+    width: 70px;
+    text-align: right;
+    font-family: 'Khula';
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 14px;
+    height: 14px;
+    overflow: hidden;
+}
+
+.line--old > .line-bar > .line-bar-progress {
+    background-color: #07b3db;
+}
+
+.line--old > .line-value {
+    color: #07b3db;
+}
+
+.line--new > .line-bar > .line-bar-progress {
+    background-color: #ef307e;
+}
+
+.line--new > .line-value {
+    color: #ef307e;
+}
+
+.line--fast > .line-bar > .line-bar-progress {
+    background-color: #b3db07;
+}
+
+.line--fast > .line-value {
+    color: #b3db07;
+}
+
+.legend {
+    font-family: 'Khula';
+    color: #ebebeb;
+    font-size: 14px;
+    line-height: 16px;
+    margin-top: 10px;
+    border-top: 2px solid #455a6f;
+    padding-top: 8px;
+}
+
+.legend-bar {
+    margin-left: 225px;
+    display: inline-block;
+    height: 6px;
+    width: 30px;
+    overflow: hidden;
+    vertical-align: 1px;
+}
+
+.legend-bar--old {
+    background-color: #07b3db;
+}
+
+.legend-bar--new {
+    background-color: #ef307e;
+}
+
+.legend-bar--fast {
+    background-color: #b3db07;
+}
+    </style>
+    <script type="text/javascript">
+
+var data = [{
+    benchmark: 'Iteration only',
+    note: 'Just iterating, without get / set / exists / remove',
+    browsers: [{
+        browser: 'chrome',
+        entries: [{
+            entryCount: 10,
+            values: [
+                { type: 'old', value: 1022773 },
+                { type: 'new', value: 413541 },
+                { type: 'fast', value: 5585414 }
+            ]
+        }, {
+            entryCount: 100,
+            values: [
+                { type: 'old', value: 43023 },
+                { type: 'new', value: 48857 },
+                { type: 'fast', value: 894310 }
+            ]
+        }, {
+            entryCount: 1000,
+            values: [
+                { type: 'old', value: 3812 },
+                { type: 'new', value: 5025 },
+                { type: 'fast', value: 96024 }
+            ]
+        }, {
+            entryCount: 10000,
+            values: [
+                { type: 'old', value: 336 },
+                { type: 'new', value: 511 },
+                { type: 'fast', value: 9651 }
+            ]
+        }, {
+            entryCount: 100000,
+            values: [
+                { type: 'old', value: 22 },
+                { type: 'new', value: 30 },
+                { type: 'fast', value: 949 }
+            ]
+        }]
+    }, {
+        browser: 'safari',
+        entries: [{
+            entryCount: 10,
+            values: [
+                { type: 'old', value: 620111 },
+                { type: 'new', value: 419209 },
+                { type: 'fast', value: 1499690 }
+            ]
+        }, {
+            entryCount: 100,
+            values: [
+                { type: 'old', value: 37775 },
+                { type: 'new', value: 44343 },
+                { type: 'fast', value: 193565 }
+            ]
+        }, {
+            entryCount: 1000,
+            values: [
+                { type: 'old', value: 3533 },
+                { type: 'new', value: 3634 },
+                { type: 'fast', value: 22798 }
+            ]
+        }, {
+            entryCount: 10000,
+            values: [
+                { type: 'old', value: 250 },
+                { type: 'new', value: 304 },
+                { type: 'fast', value: 2274 }
+            ]
+        }, {
+            entryCount: 100000,
+            values: [
+                { type: 'old', value: 19 },
+                { type: 'new', value: 24 },
+                { type: 'fast', value: 212 }
+            ]
+        }]
+    }, {
+        browser: 'firefox',
+        entries: [{
+            entryCount: 10,
+            values: [
+                { type: 'old', value: 835555 },
+                { type: 'new', value: 468743 },
+                { type: 'fast', value: 1965104 }
+            ]
+        }, {
+            entryCount: 100,
+            values: [
+                { type: 'old', value: 88969 },
+                { type: 'new', value: 77025 },
+                { type: 'fast', value: 270184 }
+            ]
+        }, {
+            entryCount: 1000,
+            values: [
+                { type: 'old', value: 8279 },
+                { type: 'new', value: 4769 },
+                { type: 'fast', value: 11939 }
+            ]
+        }, {
+            entryCount: 10000,
+            values: [
+                { type: 'old', value: 705 },
+                { type: 'new', value: 378 },
+                { type: 'fast', value: 1078 }
+            ]
+        }, {
+            entryCount: 100000,
+            values: [
+                { type: 'old', value: 35 },
+                { type: 'new', value: 21 },
+                { type: 'fast', value: 74 }
+            ]
+        }]
+    }]
+}, {
+    benchmark: 'Combined',
+    note: 'Iterating plus get / set / exists, without remove',
+    browsers: [{
+        browser: 'chrome',
+        entries: [{
+            entryCount: 10,
+            values: [
+                { type: 'old', value: 397175 },
+                { type: 'new', value: 310856 },
+                { type: 'fast', value: 918613 }
+            ]
+        }, {
+            entryCount: 100,
+            values: [
+                { type: 'old', value: 32439 },
+                { type: 'new', value: 36113 },
+                { type: 'fast', value: 99058 }
+            ]
+        }, {
+            entryCount: 1000,
+            values: [
+                { type: 'old', value: 2951 },
+                { type: 'new', value: 3666 },
+                { type: 'fast', value: 10011 }
+            ]
+        }, {
+            entryCount: 10000,
+            values: [
+                { type: 'old', value: 263 },
+                { type: 'new', value: 370 },
+                { type: 'fast', value: 1000 }
+            ]
+        }, {
+            entryCount: 100000,
+            values: [
+                { type: 'old', value: 18 },
+                { type: 'new', value: 25 },
+                { type: 'fast', value: 99 }
+            ]
+        }]
+    }, {
+        browser: 'safari',
+        entries: [{
+            entryCount: 10,
+            values: [
+                { type: 'old', value: 378574 },
+                { type: 'new', value: 293882 },
+                { type: 'fast', value: 583161 }
+            ]
+        }, {
+            entryCount: 100,
+            values: [
+                { type: 'old', value: 25865 },
+                { type: 'new', value: 30268 },
+                { type: 'fast', value: 60044 }
+            ]
+        }, {
+            entryCount: 1000,
+            values: [
+                { type: 'old', value: 2320 },
+                { type: 'new', value: 2732 },
+                { type: 'fast', value: 6722 }
+            ]
+        }, {
+            entryCount: 10000,
+            values: [
+                { type: 'old', value: 177 },
+                { type: 'new', value: 231 },
+                { type: 'fast', value: 662 }
+            ]
+        }, {
+            entryCount: 100000,
+            values: [
+                { type: 'old', value: 14 },
+                { type: 'new', value: 19 },
+                { type: 'fast', value: 61 }
+            ]
+        }]
+    }, {
+        browser: 'firefox',
+        entries: [{
+            entryCount: 10,
+            values: [
+                { type: 'old', value: 570488 },
+                { type: 'new', value: 313626 },
+                { type: 'fast', value: 604596 }
+            ]
+        }, {
+            entryCount: 100,
+            values: [
+                { type: 'old', value: 65626 },
+                { type: 'new', value: 40705 },
+                { type: 'fast', value: 56400 }
+            ]
+        }, {
+            entryCount: 1000,
+            values: [
+                { type: 'old', value: 5305 },
+                { type: 'new', value: 2370 },
+                { type: 'fast', value: 3581 }
+            ]
+        }, {
+            entryCount: 10000,
+            values: [
+                { type: 'old', value: 415 },
+                { type: 'new', value: 201 },
+                { type: 'fast', value: 287 }
+            ]
+        }, {
+            entryCount: 100000,
+            values: [
+                { type: 'old', value: 24 },
+                { type: 'new', value: 13 },
+                { type: 'fast', value: 25 }
+            ]
+        }]
+    }]
+}, {
+    benchmark: 'Without iteration',
+    note: 'Just get / set / exists / remove, without iterating',
+    browsers: [{
+        browser: 'chrome',
+        entries: [{
+            entryCount: 10,
+            values: [
+                { type: 'old', value: 285846 },
+                { type: 'new', value: 374352 },
+                { type: 'fast', value: 272153 }
+            ]
+        }, {
+            entryCount: 100,
+            values: [
+                { type: 'old', value: 33669 },
+                { type: 'new', value: 39253 },
+                { type: 'fast', value: 28770 }
+            ]
+        }, {
+            entryCount: 1000,
+            values: [
+                { type: 'old', value: 3186 },
+                { type: 'new', value: 3936 },
+                { type: 'fast', value: 2897 }
+            ]
+        }, {
+            entryCount: 10000,
+            values: [
+                { type: 'old', value: 311 },
+                { type: 'new', value: 397 },
+                { type: 'fast', value: 288 }
+            ]
+        }, {
+            entryCount: 100000,
+            values: [
+                { type: 'old', value: 24 },
+                { type: 'new', value: 39 },
+                { type: 'fast', value: 29 }
+            ]
+        }]
+    }, {
+        browser: 'safari',
+        entries: [{
+            entryCount: 10,
+            values: [
+                { type: 'old', value: 290212 },
+                { type: 'new', value: 411262 },
+                { type: 'fast', value: 245655 }
+            ]
+        }, {
+            entryCount: 100,
+            values: [
+                { type: 'old', value: 27432 },
+                { type: 'new', value: 39009 },
+                { type: 'fast', value: 22829 }
+            ]
+        }, {
+            entryCount: 1000,
+            values: [
+                { type: 'old', value: 2518 },
+                { type: 'new', value: 3284 },
+                { type: 'fast', value: 1913 }
+            ]
+        }, {
+            entryCount: 10000,
+            values: [
+                { type: 'old', value: 208 },
+                { type: 'new', value: 303 },
+                { type: 'fast', value: 189 }
+            ]
+        }, {
+            entryCount: 100000,
+            values: [
+                { type: 'old', value: 18 },
+                { type: 'new', value: 39 },
+                { type: 'fast', value: 23 }
+            ]
+        }]
+    }, {
+        browser: 'firefox',
+        entries: [{
+            entryCount: 10,
+            values: [
+                { type: 'old', value: 300723 },
+                { type: 'new', value: 149788 },
+                { type: 'fast', value: 238316 }
+            ]
+        }, {
+            entryCount: 100,
+            values: [
+                { type: 'old', value: 24332 },
+                { type: 'new', value: 15202 },
+                { type: 'fast', value: 23364 }
+            ]
+        }, {
+            entryCount: 1000,
+            values: [
+                { type: 'old', value: 2214 },
+                { type: 'new', value: 1230 },
+                { type: 'fast', value: 1326 }
+            ]
+        }, {
+            entryCount: 10000,
+            values: [
+                { type: 'old', value: 204 },
+                { type: 'new', value: 156 },
+                { type: 'fast', value: 117 }
+            ]
+        }, {
+            entryCount: 100000,
+            values: [
+                { type: 'old', value: 16 },
+                { type: 'new', value: 14 },
+                { type: 'fast', value: 11 }
+            ]
+        }]
+    }]
+}];
+
+function generate() {
+    var html = '';
+
+    for (var i = 0, lenI = data.length; i < lenI; i++) {
+        var benchmarkData = data[i];
+
+        html += '<h2>' + benchmarkData.benchmark + '<br /><em>' + benchmarkData.note + '</em></h2>'
+            + '<div class="header">'
+            + '<div class="header-entry">Hash entry count</div>'
+            + '<div class="header-bar">Best &mdash; 100% width</div>'
+            + '<div class="header-value">Iterations<br />(more is better)</div>'
+            + '</div>';
+
+        for (var j = 0, lenJ = benchmarkData.browsers.length; j < lenJ; j++) {
+            var browserData = benchmarkData.browsers[j];
+
+            html += '<div class="browser">'
+                + '<img class="browser-image" src="' + browserData.browser + '.png" />'
+                + '<div class="browser-content">';
+
+            for (var k = 0, lenK = browserData.entries.length; k < lenK; k++) {
+                var entryData = browserData.entries[k];
+
+                html += '<div class="entry">'
+                    + '<div class="entry-value">' + entryData.entryCount + '</div>'
+                    + '<div class="entry-lines">';
+
+                var max = 0;
+
+                for (var l = 0, lenL = entryData.values.length; l < lenL; l++) {
+                    max = Math.max(max, entryData.values[l].value);
+                }
+
+                for (var l = 0, lenL = entryData.values.length; l < lenL; l++) {
+                    var valuesData = entryData.values[l];
+                    var width = Math.round(valuesData.value / max * 475);
+
+                    html += '<div class="line line--' + valuesData.type + '">'
+                        + '<div class="line-bar">'
+                        + '<div class="line-bar-progress" style="width:' + width + 'px;"></div>'
+                        + '</div>'
+                        + '<div class="line-value">' + valuesData.value + '</div>'
+                        + '</div>';
+                }
+
+                html += '</div>';
+                html += '</div>';
+            }
+
+            html += '</div>';
+            html += '</div>';
+        }
+    }
+
+    document.getElementById('generated').innerHTML = html;
+}
+
+    </script>
+</head>
+<body onload="generate();">
+    <div class="outer">
+        <h1>FastIteratingStringMap</h1>
+        <div class="legend">
+            <span class="legend-bar legend-bar--old"></span> haxe.ds.StringMap from Haxe 3.1.3<br />
+            <span class="legend-bar legend-bar--new"></span> haxe.ds.StringMap from master branch of Haxe repo<br />
+            <span class="legend-bar legend-bar--fast"></span> FastIteratingStringMap
+        </div>
+        <div id="generated"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+haxe -main Benchmark.hx -js "index.js"
