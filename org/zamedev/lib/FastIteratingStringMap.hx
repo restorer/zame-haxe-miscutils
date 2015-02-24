@@ -50,6 +50,16 @@ private class FastIteratingStringMapValuesIterator<T> {
 
 // for haxe 3.2 - implements haxe.Constraints.IMap<String, T>
 class FastIteratingStringMap<T> implements Map.IMap<String, T> {
+    private static var emptyIterator = {
+        hasNext: function() {
+            return false;
+        },
+
+        next: function() {
+            return null;
+        }
+    };
+
     private var data:Dynamic;
     private var head:String;
     private var tail:String;
@@ -140,10 +150,17 @@ class FastIteratingStringMap<T> implements Map.IMap<String, T> {
             tail = prev;
         }
 
+        item.prev = null;
+        item.next = null;
+
         return true;
     }
 
     public function keys():Iterator<String> {
+        if (head == null) {
+            return untyped emptyIterator;
+        }
+
         return untyped {
             _data: data,
             _key: head,
@@ -163,6 +180,10 @@ class FastIteratingStringMap<T> implements Map.IMap<String, T> {
     }
 
     public function iterator():Iterator<T> {
+        if (head == null) {
+            return untyped emptyIterator;
+        }
+
         return untyped {
             _data: data,
             _key: head,

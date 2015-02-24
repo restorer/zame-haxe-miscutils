@@ -3,6 +3,7 @@ package ;
 import haxe.Timer;
 import js.Browser;
 import js.html.ButtonElement;
+import org.zamedev.lib.FastIteratingStringMap;
 
 typedef BenchmarkResult = {
 	iterations:Int,
