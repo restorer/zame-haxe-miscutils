@@ -8,42 +8,38 @@ package org.zamedev.lib;
  *
 
 private class FastIteratingStringMapKeysIterator<T> {
-    var map:FastIteratingStringMap<T>;
-    var key:String;
+    var item:Dynamic;
 
     public inline function new(map:FastIteratingStringMap<T>):Void {
-        this.map = map;
-        this.key = untyped map.head;
+        this.item = untyped map.head;
     }
 
     public inline function hasNext():Bool {
-        return (key != null);
+        return (item != null);
     }
 
     public inline function next():String {
-        var item = untyped map.data[key];
-        key = item.next;
-        return item.key;
+        var result = item.key;
+        item = item.next;
+        return result;
     }
 }
 
 private class FastIteratingStringMapValuesIterator<T> {
-    var map:FastIteratingStringMap<T>;
-    var key:String;
+    var item:Dynamic;
 
     public inline function new(map:FastIteratingStringMap<T>):Void {
-        this.map = map;
-        this.key = untyped map.head;
+        this.item = untyped map.head;
     }
 
     public inline function hasNext():Bool {
-        return (key != null);
+        return (item != null);
     }
 
     public inline function next():T {
-        var item = untyped map.data[key];
-        key = item.next;
-        return item.value;
+        var result = item.value;
+        item = item.next;
+        return result;
     }
 }
 */
@@ -61,8 +57,9 @@ class FastIteratingStringMap<T> implements Map.IMap<String, T> {
     };
 
     private var data:Dynamic;
-    private var head:String;
-    private var tail:String;
+    private var dataReserved:Dynamic;
+    private var head:Dynamic;
+    private var tail:Dynamic;
 
     static function __init__():Void {
         untyped __js__("var __z_map_reserved = {}");
@@ -70,31 +67,59 @@ class FastIteratingStringMap<T> implements Map.IMap<String, T> {
 
     public function new():Void {
         data = {};
+        dataReserved = {};
         head = null;
         tail = null;
     }
 
     public function set(key:String, value:T):Void {
-        var _key:String = (untyped __js__("__z_map_reserved")[key] == null ? key : "$" + key);
+        if (untyped __js__("__z_map_reserved")[key] != null) {
+            var _key = "$" + key;
 
-        if (untyped data.hasOwnProperty(_key)) {
-            untyped data[_key].value = value;
-        } else {
-            untyped data[_key] = {
-                prev: tail,
-                key: key,
-                value: value,
-                next: null
-            };
+            if (untyped dataReserved.hasOwnProperty(_key)) {
+                untyped dataReserved[_key].value = value;
+            } else {
+                var item = {
+                    prev: tail,
+                    key: key,
+                    value: value,
+                    next: null
+                };
 
-            if (tail != null) {
-                untyped data[tail].next = _key;
+                untyped dataReserved[_key] = item;
+
+                if (tail != null) {
+                    untyped tail.next = item;
+                }
+
+                tail = item;
+
+                if (head == null) {
+                    head = item;
+                }
             }
+        } else {
+            if (untyped data.hasOwnProperty(key)) {
+                untyped data[key].value = value;
+            } else {
+                var item = {
+                    prev: tail,
+                    key: key,
+                    value: value,
+                    next: null
+                };
 
-            tail = _key;
+                untyped data[_key] = item;
 
-            if (head == null) {
-                head = _key;
+                if (tail != null) {
+                    untyped tail.next = item;
+                }
+
+                tail = item;
+
+                if (head == null) {
+                    head = item;
+                }
             }
         }
     }
@@ -102,58 +127,95 @@ class FastIteratingStringMap<T> implements Map.IMap<String, T> {
     public function get(key:String):Null<T> {
         if (untyped __js__("__z_map_reserved")[key] != null) {
             key = "$" + key;
-        }
 
-        if (untyped data.hasOwnProperty(key)) {
-            return untyped data[key].value;
+            if (untyped dataReserved.hasOwnProperty(key)) {
+                return untyped dataReserved[key].value;
+            } else {
+                return null;
+            }
         } else {
-            return null;
+            if (untyped data.hasOwnProperty(key)) {
+                return untyped data[key].value;
+            } else {
+                return null;
+            }
         }
     }
 
     public function exists(key:String):Bool {
         if (untyped __js__("__z_map_reserved")[key] != null) {
-            key = "$" + key;
+            return untyped dataReserved.hasOwnProperty("$" + key);
+        } else {
+            return untyped data.hasOwnProperty(key);
         }
-
-        return untyped data.hasOwnProperty(key);
     }
 
     public function remove(key:String):Bool {
         if (untyped __js__("__z_map_reserved")[key] != null) {
             key = "$" + key;
+
+            if (untyped !dataReserved.hasOwnProperty(key)) {
+                return false;
+            }
+
+            var item = untyped dataReserved[key];
+            var prev:Dynamic = item.prev;
+            var next:Dynamic = item.next;
+
+            untyped __js__("delete")(dataReserved[key]);
+
+            if (prev != null) {
+                untyped prev.next = next;
+            }
+
+            if (next != null) {
+                untyped next.prev = prev;
+            }
+
+            if (head == item) {
+                head = next;
+            }
+
+            if (tail == item) {
+                tail = prev;
+            }
+
+            item.prev = null;
+            item.next = null;
+
+            return true;
+        } else {
+            if (untyped !data.hasOwnProperty(key)) {
+                return false;
+            }
+
+            var item = untyped data[key];
+            var prev:Dynamic = item.prev;
+            var next:Dynamic = item.next;
+
+            untyped __js__("delete")(data[key]);
+
+            if (prev != null) {
+                untyped prev.next = next;
+            }
+
+            if (next != null) {
+                untyped next.prev = prev;
+            }
+
+            if (head == item) {
+                head = next;
+            }
+
+            if (tail == item) {
+                tail = prev;
+            }
+
+            item.prev = null;
+            item.next = null;
+
+            return true;
         }
-
-        if (untyped !data.hasOwnProperty(key)) {
-            return false;
-        }
-
-        var item = untyped data[key];
-        var prev:String = item.prev;
-        var next:String = item.next;
-
-        untyped __js__("delete")(data[key]);
-
-        if (prev != null) {
-            untyped data[prev].next = next;
-        }
-
-        if (next != null) {
-            untyped data[next].prev = prev;
-        }
-
-        if (head == key) {
-            head = next;
-        }
-
-        if (tail == key) {
-            tail = prev;
-        }
-
-        item.prev = null;
-        item.next = null;
-
-        return true;
     }
 
     public function keys():Iterator<String> {
@@ -162,17 +224,16 @@ class FastIteratingStringMap<T> implements Map.IMap<String, T> {
         }
 
         return untyped {
-            _data: data,
-            _key: head,
+            _item: head,
 
             hasNext: function() {
-                return (__this__._key != null);
+                return (__this__._item != null);
             },
 
             next: function() {
-                var item = __this__._data[__this__._key];
-                __this__._key = item.next;
-                return item.key;
+                var result = __this__._item.key;
+                __this__._item = __this__._item.next;
+                return result;
             }
         };
 
@@ -185,17 +246,16 @@ class FastIteratingStringMap<T> implements Map.IMap<String, T> {
         }
 
         return untyped {
-            _data: data,
-            _key: head,
+            _item: head,
 
             hasNext: function() {
-                return (__this__._key != null);
+                return (__this__._item != null);
             },
 
             next: function() {
-                var item = __this__._data[__this__._key];
-                __this__._key = item.next;
-                return item.value;
+                var result = __this__._item.value;
+                __this__._item = __this__._item.next;
+                return result;
             }
         };
 
@@ -207,18 +267,16 @@ class FastIteratingStringMap<T> implements Map.IMap<String, T> {
         s.add("{");
 
         untyped {
-            var _key = head;
+            var item = head;
 
-            while (_key != null) {
-                var item = data[_key];
-
+            while (item != null) {
                 s.add(item.key);
                 s.add(" => ");
                 s.add(Std.string(item.value));
 
-                _key = item.next;
+                item = item.next;
 
-                if (_key != null) {
+                if (item != null) {
                     s.add(", ");
                 }
             }
@@ -233,11 +291,13 @@ class FastIteratingStringMap<T> implements Map.IMap<String, T> {
         var s = new StringBuf();
         s.add("{");
         s.add(" head: ");
-        s.add(head == null ? "null" : '"${head}"');
+        s.add(head);
         s.add(", tail: ");
-        s.add(tail == null ? "null" : '"${tail}"');
+        s.add(tail);
         s.add(", data: ");
         s.add(data);
+        s.add(", dataReserved: ");
+        s.add(dataReserved);
         s.add(" }");
         return s.toString();
     }
