@@ -21,20 +21,23 @@
  */
 package ;
 
-private class CachingStringMapV3Iterator<T> {
-	var map : CachingStringMapV3<T>;
-	var keys : Array<String>;
-	var index : Int;
-	var count : Int;
-	public inline function new(map:CachingStringMapV3<T>, keys:Array<String>) {
+private class CachingKeysStringMapIterator<T> {
+	var map:CachingKeysStringMap<T>;
+	var keys:Array<String>;
+	var index:Int;
+	var count:Int;
+
+	public inline function new(map:CachingKeysStringMap<T>, keys:Array<String>) {
 		this.map = map;
 		this.keys = keys;
 		this.index = 0;
 		this.count = keys.length;
 	}
+
 	public inline function hasNext() {
 		return index < count;
 	}
+
 	public inline function next() {
 		return map.get(keys[index++]);
 	}
@@ -42,7 +45,7 @@ private class CachingStringMapV3Iterator<T> {
 
 // @:coreApi
 // for haxe 3.2 - implements haxe.Constraints.IMap<String, T>
-class CachingStringMapV3<T> implements Map.IMap<String,T> {
+class CachingKeysStringMap<T> implements Map.IMap<String, T> {
     private static var emptyIterator = {
         hasNext: function() {
             return false;
@@ -53,95 +56,80 @@ class CachingStringMapV3<T> implements Map.IMap<String,T> {
         }
     };
 
-	private var h : Dynamic;
-	private var rh : Dynamic;
-	private var cachedKeys : Array<String> = [];
+	private var data:Dynamic;
+	private var dataReserved:Dynamic;
+	private var cachedKeys:Array<String>;
 
-	public inline function new() : Void {
-		h = {};
+	static function __init__() : Void {
+		untyped __js__("var __z_map_reserved = {}");
 	}
 
-	inline function isReserved(key:String) : Bool {
-		return untyped __js__("__map_v3_reserved")[key] != null;
+	public inline function new():Void {
+		data = {};
+		cachedKeys = [];
 	}
 
-	public inline function set( key : String, value : T ) : Void {
-		if( isReserved(key) ) {
-			setReserved(key, value);
-		} else {
-			if (!h.hasOwnProperty(key)) {
+	public inline function set(key:String, value:T):Void {
+		if (untyped __js__("__z_map_reserved")[key] != null) {
+			if (dataReserved == null) {
+				dataReserved = {};
+			}
+
+			var _key = "$" + key;
+
+			if (!dataReserved.hasOwnProperty(_key)) {
 				cachedKeys.push(key);
 			}
 
-			h[cast key] = value;
+			dataReserved[cast _key] = value;
+		} else {
+			if (!data.hasOwnProperty(key)) {
+				cachedKeys.push(key);
+			}
+
+			data[cast key] = value;
 		}
 	}
 
-	public inline function get( key : String ) : Null<T> {
-		if( isReserved(key) ) {
-			return getReserved(key);
+	public inline function get(key:String):Null<T> {
+		if (untyped __js__("__z_map_reserved")[key] != null) {
+			return (dataReserved == null ? null : dataReserved[cast "$" + key]);
 		}
 
-		return h[cast key];
+		return data[cast key];
 	}
 
-	public inline function exists( key : String ) : Bool {
-		if( isReserved(key) ) {
-			return existsReserved(key);
+	public inline function exists(key:String):Bool {
+		if (untyped __js__("__z_map_reserved")[key] != null) {
+			return (dataReserved == null ? false : dataReserved.hasOwnProperty("$" + key));
 		}
 
-		return h.hasOwnProperty(key);
+		return data.hasOwnProperty(key);
 	}
 
-	function setReserved( key : String, value : T ) : Void {
-		if( rh == null ) {
-			rh = {};
+	public function remove(key:String):Bool {
+		if (untyped __js__("__z_map_reserved")[key] != null) {
+			key = "$" + key;
+
+			if (dataReserved == null || !dataReserved.hasOwnProperty(key)) {
+				return false;
+			}
+
+			untyped __js__("delete")(dataReserved[key]);
+			cachedKeys.splice(cachedKeys.indexOf(key), 1);
+			return true;
 		}
 
-		var _key = "$" + key;
-
-		if (!rh.hasOwnProperty(_key)) {
-			cachedKeys.push(key);
-		}
-
-		rh[cast _key] = value;
-	}
-
-	function getReserved( key : String ) : Null<T> {
-		return rh == null ? null : rh[cast "$"+key];
-	}
-
-	function existsReserved( key : String ) : Bool {
-		if( rh == null ) {
+		if (!data.hasOwnProperty(key)) {
 			return false;
 		}
 
-		return untyped rh.hasOwnProperty("$"+key);
+		untyped __js__("delete")(data[key]);
+		cachedKeys.splice(cachedKeys.indexOf(key), 1);
+		return true;
 	}
 
-	public function remove( key : String ) : Bool {
-		if( isReserved(key) ) {
-			key = "$" + key;
-
-			if( rh == null || !rh.hasOwnProperty(key) ) {
-				return false;
-			}
-
-			untyped __js__("delete")(rh[key]);
-			cachedKeys.splice(cachedKeys.indexOf(key), 1);
-			return true;
-		} else {
-			if( !h.hasOwnProperty(key) ) {
-				return false;
-			}
-
-			untyped __js__("delete")(h[key]);
-			cachedKeys.splice(cachedKeys.indexOf(key), 1);
-			return true;
-		}
-	}
-
-	public function keys() : Iterator<String> {
+	public inline function keys():Iterator<String> {
 		if (cachedKeys.length == 0) {
 			return untyped emptyIterator;
 		}
@@ -149,31 +137,30 @@ class CachingStringMapV3<T> implements Map.IMap<String,T> {
 		return cachedKeys.iterator();
 	}
 
-	public inline function iterator() : Iterator<T> {
+	public inline function iterator():Iterator<T> {
 		if (cachedKeys.length == 0) {
 			return untyped emptyIterator;
 		}
 
-		return new CachingStringMapV3Iterator(this, cachedKeys);
+		return new CachingKeysStringMapIterator(this, cachedKeys);
 	}
 
 	public function toString() : String {
 		var s = new StringBuf();
 		s.add("{");
-		for( i in 0...cachedKeys.length ) {
+
+		for (i in 0 ... cachedKeys.length) {
 			var k = cachedKeys[i];
 			s.add(k);
 			s.add(" => ");
 			s.add(Std.string(get(k)));
-			if( i < cachedKeys.length )
+
+			if (i < cachedKeys.length) {
 				s.add(", ");
+			}
 		}
+
 		s.add("}");
 		return s.toString();
 	}
-
-	static function __init__() : Void {
-		untyped __js__("var __map_v3_reserved = {}");
-	}
-
 }
