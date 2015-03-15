@@ -1,0 +1,466 @@
+[
+    {
+        "benchmark": "Iteration only",
+        "note": "Just iterating, without get / set / exists / remove",
+        "browsers": [
+            {
+                "browser": "safari",
+                "entries": [
+                    {
+                        "entryCount": 10,
+                        "values": [
+                            {
+                                "type": "old",
+                                "value": 873687
+                            },
+                            {
+                                "type": "new",
+                                "value": 664109
+                            },
+                            {
+                                "type": "caching",
+                                "value": 2479900
+                            },
+                            {
+                                "type": "fast",
+                                "value": 9998405
+                            }
+                        ]
+                    },
+                    {
+                        "entryCount": 100,
+                        "values": [
+                            {
+                                "type": "old",
+                                "value": 56163
+                            },
+                            {
+                                "type": "new",
+                                "value": 65476
+                            },
+                            {
+                                "type": "caching",
+                                "value": 249459
+                            },
+                            {
+                                "type": "fast",
+                                "value": 4247353
+                            }
+                        ]
+                    },
+                    {
+                        "entryCount": 1000,
+                        "values": [
+                            {
+                                "type": "old",
+                                "value": 5102
+                            },
+                            {
+                                "type": "new",
+                                "value": 5280
+                            },
+                            {
+                                "type": "caching",
+                                "value": 27309
+                            },
+                            {
+                                "type": "fast",
+                                "value": 751505
+                            }
+                        ]
+                    },
+                    {
+                        "entryCount": 10000,
+                        "values": [
+                            {
+                                "type": "old",
+                                "value": 360
+                            },
+                            {
+                                "type": "new",
+                                "value": 442
+                            },
+                            {
+                                "type": "caching",
+                                "value": 2293
+                            },
+                            {
+                                "type": "fast",
+                                "value": 72707
+                            }
+                        ]
+                    },
+                    {
+                        "entryCount": 100000,
+                        "values": [
+                            {
+                                "type": "old",
+                                "value": 24
+                            },
+                            {
+                                "type": "new",
+                                "value": 32
+                            },
+                            {
+                                "type": "caching",
+                                "value": 262
+                            },
+                            {
+                                "type": "fast",
+                                "value": 5155
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "benchmark": "Combined",
+        "note": "Iterating plus get / set / exists, without remove",
+        "browsers": [
+            {
+                "browser": "safari",
+                "entries": [
+                    {
+                        "entryCount": 10,
+                        "values": [
+                            {
+                                "type": "old",
+                                "value": 570756
+                            },
+                            {
+                                "type": "new",
+                                "value": 466065
+                            },
+                            {
+                                "type": "caching",
+                                "value": 1021516
+                            },
+                            {
+                                "type": "fast",
+                                "value": 1284821
+                            }
+                        ]
+                    },
+                    {
+                        "entryCount": 100,
+                        "values": [
+                            {
+                                "type": "old",
+                                "value": 36669
+                            },
+                            {
+                                "type": "new",
+                                "value": 46490
+                            },
+                            {
+                                "type": "caching",
+                                "value": 84561
+                            },
+                            {
+                                "type": "fast",
+                                "value": 111097
+                            }
+                        ]
+                    },
+                    {
+                        "entryCount": 1000,
+                        "values": [
+                            {
+                                "type": "old",
+                                "value": 3320
+                            },
+                            {
+                                "type": "new",
+                                "value": 3874
+                            },
+                            {
+                                "type": "caching",
+                                "value": 6297
+                            },
+                            {
+                                "type": "fast",
+                                "value": 8166
+                            }
+                        ]
+                    },
+                    {
+                        "entryCount": 10000,
+                        "values": [
+                            {
+                                "type": "old",
+                                "value": 247
+                            },
+                            {
+                                "type": "new",
+                                "value": 335
+                            },
+                            {
+                                "type": "caching",
+                                "value": 589
+                            },
+                            {
+                                "type": "fast",
+                                "value": 739
+                            }
+                        ]
+                    },
+                    {
+                        "entryCount": 100000,
+                        "values": [
+                            {
+                                "type": "old",
+                                "value": 17
+                            },
+                            {
+                                "type": "new",
+                                "value": 26
+                            },
+                            {
+                                "type": "caching",
+                                "value": 44
+                            },
+                            {
+                                "type": "fast",
+                                "value": 124
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "benchmark": "Without iteration",
+        "note": "Just get / set / exists / remove, without iterating",
+        "browsers": [
+            {
+                "browser": "safari",
+                "entries": [
+                    {
+                        "entryCount": 10,
+                        "values": [
+                            {
+                                "type": "old",
+                                "value": 429253
+                            },
+                            {
+                                "type": "new",
+                                "value": 600718
+                            },
+                            {
+                                "type": "caching",
+                                "value": 401801
+                            },
+                            {
+                                "type": "fast",
+                                "value": 403149
+                            }
+                        ]
+                    },
+                    {
+                        "entryCount": 100,
+                        "values": [
+                            {
+                                "type": "old",
+                                "value": 39576
+                            },
+                            {
+                                "type": "new",
+                                "value": 55827
+                            },
+                            {
+                                "type": "caching",
+                                "value": 38363
+                            },
+                            {
+                                "type": "fast",
+                                "value": 38135
+                            }
+                        ]
+                    },
+                    {
+                        "entryCount": 1000,
+                        "values": [
+                            {
+                                "type": "old",
+                                "value": 3711
+                            },
+                            {
+                                "type": "new",
+                                "value": 4153
+                            },
+                            {
+                                "type": "caching",
+                                "value": 3187
+                            },
+                            {
+                                "type": "fast",
+                                "value": 3398
+                            }
+                        ]
+                    },
+                    {
+                        "entryCount": 10000,
+                        "values": [
+                            {
+                                "type": "old",
+                                "value": 313
+                            },
+                            {
+                                "type": "new",
+                                "value": 490
+                            },
+                            {
+                                "type": "caching",
+                                "value": 147
+                            },
+                            {
+                                "type": "fast",
+                                "value": 309
+                            }
+                        ]
+                    },
+                    {
+                        "entryCount": 100000,
+                        "values": [
+                            {
+                                "type": "old",
+                                "value": 25
+                            },
+                            {
+                                "type": "new",
+                                "value": 59
+                            },
+                            {
+                                "type": "caching",
+                                "value": 2
+                            },
+                            {
+                                "type": "fast",
+                                "value": 38
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "benchmark": "All",
+        "note": "Iterating plus get / set / exists and remove",
+        "browsers": [
+            {
+                "browser": "safari",
+                "entries": [
+                    {
+                        "entryCount": 10,
+                        "values": [
+                            {
+                                "type": "old",
+                                "value": 225308
+                            },
+                            {
+                                "type": "new",
+                                "value": 259814
+                            },
+                            {
+                                "type": "caching",
+                                "value": 374716
+                            },
+                            {
+                                "type": "fast",
+                                "value": 447810
+                            }
+                        ]
+                    },
+                    {
+                        "entryCount": 100,
+                        "values": [
+                            {
+                                "type": "old",
+                                "value": 19964
+                            },
+                            {
+                                "type": "new",
+                                "value": 26416
+                            },
+                            {
+                                "type": "caching",
+                                "value": 34535
+                            },
+                            {
+                                "type": "fast",
+                                "value": 43839
+                            }
+                        ]
+                    },
+                    {
+                        "entryCount": 1000,
+                        "values": [
+                            {
+                                "type": "old",
+                                "value": 1808
+                            },
+                            {
+                                "type": "new",
+                                "value": 2227
+                            },
+                            {
+                                "type": "caching",
+                                "value": 2610
+                            },
+                            {
+                                "type": "fast",
+                                "value": 3640
+                            }
+                        ]
+                    },
+                    {
+                        "entryCount": 10000,
+                        "values": [
+                            {
+                                "type": "old",
+                                "value": 140
+                            },
+                            {
+                                "type": "new",
+                                "value": 191
+                            },
+                            {
+                                "type": "caching",
+                                "value": 131
+                            },
+                            {
+                                "type": "fast",
+                                "value": 398
+                            }
+                        ]
+                    },
+                    {
+                        "entryCount": 100000,
+                        "values": [
+                            {
+                                "type": "old",
+                                "value": 11
+                            },
+                            {
+                                "type": "new",
+                                "value": 14
+                            },
+                            {
+                                "type": "caching",
+                                "value": 2
+                            },
+                            {
+                                "type": "fast",
+                                "value": 46
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

@@ -2,48 +2,6 @@ package org.zamedev.lib;
 
 #if js
 
-/*
- * Probably, these iterator classes will work faster on Haxe 3.2 due to inlining,
- * but for Haxe 3.1.3 it works slower
- *
-
-private class FastIteratingStringMapKeysIterator<T> {
-    var item:Dynamic;
-
-    public inline function new(map:FastIteratingStringMap<T>):Void {
-        this.item = untyped map.head;
-    }
-
-    public inline function hasNext():Bool {
-        return (item != null);
-    }
-
-    public inline function next():String {
-        var result = item.key;
-        item = item.next;
-        return result;
-    }
-}
-
-private class FastIteratingStringMapValuesIterator<T> {
-    var item:Dynamic;
-
-    public inline function new(map:FastIteratingStringMap<T>):Void {
-        this.item = untyped map.head;
-    }
-
-    public inline function hasNext():Bool {
-        return (item != null);
-    }
-
-    public inline function next():T {
-        var result = item.value;
-        item = item.next;
-        return result;
-    }
-}
-*/
-
 // for haxe 3.2 - implements haxe.Constraints.IMap<String, T>
 class FastIteratingStringMap<T> implements Map.IMap<String, T> {
     private static var emptyIterator = {
@@ -109,7 +67,7 @@ class FastIteratingStringMap<T> implements Map.IMap<String, T> {
                     next: null
                 };
 
-                untyped data[_key] = item;
+                untyped data[key] = item;
 
                 if (tail != null) {
                     untyped tail.next = item;
@@ -142,7 +100,7 @@ class FastIteratingStringMap<T> implements Map.IMap<String, T> {
         }
     }
 
-    public function exists(key:String):Bool {
+    public inline function exists(key:String):Bool {
         if (untyped __js__("__z_map_reserved")[key] != null) {
             return untyped dataReserved.hasOwnProperty("$" + key);
         } else {
@@ -236,8 +194,6 @@ class FastIteratingStringMap<T> implements Map.IMap<String, T> {
                 return result;
             }
         };
-
-        // return new FastIteratingStringMapKeysIterator(this);
     }
 
     public function iterator():Iterator<T> {
@@ -258,8 +214,6 @@ class FastIteratingStringMap<T> implements Map.IMap<String, T> {
                 return result;
             }
         };
-
-        // return new FastIteratingStringMapValuesIterator(this);
     }
 
     public function toString():String {
@@ -306,6 +260,6 @@ class FastIteratingStringMap<T> implements Map.IMap<String, T> {
 
 #else
 
-typedef FastIteratingStringMap = haxe.ds.StringMap;
+typedef FastIteratingStringMap<T> = haxe.ds.StringMap<T>;
 
 #end
