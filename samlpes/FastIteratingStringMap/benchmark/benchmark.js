@@ -1,4 +1,12 @@
 (function (console) { "use strict";
+var Std = function() { };
+Std["int"] = function(x) {
+	return x | 0;
+};
+var haxe_Timer = function() { };
+haxe_Timer.stamp = function() {
+	return new Date().getTime() / 1000;
+};
 var haxe_IMap = function() { };
 var OldStringMap = function() {
 	this.h = { };
@@ -29,14 +37,6 @@ OldStringMap.prototype = {
 			return this.ref["$" + i];
 		}};
 	}
-};
-var haxe_Timer = function() { };
-haxe_Timer.stamp = function() {
-	return new Date().getTime() / 1000;
-};
-var Std = function() { };
-Std["int"] = function(x) {
-	return x | 0;
 };
 var NewStringMap = function() {
 	this.h = { };
@@ -249,570 +249,6 @@ var Benchmark = function() { };
 Benchmark.log = function(s) {
 	window.document.getElementById("log").innerHTML += s.split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;").split(" ").join("&nbsp;").split("\n").join("<br />");
 	window.scrollTo(0,window.document.body.scrollHeight);
-};
-Benchmark.benchmarkIterateOnly_OldStringMap = function(entryCount) {
-	var map = new OldStringMap();
-	var _g = 0;
-	while(_g < entryCount) {
-		var i = _g++;
-		map.h["$" + (i == null?"null":"" + i)] = i;
-	}
-	var st = haxe_Timer.stamp();
-	var t = 0;
-	while(true) {
-		var dummy = 0;
-		var $it0 = map.keys();
-		while( $it0.hasNext() ) {
-			var key = $it0.next();
-			dummy++;
-		}
-		var $it1 = map.iterator();
-		while( $it1.hasNext() ) {
-			var value = $it1.next();
-			dummy++;
-		}
-		t = haxe_Timer.stamp() - st;
-		if(t > 1) break;
-	}
-	st = haxe_Timer.stamp();
-	t = 0;
-	var count = 0;
-	while(true) {
-		var dummy1 = 0;
-		var $it2 = map.keys();
-		while( $it2.hasNext() ) {
-			var key1 = $it2.next();
-			dummy1++;
-		}
-		var $it3 = map.iterator();
-		while( $it3.hasNext() ) {
-			var value1 = $it3.next();
-			dummy1++;
-		}
-		count++;
-		t = haxe_Timer.stamp() - st;
-		if(t > 4) break;
-	}
-	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
-};
-Benchmark.benchmarkIterateOnly_NewStringMap = function(entryCount) {
-	var map = new NewStringMap();
-	var _g = 0;
-	while(_g < entryCount) {
-		var i = _g++;
-		map.set(i == null?"null":"" + i,i);
-	}
-	var st = haxe_Timer.stamp();
-	var t = 0;
-	while(true) {
-		var dummy = 0;
-		var $it0 = map.keys();
-		while( $it0.hasNext() ) {
-			var key = $it0.next();
-			dummy++;
-		}
-		var $it1 = new _$NewStringMap_StringMapIterator(map,map.arrayKeys());
-		while( $it1.hasNext() ) {
-			var value = $it1.next();
-			dummy++;
-		}
-		t = haxe_Timer.stamp() - st;
-		if(t > 1) break;
-	}
-	st = haxe_Timer.stamp();
-	t = 0;
-	var count = 0;
-	while(true) {
-		var dummy1 = 0;
-		var $it2 = map.keys();
-		while( $it2.hasNext() ) {
-			var key1 = $it2.next();
-			dummy1++;
-		}
-		var $it3 = new _$NewStringMap_StringMapIterator(map,map.arrayKeys());
-		while( $it3.hasNext() ) {
-			var value1 = $it3.next();
-			dummy1++;
-		}
-		count++;
-		t = haxe_Timer.stamp() - st;
-		if(t > 4) break;
-	}
-	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
-};
-Benchmark.benchmarkIterateOnly_CachingKeysStringMap = function(entryCount) {
-	var map = new CachingKeysStringMap();
-	var _g = 0;
-	while(_g < entryCount) {
-		var i = _g++;
-		map.set(i == null?"null":"" + i,i);
-	}
-	var st = haxe_Timer.stamp();
-	var t = 0;
-	while(true) {
-		var dummy = 0;
-		var $it0 = map.cachedKeys.length == 0?CachingKeysStringMap.emptyIterator:HxOverrides.iter(map.cachedKeys);
-		while( $it0.hasNext() ) {
-			var key = $it0.next();
-			dummy++;
-		}
-		var $it1 = map.cachedKeys.length == 0?CachingKeysStringMap.emptyIterator:new _$CachingKeysStringMap_CachingKeysStringMapIterator(map,map.cachedKeys);
-		while( $it1.hasNext() ) {
-			var value = $it1.next();
-			dummy++;
-		}
-		t = haxe_Timer.stamp() - st;
-		if(t > 1) break;
-	}
-	st = haxe_Timer.stamp();
-	t = 0;
-	var count = 0;
-	while(true) {
-		var dummy1 = 0;
-		var $it2 = map.cachedKeys.length == 0?CachingKeysStringMap.emptyIterator:HxOverrides.iter(map.cachedKeys);
-		while( $it2.hasNext() ) {
-			var key1 = $it2.next();
-			dummy1++;
-		}
-		var $it3 = map.cachedKeys.length == 0?CachingKeysStringMap.emptyIterator:new _$CachingKeysStringMap_CachingKeysStringMapIterator(map,map.cachedKeys);
-		while( $it3.hasNext() ) {
-			var value1 = $it3.next();
-			dummy1++;
-		}
-		count++;
-		t = haxe_Timer.stamp() - st;
-		if(t > 4) break;
-	}
-	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
-};
-Benchmark.benchmarkIterateOnly_FastIteratingStringMap = function(entryCount) {
-	var map = new org_zamedev_lib_FastIteratingStringMap();
-	var _g = 0;
-	while(_g < entryCount) {
-		var i = _g++;
-		map.set(i == null?"null":"" + i,i);
-	}
-	var st = haxe_Timer.stamp();
-	var t = 0;
-	while(true) {
-		var dummy = 0;
-		var $it0 = map.keys();
-		while( $it0.hasNext() ) {
-			var key = $it0.next();
-			dummy++;
-		}
-		var $it1 = map.iterator();
-		while( $it1.hasNext() ) {
-			var value = $it1.next();
-			dummy++;
-		}
-		t = haxe_Timer.stamp() - st;
-		if(t > 1) break;
-	}
-	st = haxe_Timer.stamp();
-	t = 0;
-	var count = 0;
-	while(true) {
-		var dummy1 = 0;
-		var $it2 = map.keys();
-		while( $it2.hasNext() ) {
-			var key1 = $it2.next();
-			dummy1++;
-		}
-		var $it3 = map.iterator();
-		while( $it3.hasNext() ) {
-			var value1 = $it3.next();
-			dummy1++;
-		}
-		count++;
-		t = haxe_Timer.stamp() - st;
-		if(t > 4) break;
-	}
-	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
-};
-Benchmark.benchmarkCombined_OldStringMap = function(entryCount) {
-	var map = new OldStringMap();
-	var _g = 0;
-	while(_g < entryCount) {
-		var i = _g++;
-		map.h["$" + (i == null?"null":"" + i)] = i;
-	}
-	var st = haxe_Timer.stamp();
-	var t = 0;
-	while(true) {
-		var dummy = 0;
-		var $it0 = map.keys();
-		while( $it0.hasNext() ) {
-			var key = $it0.next();
-			if(map.h.hasOwnProperty("$" + key)) dummy += map.h["$" + key]; else dummy += 0;
-		}
-		var $it1 = map.iterator();
-		while( $it1.hasNext() ) {
-			var value = $it1.next();
-			dummy++;
-		}
-		t = haxe_Timer.stamp() - st;
-		if(t > 1) break;
-	}
-	st = haxe_Timer.stamp();
-	t = 0;
-	var count = 0;
-	while(true) {
-		var dummy1 = 0;
-		var $it2 = map.keys();
-		while( $it2.hasNext() ) {
-			var key1 = $it2.next();
-			if(map.h.hasOwnProperty("$" + key1)) dummy1 += map.h["$" + key1]; else dummy1 += 0;
-		}
-		var $it3 = map.iterator();
-		while( $it3.hasNext() ) {
-			var value1 = $it3.next();
-			dummy1++;
-		}
-		count++;
-		t = haxe_Timer.stamp() - st;
-		if(t > 4) break;
-	}
-	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
-};
-Benchmark.benchmarkCombined_NewStringMap = function(entryCount) {
-	var map = new NewStringMap();
-	var _g = 0;
-	while(_g < entryCount) {
-		var i = _g++;
-		map.set(i == null?"null":"" + i,i);
-	}
-	var st = haxe_Timer.stamp();
-	var t = 0;
-	while(true) {
-		var dummy = 0;
-		var $it0 = map.keys();
-		while( $it0.hasNext() ) {
-			var key = $it0.next();
-			if(__map_reserved[key] != null?map.existsReserved(key):map.h.hasOwnProperty(key)) dummy += __map_reserved[key] != null?map.getReserved(key):map.h[key]; else dummy += 0;
-		}
-		var $it1 = new _$NewStringMap_StringMapIterator(map,map.arrayKeys());
-		while( $it1.hasNext() ) {
-			var value = $it1.next();
-			dummy++;
-		}
-		t = haxe_Timer.stamp() - st;
-		if(t > 1) break;
-	}
-	st = haxe_Timer.stamp();
-	t = 0;
-	var count = 0;
-	while(true) {
-		var dummy1 = 0;
-		var $it2 = map.keys();
-		while( $it2.hasNext() ) {
-			var key1 = $it2.next();
-			if(__map_reserved[key1] != null?map.existsReserved(key1):map.h.hasOwnProperty(key1)) dummy1 += __map_reserved[key1] != null?map.getReserved(key1):map.h[key1]; else dummy1 += 0;
-		}
-		var $it3 = new _$NewStringMap_StringMapIterator(map,map.arrayKeys());
-		while( $it3.hasNext() ) {
-			var value1 = $it3.next();
-			dummy1++;
-		}
-		count++;
-		t = haxe_Timer.stamp() - st;
-		if(t > 4) break;
-	}
-	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
-};
-Benchmark.benchmarkCombined_CachingKeysStringMap = function(entryCount) {
-	var map = new CachingKeysStringMap();
-	var _g = 0;
-	while(_g < entryCount) {
-		var i = _g++;
-		map.set(i == null?"null":"" + i,i);
-	}
-	var st = haxe_Timer.stamp();
-	var t = 0;
-	while(true) {
-		var dummy = 0;
-		var $it0 = map.cachedKeys.length == 0?CachingKeysStringMap.emptyIterator:HxOverrides.iter(map.cachedKeys);
-		while( $it0.hasNext() ) {
-			var key = $it0.next();
-			if(__z_map_reserved[key] != null?map.dataReserved == null?false:map.dataReserved.hasOwnProperty("$" + key):map.data.hasOwnProperty(key)) dummy += __z_map_reserved[key] != null?map.dataReserved == null?null:map.dataReserved["$" + key]:map.data[key]; else dummy += 0;
-		}
-		var $it1 = map.cachedKeys.length == 0?CachingKeysStringMap.emptyIterator:new _$CachingKeysStringMap_CachingKeysStringMapIterator(map,map.cachedKeys);
-		while( $it1.hasNext() ) {
-			var value = $it1.next();
-			dummy++;
-		}
-		t = haxe_Timer.stamp() - st;
-		if(t > 1) break;
-	}
-	st = haxe_Timer.stamp();
-	t = 0;
-	var count = 0;
-	while(true) {
-		var dummy1 = 0;
-		var $it2 = map.cachedKeys.length == 0?CachingKeysStringMap.emptyIterator:HxOverrides.iter(map.cachedKeys);
-		while( $it2.hasNext() ) {
-			var key1 = $it2.next();
-			if(__z_map_reserved[key1] != null?map.dataReserved == null?false:map.dataReserved.hasOwnProperty("$" + key1):map.data.hasOwnProperty(key1)) dummy1 += __z_map_reserved[key1] != null?map.dataReserved == null?null:map.dataReserved["$" + key1]:map.data[key1]; else dummy1 += 0;
-		}
-		var $it3 = map.cachedKeys.length == 0?CachingKeysStringMap.emptyIterator:new _$CachingKeysStringMap_CachingKeysStringMapIterator(map,map.cachedKeys);
-		while( $it3.hasNext() ) {
-			var value1 = $it3.next();
-			dummy1++;
-		}
-		count++;
-		t = haxe_Timer.stamp() - st;
-		if(t > 4) break;
-	}
-	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
-};
-Benchmark.benchmarkCombined_FastIteratingStringMap = function(entryCount) {
-	var map = new org_zamedev_lib_FastIteratingStringMap();
-	var _g = 0;
-	while(_g < entryCount) {
-		var i = _g++;
-		map.set(i == null?"null":"" + i,i);
-	}
-	var st = haxe_Timer.stamp();
-	var t = 0;
-	while(true) {
-		var dummy = 0;
-		var $it0 = map.keys();
-		while( $it0.hasNext() ) {
-			var key = $it0.next();
-			if(__z_map_reserved[key] != null?map.dataReserved.hasOwnProperty("$" + key):map.data.hasOwnProperty(key)) dummy += map.get(key); else dummy += 0;
-		}
-		var $it1 = map.iterator();
-		while( $it1.hasNext() ) {
-			var value = $it1.next();
-			dummy++;
-		}
-		t = haxe_Timer.stamp() - st;
-		if(t > 1) break;
-	}
-	st = haxe_Timer.stamp();
-	t = 0;
-	var count = 0;
-	while(true) {
-		var dummy1 = 0;
-		var $it2 = map.keys();
-		while( $it2.hasNext() ) {
-			var key1 = $it2.next();
-			if(__z_map_reserved[key1] != null?map.dataReserved.hasOwnProperty("$" + key1):map.data.hasOwnProperty(key1)) dummy1 += map.get(key1); else dummy1 += 0;
-		}
-		var $it3 = map.iterator();
-		while( $it3.hasNext() ) {
-			var value1 = $it3.next();
-			dummy1++;
-		}
-		count++;
-		t = haxe_Timer.stamp() - st;
-		if(t > 4) break;
-	}
-	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
-};
-Benchmark.benchmarkNoIterate_OldStringMap = function(entryCount) {
-	var keys = [];
-	var _g = 0;
-	while(_g < entryCount) {
-		var i = _g++;
-		keys.push(i == null?"null":"" + i);
-	}
-	var st = haxe_Timer.stamp();
-	var t = 0;
-	while(true) {
-		var map = new OldStringMap();
-		var _g1 = 0;
-		while(_g1 < keys.length) {
-			var key = keys[_g1];
-			++_g1;
-			map.h["$" + key] = 1;
-			map.set(key,map.h.hasOwnProperty("$" + key)?map.h["$" + key] + 1:0);
-		}
-		var _g2 = 0;
-		while(_g2 < keys.length) {
-			var key1 = keys[_g2];
-			++_g2;
-			map.remove(key1);
-		}
-		t = haxe_Timer.stamp() - st;
-		if(t > 1) break;
-	}
-	st = haxe_Timer.stamp();
-	t = 0;
-	var count = 0;
-	while(true) {
-		var map1 = new OldStringMap();
-		var _g3 = 0;
-		while(_g3 < keys.length) {
-			var key2 = keys[_g3];
-			++_g3;
-			map1.h["$" + key2] = 1;
-			map1.set(key2,map1.h.hasOwnProperty("$" + key2)?map1.h["$" + key2] + 1:0);
-		}
-		var _g4 = 0;
-		while(_g4 < keys.length) {
-			var key3 = keys[_g4];
-			++_g4;
-			map1.remove(key3);
-		}
-		count++;
-		t = haxe_Timer.stamp() - st;
-		if(t > 4) break;
-	}
-	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
-};
-Benchmark.benchmarkNoIterate_NewStringMap = function(entryCount) {
-	var keys = [];
-	var _g = 0;
-	while(_g < entryCount) {
-		var i = _g++;
-		keys.push(i == null?"null":"" + i);
-	}
-	var st = haxe_Timer.stamp();
-	var t = 0;
-	while(true) {
-		var map = new NewStringMap();
-		var _g1 = 0;
-		while(_g1 < keys.length) {
-			var key = keys[_g1];
-			++_g1;
-			if(__map_reserved[key] != null) map.setReserved(key,1); else map.h[key] = 1;
-			map.set(key,(__map_reserved[key] != null?map.existsReserved(key):map.h.hasOwnProperty(key))?(__map_reserved[key] != null?map.getReserved(key):map.h[key]) + 1:0);
-		}
-		var _g2 = 0;
-		while(_g2 < keys.length) {
-			var key1 = keys[_g2];
-			++_g2;
-			map.remove(key1);
-		}
-		t = haxe_Timer.stamp() - st;
-		if(t > 1) break;
-	}
-	st = haxe_Timer.stamp();
-	t = 0;
-	var count = 0;
-	while(true) {
-		var map1 = new NewStringMap();
-		var _g3 = 0;
-		while(_g3 < keys.length) {
-			var key2 = keys[_g3];
-			++_g3;
-			if(__map_reserved[key2] != null) map1.setReserved(key2,1); else map1.h[key2] = 1;
-			map1.set(key2,(__map_reserved[key2] != null?map1.existsReserved(key2):map1.h.hasOwnProperty(key2))?(__map_reserved[key2] != null?map1.getReserved(key2):map1.h[key2]) + 1:0);
-		}
-		var _g4 = 0;
-		while(_g4 < keys.length) {
-			var key3 = keys[_g4];
-			++_g4;
-			map1.remove(key3);
-		}
-		count++;
-		t = haxe_Timer.stamp() - st;
-		if(t > 4) break;
-	}
-	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
-};
-Benchmark.benchmarkNoIterate_CachingKeysStringMap = function(entryCount) {
-	var keys = [];
-	var _g = 0;
-	while(_g < entryCount) {
-		var i = _g++;
-		keys.push(i == null?"null":"" + i);
-	}
-	var st = haxe_Timer.stamp();
-	var t = 0;
-	while(true) {
-		var map = new CachingKeysStringMap();
-		var _g1 = 0;
-		while(_g1 < keys.length) {
-			var key = keys[_g1];
-			++_g1;
-			map.set(key,1);
-			map.set(key,(__z_map_reserved[key] != null?map.dataReserved == null?false:map.dataReserved.hasOwnProperty("$" + key):map.data.hasOwnProperty(key))?(__z_map_reserved[key] != null?map.dataReserved == null?null:map.dataReserved["$" + key]:map.data[key]) + 1:0);
-		}
-		var _g2 = 0;
-		while(_g2 < keys.length) {
-			var key1 = keys[_g2];
-			++_g2;
-			map.remove(key1);
-		}
-		t = haxe_Timer.stamp() - st;
-		if(t > 1) break;
-	}
-	st = haxe_Timer.stamp();
-	t = 0;
-	var count = 0;
-	while(true) {
-		var map1 = new CachingKeysStringMap();
-		var _g3 = 0;
-		while(_g3 < keys.length) {
-			var key2 = keys[_g3];
-			++_g3;
-			map1.set(key2,1);
-			map1.set(key2,(__z_map_reserved[key2] != null?map1.dataReserved == null?false:map1.dataReserved.hasOwnProperty("$" + key2):map1.data.hasOwnProperty(key2))?(__z_map_reserved[key2] != null?map1.dataReserved == null?null:map1.dataReserved["$" + key2]:map1.data[key2]) + 1:0);
-		}
-		var _g4 = 0;
-		while(_g4 < keys.length) {
-			var key3 = keys[_g4];
-			++_g4;
-			map1.remove(key3);
-		}
-		count++;
-		t = haxe_Timer.stamp() - st;
-		if(t > 4) break;
-	}
-	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
-};
-Benchmark.benchmarkNoIterate_FastIteratingStringMap = function(entryCount) {
-	var keys = [];
-	var _g = 0;
-	while(_g < entryCount) {
-		var i = _g++;
-		keys.push(i == null?"null":"" + i);
-	}
-	var st = haxe_Timer.stamp();
-	var t = 0;
-	while(true) {
-		var map = new org_zamedev_lib_FastIteratingStringMap();
-		var _g1 = 0;
-		while(_g1 < keys.length) {
-			var key = keys[_g1];
-			++_g1;
-			map.set(key,1);
-			map.set(key,(__z_map_reserved[key] != null?map.dataReserved.hasOwnProperty("$" + key):map.data.hasOwnProperty(key))?map.get(key) + 1:0);
-		}
-		var _g2 = 0;
-		while(_g2 < keys.length) {
-			var key1 = keys[_g2];
-			++_g2;
-			map.remove(key1);
-		}
-		t = haxe_Timer.stamp() - st;
-		if(t > 1) break;
-	}
-	st = haxe_Timer.stamp();
-	t = 0;
-	var count = 0;
-	while(true) {
-		var map1 = new org_zamedev_lib_FastIteratingStringMap();
-		var _g3 = 0;
-		while(_g3 < keys.length) {
-			var key2 = keys[_g3];
-			++_g3;
-			map1.set(key2,1);
-			map1.set(key2,(__z_map_reserved[key2] != null?map1.dataReserved.hasOwnProperty("$" + key2):map1.data.hasOwnProperty(key2))?map1.get(key2) + 1:0);
-		}
-		var _g4 = 0;
-		while(_g4 < keys.length) {
-			var key3 = keys[_g4];
-			++_g4;
-			map1.remove(key3);
-		}
-		count++;
-		t = haxe_Timer.stamp() - st;
-		if(t > 4) break;
-	}
-	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
 };
 Benchmark.benchmarkAll_OldStringMap = function(entryCount) {
 	var keys = [];
@@ -1298,6 +734,578 @@ Benchmark.benchmarkAll_FastIteratingStringMap = function(entryCount) {
 	}
 	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
 };
+Benchmark.benchmarkCombined_OldStringMap = function(entryCount) {
+	var map = new OldStringMap();
+	var _g = 0;
+	while(_g < entryCount) {
+		var i = _g++;
+		map.h["$" + (i == null?"null":"" + i)] = i;
+	}
+	var st = haxe_Timer.stamp();
+	var t = 0;
+	while(true) {
+		var dummy = 0;
+		var $it0 = map.keys();
+		while( $it0.hasNext() ) {
+			var key = $it0.next();
+			map.set(key,map.h.hasOwnProperty("$" + key)?map.h["$" + key] + 1:0);
+			dummy++;
+		}
+		var $it1 = map.iterator();
+		while( $it1.hasNext() ) {
+			var value = $it1.next();
+			dummy++;
+		}
+		t = haxe_Timer.stamp() - st;
+		if(t > 1) break;
+	}
+	st = haxe_Timer.stamp();
+	t = 0;
+	var count = 0;
+	while(true) {
+		var dummy1 = 0;
+		var $it2 = map.keys();
+		while( $it2.hasNext() ) {
+			var key1 = $it2.next();
+			map.set(key1,map.h.hasOwnProperty("$" + key1)?map.h["$" + key1] + 1:0);
+			dummy1++;
+		}
+		var $it3 = map.iterator();
+		while( $it3.hasNext() ) {
+			var value1 = $it3.next();
+			dummy1++;
+		}
+		count++;
+		t = haxe_Timer.stamp() - st;
+		if(t > 4) break;
+	}
+	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
+};
+Benchmark.benchmarkCombined_NewStringMap = function(entryCount) {
+	var map = new NewStringMap();
+	var _g = 0;
+	while(_g < entryCount) {
+		var i = _g++;
+		map.set(i == null?"null":"" + i,i);
+	}
+	var st = haxe_Timer.stamp();
+	var t = 0;
+	while(true) {
+		var dummy = 0;
+		var $it0 = map.keys();
+		while( $it0.hasNext() ) {
+			var key = $it0.next();
+			map.set(key,(__map_reserved[key] != null?map.existsReserved(key):map.h.hasOwnProperty(key))?(__map_reserved[key] != null?map.getReserved(key):map.h[key]) + 1:0);
+			dummy++;
+		}
+		var $it1 = new _$NewStringMap_StringMapIterator(map,map.arrayKeys());
+		while( $it1.hasNext() ) {
+			var value = $it1.next();
+			dummy++;
+		}
+		t = haxe_Timer.stamp() - st;
+		if(t > 1) break;
+	}
+	st = haxe_Timer.stamp();
+	t = 0;
+	var count = 0;
+	while(true) {
+		var dummy1 = 0;
+		var $it2 = map.keys();
+		while( $it2.hasNext() ) {
+			var key1 = $it2.next();
+			map.set(key1,(__map_reserved[key1] != null?map.existsReserved(key1):map.h.hasOwnProperty(key1))?(__map_reserved[key1] != null?map.getReserved(key1):map.h[key1]) + 1:0);
+			dummy1++;
+		}
+		var $it3 = new _$NewStringMap_StringMapIterator(map,map.arrayKeys());
+		while( $it3.hasNext() ) {
+			var value1 = $it3.next();
+			dummy1++;
+		}
+		count++;
+		t = haxe_Timer.stamp() - st;
+		if(t > 4) break;
+	}
+	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
+};
+Benchmark.benchmarkCombined_CachingKeysStringMap = function(entryCount) {
+	var map = new CachingKeysStringMap();
+	var _g = 0;
+	while(_g < entryCount) {
+		var i = _g++;
+		map.set(i == null?"null":"" + i,i);
+	}
+	var st = haxe_Timer.stamp();
+	var t = 0;
+	while(true) {
+		var dummy = 0;
+		var $it0 = map.cachedKeys.length == 0?CachingKeysStringMap.emptyIterator:HxOverrides.iter(map.cachedKeys);
+		while( $it0.hasNext() ) {
+			var key = $it0.next();
+			map.set(key,(__z_map_reserved[key] != null?map.dataReserved == null?false:map.dataReserved.hasOwnProperty("$" + key):map.data.hasOwnProperty(key))?(__z_map_reserved[key] != null?map.dataReserved == null?null:map.dataReserved["$" + key]:map.data[key]) + 1:0);
+			dummy++;
+		}
+		var $it1 = map.cachedKeys.length == 0?CachingKeysStringMap.emptyIterator:new _$CachingKeysStringMap_CachingKeysStringMapIterator(map,map.cachedKeys);
+		while( $it1.hasNext() ) {
+			var value = $it1.next();
+			dummy++;
+		}
+		t = haxe_Timer.stamp() - st;
+		if(t > 1) break;
+	}
+	st = haxe_Timer.stamp();
+	t = 0;
+	var count = 0;
+	while(true) {
+		var dummy1 = 0;
+		var $it2 = map.cachedKeys.length == 0?CachingKeysStringMap.emptyIterator:HxOverrides.iter(map.cachedKeys);
+		while( $it2.hasNext() ) {
+			var key1 = $it2.next();
+			map.set(key1,(__z_map_reserved[key1] != null?map.dataReserved == null?false:map.dataReserved.hasOwnProperty("$" + key1):map.data.hasOwnProperty(key1))?(__z_map_reserved[key1] != null?map.dataReserved == null?null:map.dataReserved["$" + key1]:map.data[key1]) + 1:0);
+			dummy1++;
+		}
+		var $it3 = map.cachedKeys.length == 0?CachingKeysStringMap.emptyIterator:new _$CachingKeysStringMap_CachingKeysStringMapIterator(map,map.cachedKeys);
+		while( $it3.hasNext() ) {
+			var value1 = $it3.next();
+			dummy1++;
+		}
+		count++;
+		t = haxe_Timer.stamp() - st;
+		if(t > 4) break;
+	}
+	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
+};
+Benchmark.benchmarkCombined_FastIteratingStringMap = function(entryCount) {
+	var map = new org_zamedev_lib_FastIteratingStringMap();
+	var _g = 0;
+	while(_g < entryCount) {
+		var i = _g++;
+		map.set(i == null?"null":"" + i,i);
+	}
+	var st = haxe_Timer.stamp();
+	var t = 0;
+	while(true) {
+		var dummy = 0;
+		var $it0 = map.keys();
+		while( $it0.hasNext() ) {
+			var key = $it0.next();
+			map.set(key,(__z_map_reserved[key] != null?map.dataReserved.hasOwnProperty("$" + key):map.data.hasOwnProperty(key))?map.get(key) + 1:0);
+			dummy++;
+		}
+		var $it1 = map.iterator();
+		while( $it1.hasNext() ) {
+			var value = $it1.next();
+			dummy++;
+		}
+		t = haxe_Timer.stamp() - st;
+		if(t > 1) break;
+	}
+	st = haxe_Timer.stamp();
+	t = 0;
+	var count = 0;
+	while(true) {
+		var dummy1 = 0;
+		var $it2 = map.keys();
+		while( $it2.hasNext() ) {
+			var key1 = $it2.next();
+			map.set(key1,(__z_map_reserved[key1] != null?map.dataReserved.hasOwnProperty("$" + key1):map.data.hasOwnProperty(key1))?map.get(key1) + 1:0);
+			dummy1++;
+		}
+		var $it3 = map.iterator();
+		while( $it3.hasNext() ) {
+			var value1 = $it3.next();
+			dummy1++;
+		}
+		count++;
+		t = haxe_Timer.stamp() - st;
+		if(t > 4) break;
+	}
+	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
+};
+Benchmark.benchmarkNoIterate_OldStringMap = function(entryCount) {
+	var keys = [];
+	var _g = 0;
+	while(_g < entryCount) {
+		var i = _g++;
+		keys.push(i == null?"null":"" + i);
+	}
+	var st = haxe_Timer.stamp();
+	var t = 0;
+	while(true) {
+		var map = new OldStringMap();
+		var _g1 = 0;
+		while(_g1 < keys.length) {
+			var key = keys[_g1];
+			++_g1;
+			map.h["$" + key] = 1;
+			map.set(key,map.h.hasOwnProperty("$" + key)?map.h["$" + key] + 1:0);
+		}
+		var _g2 = 0;
+		while(_g2 < keys.length) {
+			var key1 = keys[_g2];
+			++_g2;
+			map.remove(key1);
+		}
+		t = haxe_Timer.stamp() - st;
+		if(t > 1) break;
+	}
+	st = haxe_Timer.stamp();
+	t = 0;
+	var count = 0;
+	while(true) {
+		var map1 = new OldStringMap();
+		var _g3 = 0;
+		while(_g3 < keys.length) {
+			var key2 = keys[_g3];
+			++_g3;
+			map1.h["$" + key2] = 1;
+			map1.set(key2,map1.h.hasOwnProperty("$" + key2)?map1.h["$" + key2] + 1:0);
+		}
+		var _g4 = 0;
+		while(_g4 < keys.length) {
+			var key3 = keys[_g4];
+			++_g4;
+			map1.remove(key3);
+		}
+		count++;
+		t = haxe_Timer.stamp() - st;
+		if(t > 4) break;
+	}
+	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
+};
+Benchmark.benchmarkNoIterate_NewStringMap = function(entryCount) {
+	var keys = [];
+	var _g = 0;
+	while(_g < entryCount) {
+		var i = _g++;
+		keys.push(i == null?"null":"" + i);
+	}
+	var st = haxe_Timer.stamp();
+	var t = 0;
+	while(true) {
+		var map = new NewStringMap();
+		var _g1 = 0;
+		while(_g1 < keys.length) {
+			var key = keys[_g1];
+			++_g1;
+			if(__map_reserved[key] != null) map.setReserved(key,1); else map.h[key] = 1;
+			map.set(key,(__map_reserved[key] != null?map.existsReserved(key):map.h.hasOwnProperty(key))?(__map_reserved[key] != null?map.getReserved(key):map.h[key]) + 1:0);
+		}
+		var _g2 = 0;
+		while(_g2 < keys.length) {
+			var key1 = keys[_g2];
+			++_g2;
+			map.remove(key1);
+		}
+		t = haxe_Timer.stamp() - st;
+		if(t > 1) break;
+	}
+	st = haxe_Timer.stamp();
+	t = 0;
+	var count = 0;
+	while(true) {
+		var map1 = new NewStringMap();
+		var _g3 = 0;
+		while(_g3 < keys.length) {
+			var key2 = keys[_g3];
+			++_g3;
+			if(__map_reserved[key2] != null) map1.setReserved(key2,1); else map1.h[key2] = 1;
+			map1.set(key2,(__map_reserved[key2] != null?map1.existsReserved(key2):map1.h.hasOwnProperty(key2))?(__map_reserved[key2] != null?map1.getReserved(key2):map1.h[key2]) + 1:0);
+		}
+		var _g4 = 0;
+		while(_g4 < keys.length) {
+			var key3 = keys[_g4];
+			++_g4;
+			map1.remove(key3);
+		}
+		count++;
+		t = haxe_Timer.stamp() - st;
+		if(t > 4) break;
+	}
+	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
+};
+Benchmark.benchmarkNoIterate_CachingKeysStringMap = function(entryCount) {
+	var keys = [];
+	var _g = 0;
+	while(_g < entryCount) {
+		var i = _g++;
+		keys.push(i == null?"null":"" + i);
+	}
+	var st = haxe_Timer.stamp();
+	var t = 0;
+	while(true) {
+		var map = new CachingKeysStringMap();
+		var _g1 = 0;
+		while(_g1 < keys.length) {
+			var key = keys[_g1];
+			++_g1;
+			map.set(key,1);
+			map.set(key,(__z_map_reserved[key] != null?map.dataReserved == null?false:map.dataReserved.hasOwnProperty("$" + key):map.data.hasOwnProperty(key))?(__z_map_reserved[key] != null?map.dataReserved == null?null:map.dataReserved["$" + key]:map.data[key]) + 1:0);
+		}
+		var _g2 = 0;
+		while(_g2 < keys.length) {
+			var key1 = keys[_g2];
+			++_g2;
+			map.remove(key1);
+		}
+		t = haxe_Timer.stamp() - st;
+		if(t > 1) break;
+	}
+	st = haxe_Timer.stamp();
+	t = 0;
+	var count = 0;
+	while(true) {
+		var map1 = new CachingKeysStringMap();
+		var _g3 = 0;
+		while(_g3 < keys.length) {
+			var key2 = keys[_g3];
+			++_g3;
+			map1.set(key2,1);
+			map1.set(key2,(__z_map_reserved[key2] != null?map1.dataReserved == null?false:map1.dataReserved.hasOwnProperty("$" + key2):map1.data.hasOwnProperty(key2))?(__z_map_reserved[key2] != null?map1.dataReserved == null?null:map1.dataReserved["$" + key2]:map1.data[key2]) + 1:0);
+		}
+		var _g4 = 0;
+		while(_g4 < keys.length) {
+			var key3 = keys[_g4];
+			++_g4;
+			map1.remove(key3);
+		}
+		count++;
+		t = haxe_Timer.stamp() - st;
+		if(t > 4) break;
+	}
+	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
+};
+Benchmark.benchmarkNoIterate_FastIteratingStringMap = function(entryCount) {
+	var keys = [];
+	var _g = 0;
+	while(_g < entryCount) {
+		var i = _g++;
+		keys.push(i == null?"null":"" + i);
+	}
+	var st = haxe_Timer.stamp();
+	var t = 0;
+	while(true) {
+		var map = new org_zamedev_lib_FastIteratingStringMap();
+		var _g1 = 0;
+		while(_g1 < keys.length) {
+			var key = keys[_g1];
+			++_g1;
+			map.set(key,1);
+			map.set(key,(__z_map_reserved[key] != null?map.dataReserved.hasOwnProperty("$" + key):map.data.hasOwnProperty(key))?map.get(key) + 1:0);
+		}
+		var _g2 = 0;
+		while(_g2 < keys.length) {
+			var key1 = keys[_g2];
+			++_g2;
+			map.remove(key1);
+		}
+		t = haxe_Timer.stamp() - st;
+		if(t > 1) break;
+	}
+	st = haxe_Timer.stamp();
+	t = 0;
+	var count = 0;
+	while(true) {
+		var map1 = new org_zamedev_lib_FastIteratingStringMap();
+		var _g3 = 0;
+		while(_g3 < keys.length) {
+			var key2 = keys[_g3];
+			++_g3;
+			map1.set(key2,1);
+			map1.set(key2,(__z_map_reserved[key2] != null?map1.dataReserved.hasOwnProperty("$" + key2):map1.data.hasOwnProperty(key2))?map1.get(key2) + 1:0);
+		}
+		var _g4 = 0;
+		while(_g4 < keys.length) {
+			var key3 = keys[_g4];
+			++_g4;
+			map1.remove(key3);
+		}
+		count++;
+		t = haxe_Timer.stamp() - st;
+		if(t > 4) break;
+	}
+	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
+};
+Benchmark.benchmarkIterateOnly_OldStringMap = function(entryCount) {
+	var map = new OldStringMap();
+	var _g = 0;
+	while(_g < entryCount) {
+		var i = _g++;
+		map.h["$" + (i == null?"null":"" + i)] = i;
+	}
+	var st = haxe_Timer.stamp();
+	var t = 0;
+	while(true) {
+		var dummy = 0;
+		var $it0 = map.keys();
+		while( $it0.hasNext() ) {
+			var key = $it0.next();
+			dummy++;
+		}
+		var $it1 = map.iterator();
+		while( $it1.hasNext() ) {
+			var value = $it1.next();
+			dummy++;
+		}
+		t = haxe_Timer.stamp() - st;
+		if(t > 1) break;
+	}
+	st = haxe_Timer.stamp();
+	t = 0;
+	var count = 0;
+	while(true) {
+		var dummy1 = 0;
+		var $it2 = map.keys();
+		while( $it2.hasNext() ) {
+			var key1 = $it2.next();
+			dummy1++;
+		}
+		var $it3 = map.iterator();
+		while( $it3.hasNext() ) {
+			var value1 = $it3.next();
+			dummy1++;
+		}
+		count++;
+		t = haxe_Timer.stamp() - st;
+		if(t > 4) break;
+	}
+	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
+};
+Benchmark.benchmarkIterateOnly_NewStringMap = function(entryCount) {
+	var map = new NewStringMap();
+	var _g = 0;
+	while(_g < entryCount) {
+		var i = _g++;
+		map.set(i == null?"null":"" + i,i);
+	}
+	var st = haxe_Timer.stamp();
+	var t = 0;
+	while(true) {
+		var dummy = 0;
+		var $it0 = map.keys();
+		while( $it0.hasNext() ) {
+			var key = $it0.next();
+			dummy++;
+		}
+		var $it1 = new _$NewStringMap_StringMapIterator(map,map.arrayKeys());
+		while( $it1.hasNext() ) {
+			var value = $it1.next();
+			dummy++;
+		}
+		t = haxe_Timer.stamp() - st;
+		if(t > 1) break;
+	}
+	st = haxe_Timer.stamp();
+	t = 0;
+	var count = 0;
+	while(true) {
+		var dummy1 = 0;
+		var $it2 = map.keys();
+		while( $it2.hasNext() ) {
+			var key1 = $it2.next();
+			dummy1++;
+		}
+		var $it3 = new _$NewStringMap_StringMapIterator(map,map.arrayKeys());
+		while( $it3.hasNext() ) {
+			var value1 = $it3.next();
+			dummy1++;
+		}
+		count++;
+		t = haxe_Timer.stamp() - st;
+		if(t > 4) break;
+	}
+	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
+};
+Benchmark.benchmarkIterateOnly_CachingKeysStringMap = function(entryCount) {
+	var map = new CachingKeysStringMap();
+	var _g = 0;
+	while(_g < entryCount) {
+		var i = _g++;
+		map.set(i == null?"null":"" + i,i);
+	}
+	var st = haxe_Timer.stamp();
+	var t = 0;
+	while(true) {
+		var dummy = 0;
+		var $it0 = map.cachedKeys.length == 0?CachingKeysStringMap.emptyIterator:HxOverrides.iter(map.cachedKeys);
+		while( $it0.hasNext() ) {
+			var key = $it0.next();
+			dummy++;
+		}
+		var $it1 = map.cachedKeys.length == 0?CachingKeysStringMap.emptyIterator:new _$CachingKeysStringMap_CachingKeysStringMapIterator(map,map.cachedKeys);
+		while( $it1.hasNext() ) {
+			var value = $it1.next();
+			dummy++;
+		}
+		t = haxe_Timer.stamp() - st;
+		if(t > 1) break;
+	}
+	st = haxe_Timer.stamp();
+	t = 0;
+	var count = 0;
+	while(true) {
+		var dummy1 = 0;
+		var $it2 = map.cachedKeys.length == 0?CachingKeysStringMap.emptyIterator:HxOverrides.iter(map.cachedKeys);
+		while( $it2.hasNext() ) {
+			var key1 = $it2.next();
+			dummy1++;
+		}
+		var $it3 = map.cachedKeys.length == 0?CachingKeysStringMap.emptyIterator:new _$CachingKeysStringMap_CachingKeysStringMapIterator(map,map.cachedKeys);
+		while( $it3.hasNext() ) {
+			var value1 = $it3.next();
+			dummy1++;
+		}
+		count++;
+		t = haxe_Timer.stamp() - st;
+		if(t > 4) break;
+	}
+	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
+};
+Benchmark.benchmarkIterateOnly_FastIteratingStringMap = function(entryCount) {
+	var map = new org_zamedev_lib_FastIteratingStringMap();
+	var _g = 0;
+	while(_g < entryCount) {
+		var i = _g++;
+		map.set(i == null?"null":"" + i,i);
+	}
+	var st = haxe_Timer.stamp();
+	var t = 0;
+	while(true) {
+		var dummy = 0;
+		var $it0 = map.keys();
+		while( $it0.hasNext() ) {
+			var key = $it0.next();
+			dummy++;
+		}
+		var $it1 = map.iterator();
+		while( $it1.hasNext() ) {
+			var value = $it1.next();
+			dummy++;
+		}
+		t = haxe_Timer.stamp() - st;
+		if(t > 1) break;
+	}
+	st = haxe_Timer.stamp();
+	t = 0;
+	var count = 0;
+	while(true) {
+		var dummy1 = 0;
+		var $it2 = map.keys();
+		while( $it2.hasNext() ) {
+			var key1 = $it2.next();
+			dummy1++;
+		}
+		var $it3 = map.iterator();
+		while( $it3.hasNext() ) {
+			var value1 = $it3.next();
+			dummy1++;
+		}
+		count++;
+		t = haxe_Timer.stamp() - st;
+		if(t > 4) break;
+	}
+	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
+};
 Benchmark.step = function() {
 	if(Benchmark.benchmarkIndex < 0) {
 		Benchmark.benchmarkIndex = 0;
@@ -1407,6 +1415,6 @@ Benchmark.repeatNumber = 0;
 Benchmark.iterationsSum = 0;
 Benchmark.timeSum = 0;
 Benchmark.resultDataList = [];
-Benchmark.benchmarkVariants = [{ name : "Iteration only", note : "Just iterating, without get / set / exists / remove", funcVariants : [{ type : "old", mapClass : "OldStringMap", func : Benchmark.benchmarkIterateOnly_OldStringMap},{ type : "new", mapClass : "NewStringMap", func : Benchmark.benchmarkIterateOnly_NewStringMap},{ type : "caching", mapClass : "CachingKeysStringMap", func : Benchmark.benchmarkIterateOnly_CachingKeysStringMap},{ type : "fast", mapClass : "FastIteratingStringMap", func : Benchmark.benchmarkIterateOnly_FastIteratingStringMap}]},{ name : "Combined", note : "Iterating plus get / set / exists, without remove", funcVariants : [{ type : "old", mapClass : "OldStringMap", func : Benchmark.benchmarkCombined_OldStringMap},{ type : "new", mapClass : "NewStringMap", func : Benchmark.benchmarkCombined_NewStringMap},{ type : "caching", mapClass : "CachingKeysStringMap", func : Benchmark.benchmarkCombined_CachingKeysStringMap},{ type : "fast", mapClass : "FastIteratingStringMap", func : Benchmark.benchmarkCombined_FastIteratingStringMap}]},{ name : "Without iteration", note : "Just get / set / exists / remove, without iterating", funcVariants : [{ type : "old", mapClass : "OldStringMap", func : Benchmark.benchmarkNoIterate_OldStringMap},{ type : "new", mapClass : "NewStringMap", func : Benchmark.benchmarkNoIterate_NewStringMap},{ type : "caching", mapClass : "CachingKeysStringMap", func : Benchmark.benchmarkNoIterate_CachingKeysStringMap},{ type : "fast", mapClass : "FastIteratingStringMap", func : Benchmark.benchmarkNoIterate_FastIteratingStringMap}]},{ name : "All", note : "Iterating plus get / set / exists and remove", funcVariants : [{ type : "old", mapClass : "OldStringMap", func : Benchmark.benchmarkAll_OldStringMap},{ type : "new", mapClass : "NewStringMap", func : Benchmark.benchmarkAll_NewStringMap},{ type : "caching", mapClass : "CachingKeysStringMap", func : Benchmark.benchmarkAll_CachingKeysStringMap},{ type : "fast", mapClass : "FastIteratingStringMap", func : Benchmark.benchmarkAll_FastIteratingStringMap}]}];
+Benchmark.benchmarkVariants = [{ name : "All", note : "Iterating plus get / set / exists and remove", funcVariants : [{ type : "old", mapClass : "OldStringMap", func : Benchmark.benchmarkAll_OldStringMap},{ type : "new", mapClass : "NewStringMap", func : Benchmark.benchmarkAll_NewStringMap},{ type : "caching", mapClass : "CachingKeysStringMap", func : Benchmark.benchmarkAll_CachingKeysStringMap},{ type : "fast", mapClass : "FastIteratingStringMap", func : Benchmark.benchmarkAll_FastIteratingStringMap}]},{ name : "Combined", note : "Iterating plus get / set / exists, without remove", funcVariants : [{ type : "old", mapClass : "OldStringMap", func : Benchmark.benchmarkCombined_OldStringMap},{ type : "new", mapClass : "NewStringMap", func : Benchmark.benchmarkCombined_NewStringMap},{ type : "caching", mapClass : "CachingKeysStringMap", func : Benchmark.benchmarkCombined_CachingKeysStringMap},{ type : "fast", mapClass : "FastIteratingStringMap", func : Benchmark.benchmarkCombined_FastIteratingStringMap}]},{ name : "Without iteration", note : "Just get / set / exists / remove, without iterating", funcVariants : [{ type : "old", mapClass : "OldStringMap", func : Benchmark.benchmarkNoIterate_OldStringMap},{ type : "new", mapClass : "NewStringMap", func : Benchmark.benchmarkNoIterate_NewStringMap},{ type : "caching", mapClass : "CachingKeysStringMap", func : Benchmark.benchmarkNoIterate_CachingKeysStringMap},{ type : "fast", mapClass : "FastIteratingStringMap", func : Benchmark.benchmarkNoIterate_FastIteratingStringMap}]},{ name : "Iteration only", note : "Just iterating, without get / set / exists / remove", funcVariants : [{ type : "old", mapClass : "OldStringMap", func : Benchmark.benchmarkIterateOnly_OldStringMap},{ type : "new", mapClass : "NewStringMap", func : Benchmark.benchmarkIterateOnly_NewStringMap},{ type : "caching", mapClass : "CachingKeysStringMap", func : Benchmark.benchmarkIterateOnly_CachingKeysStringMap},{ type : "fast", mapClass : "FastIteratingStringMap", func : Benchmark.benchmarkIterateOnly_FastIteratingStringMap}]}];
 Benchmark.main();
 })(typeof console != "undefined" ? console : {log:function(){}});

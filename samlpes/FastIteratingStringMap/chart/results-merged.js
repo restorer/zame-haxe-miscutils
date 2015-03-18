@@ -1,7 +1,7 @@
 window.data = [
     {
-        "benchmark": "Iteration only",
-        "note": "Just iterating, without get / set / exists / remove",
+        "benchmark": "All",
+        "note": "Iterating plus get / set / exists and remove",
         "browsers": [
             {
                 "browser": "chrome",
@@ -11,19 +11,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 984482
+                                "value": 144496
                             },
                             {
                                 "type": "new",
-                                "value": 471583
+                                "value": 178879
                             },
                             {
                                 "type": "caching",
-                                "value": 2349350
+                                "value": 273249
                             },
                             {
                                 "type": "fast",
-                                "value": 6330506
+                                "value": 402301
                             }
                         ]
                     },
@@ -32,19 +32,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 41977
+                                "value": 16185
                             },
                             {
                                 "type": "new",
-                                "value": 56796
+                                "value": 22524
                             },
                             {
                                 "type": "caching",
-                                "value": 289749
+                                "value": 31010
                             },
                             {
                                 "type": "fast",
-                                "value": 1192336
+                                "value": 44581
                             }
                         ]
                     },
@@ -53,19 +53,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 3769
+                                "value": 1487
                             },
                             {
                                 "type": "new",
-                                "value": 5910
+                                "value": 2333
                             },
                             {
                                 "type": "caching",
-                                "value": 30098
+                                "value": 3140
                             },
                             {
                                 "type": "fast",
-                                "value": 130475
+                                "value": 4542
                             }
                         ]
                     },
@@ -74,19 +74,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 335
+                                "value": 134
                             },
                             {
                                 "type": "new",
-                                "value": 593
+                                "value": 235
                             },
                             {
                                 "type": "caching",
-                                "value": 3031
+                                "value": 282
                             },
                             {
                                 "type": "fast",
-                                "value": 13181
+                                "value": 452
                             }
                         ]
                     },
@@ -95,19 +95,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 22
+                                "value": 10
                             },
                             {
                                 "type": "new",
-                                "value": 32
+                                "value": 7
                             },
                             {
                                 "type": "caching",
-                                "value": 294
+                                "value": 28
                             },
                             {
                                 "type": "fast",
-                                "value": 966
+                                "value": 44
                             }
                         ]
                     }
@@ -121,19 +121,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 873687
+                                "value": 225308
                             },
                             {
                                 "type": "new",
-                                "value": 664109
+                                "value": 259814
                             },
                             {
                                 "type": "caching",
-                                "value": 2479900
+                                "value": 374716
                             },
                             {
                                 "type": "fast",
-                                "value": 9998405
+                                "value": 447810
                             }
                         ]
                     },
@@ -142,19 +142,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 56163
+                                "value": 19964
                             },
                             {
                                 "type": "new",
-                                "value": 65476
+                                "value": 26416
                             },
                             {
                                 "type": "caching",
-                                "value": 249459
+                                "value": 34535
                             },
                             {
                                 "type": "fast",
-                                "value": 4247353
+                                "value": 43839
                             }
                         ]
                     },
@@ -163,19 +163,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 5102
+                                "value": 1808
                             },
                             {
                                 "type": "new",
-                                "value": 5280
+                                "value": 2227
                             },
                             {
                                 "type": "caching",
-                                "value": 27309
+                                "value": 2610
                             },
                             {
                                 "type": "fast",
-                                "value": 751505
+                                "value": 3640
                             }
                         ]
                     },
@@ -184,19 +184,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 360
+                                "value": 140
                             },
                             {
                                 "type": "new",
-                                "value": 442
+                                "value": 191
                             },
                             {
                                 "type": "caching",
-                                "value": 2293
+                                "value": 131
                             },
                             {
                                 "type": "fast",
-                                "value": 72707
+                                "value": 398
                             }
                         ]
                     },
@@ -205,19 +205,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 24
+                                "value": 11
                             },
                             {
                                 "type": "new",
-                                "value": 32
+                                "value": 14
                             },
                             {
                                 "type": "caching",
-                                "value": 262
+                                "value": 2
                             },
                             {
                                 "type": "fast",
-                                "value": 5155
+                                "value": 46
                             }
                         ]
                     }
@@ -231,19 +231,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 1208128
+                                "value": 182189
                             },
                             {
                                 "type": "new",
-                                "value": 443564
+                                "value": 142652
                             },
                             {
                                 "type": "caching",
-                                "value": 1615966
+                                "value": 205359
                             },
                             {
                                 "type": "fast",
-                                "value": 11837383
+                                "value": 273876
                             }
                         ]
                     },
@@ -252,19 +252,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 129739
+                                "value": 20352
                             },
                             {
                                 "type": "new",
-                                "value": 81440
+                                "value": 22520
                             },
                             {
                                 "type": "caching",
-                                "value": 172794
+                                "value": 21396
                             },
                             {
                                 "type": "fast",
-                                "value": 3662846
+                                "value": 28966
                             }
                         ]
                     },
@@ -273,19 +273,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 10417
+                                "value": 1677
                             },
                             {
                                 "type": "new",
-                                "value": 5053
+                                "value": 1416
                             },
                             {
                                 "type": "caching",
-                                "value": 10327
+                                "value": 1013
                             },
                             {
                                 "type": "fast",
-                                "value": 351764
+                                "value": 1868
                             }
                         ]
                     },
@@ -294,19 +294,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 791
+                                "value": 153
                             },
                             {
                                 "type": "new",
-                                "value": 382
+                                "value": 115
                             },
                             {
                                 "type": "caching",
-                                "value": 842
+                                "value": 64
                             },
                             {
                                 "type": "fast",
-                                "value": 27337
+                                "value": 152
                             }
                         ]
                     },
@@ -315,19 +315,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 52
+                                "value": 12
                             },
                             {
                                 "type": "new",
-                                "value": 33
+                                "value": 10
                             },
                             {
                                 "type": "caching",
-                                "value": 76
+                                "value": 2
                             },
                             {
                                 "type": "fast",
-                                "value": 2641
+                                "value": 15
                             }
                         ]
                     }
@@ -1008,8 +1008,8 @@ window.data = [
         ]
     },
     {
-        "benchmark": "All",
-        "note": "Iterating plus get / set / exists and remove",
+        "benchmark": "Iteration only",
+        "note": "Just iterating, without get / set / exists / remove",
         "browsers": [
             {
                 "browser": "chrome",
@@ -1019,19 +1019,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 144496
+                                "value": 984482
                             },
                             {
                                 "type": "new",
-                                "value": 178879
+                                "value": 471583
                             },
                             {
                                 "type": "caching",
-                                "value": 273249
+                                "value": 2349350
                             },
                             {
                                 "type": "fast",
-                                "value": 402301
+                                "value": 6330506
                             }
                         ]
                     },
@@ -1040,19 +1040,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 16185
+                                "value": 41977
                             },
                             {
                                 "type": "new",
-                                "value": 22524
+                                "value": 56796
                             },
                             {
                                 "type": "caching",
-                                "value": 31010
+                                "value": 289749
                             },
                             {
                                 "type": "fast",
-                                "value": 44581
+                                "value": 1192336
                             }
                         ]
                     },
@@ -1061,19 +1061,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 1487
+                                "value": 3769
                             },
                             {
                                 "type": "new",
-                                "value": 2333
+                                "value": 5910
                             },
                             {
                                 "type": "caching",
-                                "value": 3140
+                                "value": 30098
                             },
                             {
                                 "type": "fast",
-                                "value": 4542
+                                "value": 130475
                             }
                         ]
                     },
@@ -1082,19 +1082,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 134
+                                "value": 335
                             },
                             {
                                 "type": "new",
-                                "value": 235
+                                "value": 593
                             },
                             {
                                 "type": "caching",
-                                "value": 282
+                                "value": 3031
                             },
                             {
                                 "type": "fast",
-                                "value": 452
+                                "value": 13181
                             }
                         ]
                     },
@@ -1103,19 +1103,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 10
+                                "value": 22
                             },
                             {
                                 "type": "new",
-                                "value": 7
+                                "value": 32
                             },
                             {
                                 "type": "caching",
-                                "value": 28
+                                "value": 294
                             },
                             {
                                 "type": "fast",
-                                "value": 44
+                                "value": 966
                             }
                         ]
                     }
@@ -1129,19 +1129,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 225308
+                                "value": 873687
                             },
                             {
                                 "type": "new",
-                                "value": 259814
+                                "value": 664109
                             },
                             {
                                 "type": "caching",
-                                "value": 374716
+                                "value": 2479900
                             },
                             {
                                 "type": "fast",
-                                "value": 447810
+                                "value": 9998405
                             }
                         ]
                     },
@@ -1150,19 +1150,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 19964
+                                "value": 56163
                             },
                             {
                                 "type": "new",
-                                "value": 26416
+                                "value": 65476
                             },
                             {
                                 "type": "caching",
-                                "value": 34535
+                                "value": 249459
                             },
                             {
                                 "type": "fast",
-                                "value": 43839
+                                "value": 4247353
                             }
                         ]
                     },
@@ -1171,19 +1171,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 1808
+                                "value": 5102
                             },
                             {
                                 "type": "new",
-                                "value": 2227
+                                "value": 5280
                             },
                             {
                                 "type": "caching",
-                                "value": 2610
+                                "value": 27309
                             },
                             {
                                 "type": "fast",
-                                "value": 3640
+                                "value": 751505
                             }
                         ]
                     },
@@ -1192,19 +1192,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 140
+                                "value": 360
                             },
                             {
                                 "type": "new",
-                                "value": 191
+                                "value": 442
                             },
                             {
                                 "type": "caching",
-                                "value": 131
+                                "value": 2293
                             },
                             {
                                 "type": "fast",
-                                "value": 398
+                                "value": 72707
                             }
                         ]
                     },
@@ -1213,19 +1213,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 11
+                                "value": 24
                             },
                             {
                                 "type": "new",
-                                "value": 14
+                                "value": 32
                             },
                             {
                                 "type": "caching",
-                                "value": 2
+                                "value": 262
                             },
                             {
                                 "type": "fast",
-                                "value": 46
+                                "value": 5155
                             }
                         ]
                     }
@@ -1239,19 +1239,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 182189
+                                "value": 1208128
                             },
                             {
                                 "type": "new",
-                                "value": 142652
+                                "value": 443564
                             },
                             {
                                 "type": "caching",
-                                "value": 205359
+                                "value": 1615966
                             },
                             {
                                 "type": "fast",
-                                "value": 273876
+                                "value": 11837383
                             }
                         ]
                     },
@@ -1260,19 +1260,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 20352
+                                "value": 129739
                             },
                             {
                                 "type": "new",
-                                "value": 22520
+                                "value": 81440
                             },
                             {
                                 "type": "caching",
-                                "value": 21396
+                                "value": 172794
                             },
                             {
                                 "type": "fast",
-                                "value": 28966
+                                "value": 3662846
                             }
                         ]
                     },
@@ -1281,19 +1281,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 1677
+                                "value": 10417
                             },
                             {
                                 "type": "new",
-                                "value": 1416
+                                "value": 5053
                             },
                             {
                                 "type": "caching",
-                                "value": 1013
+                                "value": 10327
                             },
                             {
                                 "type": "fast",
-                                "value": 1868
+                                "value": 351764
                             }
                         ]
                     },
@@ -1302,19 +1302,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 153
+                                "value": 791
                             },
                             {
                                 "type": "new",
-                                "value": 115
+                                "value": 382
                             },
                             {
                                 "type": "caching",
-                                "value": 64
+                                "value": 842
                             },
                             {
                                 "type": "fast",
-                                "value": 152
+                                "value": 27337
                             }
                         ]
                     },
@@ -1323,19 +1323,19 @@ window.data = [
                         "values": [
                             {
                                 "type": "old",
-                                "value": 12
+                                "value": 52
                             },
                             {
                                 "type": "new",
-                                "value": 10
+                                "value": 33
                             },
                             {
                                 "type": "caching",
-                                "value": 2
+                                "value": 76
                             },
                             {
                                 "type": "fast",
-                                "value": 15
+                                "value": 2641
                             }
                         ]
                     }

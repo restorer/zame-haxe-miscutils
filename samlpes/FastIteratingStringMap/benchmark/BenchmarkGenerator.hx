@@ -380,7 +380,8 @@ for (i in 0 ... entryCount) {
 var dummy:Int = 0;
 
 for (key in map.keys()) {
-    dummy += (map.exists(key) ? map.get(key) : 0);
+    map.set(key, map.exists(key) ? (map.get(key) + 1) : 0);
+    dummy++;
 }
 
 for (value in map) {
@@ -460,9 +461,9 @@ for (key in halfKeys2) {
     ";
 
     private static var BENCHMARK_VARIANTS:Array<BenchmarkVariant> = [{
-        name: "Iteration only",
-        note: "Just iterating, without get / set / exists / remove",
-        template: BENCHMARK_ITERATE_ONLY,
+        name: "All",
+        note: "Iterating plus get / set / exists and remove",
+        template: BENCHMARK_ALL,
     }, {
         name: "Combined",
         note: "Iterating plus get / set / exists, without remove",
@@ -472,9 +473,9 @@ for (key in halfKeys2) {
         note: "Just get / set / exists / remove, without iterating",
         template: BENCHMARK_NO_ITERATE,
     }, {
-        name: "All",
-        note: "Iterating plus get / set / exists and remove",
-        template: BENCHMARK_ALL,
+        name: "Iteration only",
+        note: "Just iterating, without get / set / exists / remove",
+        template: BENCHMARK_ITERATE_ONLY,
     }];
 
     private static var MAP_CLASS_VARIANTS:Array<MapClassVariant> = [{

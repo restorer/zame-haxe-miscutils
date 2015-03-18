@@ -80,782 +80,6 @@ class Benchmark {
 
     
         
-private static function benchmarkIterateOnly_OldStringMap(entryCount:Int):BenchmarkResult {
-    var map = new OldStringMap<Int>();
-
-for (i in 0 ... entryCount) {
-    map.set(Std.string(i), i);
-}
-
-
-    var st:Float = Timer.stamp();
-    var t:Float = 0;
-
-    // warm-up jit
-    while (true) {
-        var dummy:Int = 0;
-
-for (key in map.keys()) {
-    dummy++;
-}
-
-for (value in map) {
-    dummy++;
-}
-
-
-        t = Timer.stamp() - st;
-
-        if (t > 1) {
-            break;
-        }
-    }
-
-    st = Timer.stamp();
-    t = 0;
-    var count:Int = 0;
-
-    // actual computation
-    while (true) {
-        var dummy:Int = 0;
-
-for (key in map.keys()) {
-    dummy++;
-}
-
-for (value in map) {
-    dummy++;
-}
-
-
-        count++;
-        t = Timer.stamp() - st;
-
-        if (t > 4) {
-            break;
-        }
-    }
-
-    return {
-        iterations: count,
-        time: Std.int(Math.round(t * 1000)),
-    };
-}
-    
-    
-        
-private static function benchmarkIterateOnly_NewStringMap(entryCount:Int):BenchmarkResult {
-    var map = new NewStringMap<Int>();
-
-for (i in 0 ... entryCount) {
-    map.set(Std.string(i), i);
-}
-
-
-    var st:Float = Timer.stamp();
-    var t:Float = 0;
-
-    // warm-up jit
-    while (true) {
-        var dummy:Int = 0;
-
-for (key in map.keys()) {
-    dummy++;
-}
-
-for (value in map) {
-    dummy++;
-}
-
-
-        t = Timer.stamp() - st;
-
-        if (t > 1) {
-            break;
-        }
-    }
-
-    st = Timer.stamp();
-    t = 0;
-    var count:Int = 0;
-
-    // actual computation
-    while (true) {
-        var dummy:Int = 0;
-
-for (key in map.keys()) {
-    dummy++;
-}
-
-for (value in map) {
-    dummy++;
-}
-
-
-        count++;
-        t = Timer.stamp() - st;
-
-        if (t > 4) {
-            break;
-        }
-    }
-
-    return {
-        iterations: count,
-        time: Std.int(Math.round(t * 1000)),
-    };
-}
-    
-    
-        
-private static function benchmarkIterateOnly_CachingKeysStringMap(entryCount:Int):BenchmarkResult {
-    var map = new CachingKeysStringMap<Int>();
-
-for (i in 0 ... entryCount) {
-    map.set(Std.string(i), i);
-}
-
-
-    var st:Float = Timer.stamp();
-    var t:Float = 0;
-
-    // warm-up jit
-    while (true) {
-        var dummy:Int = 0;
-
-for (key in map.keys()) {
-    dummy++;
-}
-
-for (value in map) {
-    dummy++;
-}
-
-
-        t = Timer.stamp() - st;
-
-        if (t > 1) {
-            break;
-        }
-    }
-
-    st = Timer.stamp();
-    t = 0;
-    var count:Int = 0;
-
-    // actual computation
-    while (true) {
-        var dummy:Int = 0;
-
-for (key in map.keys()) {
-    dummy++;
-}
-
-for (value in map) {
-    dummy++;
-}
-
-
-        count++;
-        t = Timer.stamp() - st;
-
-        if (t > 4) {
-            break;
-        }
-    }
-
-    return {
-        iterations: count,
-        time: Std.int(Math.round(t * 1000)),
-    };
-}
-    
-    
-        
-private static function benchmarkIterateOnly_FastIteratingStringMap(entryCount:Int):BenchmarkResult {
-    var map = new FastIteratingStringMap<Int>();
-
-for (i in 0 ... entryCount) {
-    map.set(Std.string(i), i);
-}
-
-
-    var st:Float = Timer.stamp();
-    var t:Float = 0;
-
-    // warm-up jit
-    while (true) {
-        var dummy:Int = 0;
-
-for (key in map.keys()) {
-    dummy++;
-}
-
-for (value in map) {
-    dummy++;
-}
-
-
-        t = Timer.stamp() - st;
-
-        if (t > 1) {
-            break;
-        }
-    }
-
-    st = Timer.stamp();
-    t = 0;
-    var count:Int = 0;
-
-    // actual computation
-    while (true) {
-        var dummy:Int = 0;
-
-for (key in map.keys()) {
-    dummy++;
-}
-
-for (value in map) {
-    dummy++;
-}
-
-
-        count++;
-        t = Timer.stamp() - st;
-
-        if (t > 4) {
-            break;
-        }
-    }
-
-    return {
-        iterations: count,
-        time: Std.int(Math.round(t * 1000)),
-    };
-}
-    
-    
-        
-private static function benchmarkCombined_OldStringMap(entryCount:Int):BenchmarkResult {
-    var map = new OldStringMap<Int>();
-
-for (i in 0 ... entryCount) {
-    map.set(Std.string(i), i);
-}
-
-
-    var st:Float = Timer.stamp();
-    var t:Float = 0;
-
-    // warm-up jit
-    while (true) {
-        var dummy:Int = 0;
-
-for (key in map.keys()) {
-    dummy += (map.exists(key) ? map.get(key) : 0);
-}
-
-for (value in map) {
-    dummy++;
-}
-
-
-        t = Timer.stamp() - st;
-
-        if (t > 1) {
-            break;
-        }
-    }
-
-    st = Timer.stamp();
-    t = 0;
-    var count:Int = 0;
-
-    // actual computation
-    while (true) {
-        var dummy:Int = 0;
-
-for (key in map.keys()) {
-    dummy += (map.exists(key) ? map.get(key) : 0);
-}
-
-for (value in map) {
-    dummy++;
-}
-
-
-        count++;
-        t = Timer.stamp() - st;
-
-        if (t > 4) {
-            break;
-        }
-    }
-
-    return {
-        iterations: count,
-        time: Std.int(Math.round(t * 1000)),
-    };
-}
-    
-    
-        
-private static function benchmarkCombined_NewStringMap(entryCount:Int):BenchmarkResult {
-    var map = new NewStringMap<Int>();
-
-for (i in 0 ... entryCount) {
-    map.set(Std.string(i), i);
-}
-
-
-    var st:Float = Timer.stamp();
-    var t:Float = 0;
-
-    // warm-up jit
-    while (true) {
-        var dummy:Int = 0;
-
-for (key in map.keys()) {
-    dummy += (map.exists(key) ? map.get(key) : 0);
-}
-
-for (value in map) {
-    dummy++;
-}
-
-
-        t = Timer.stamp() - st;
-
-        if (t > 1) {
-            break;
-        }
-    }
-
-    st = Timer.stamp();
-    t = 0;
-    var count:Int = 0;
-
-    // actual computation
-    while (true) {
-        var dummy:Int = 0;
-
-for (key in map.keys()) {
-    dummy += (map.exists(key) ? map.get(key) : 0);
-}
-
-for (value in map) {
-    dummy++;
-}
-
-
-        count++;
-        t = Timer.stamp() - st;
-
-        if (t > 4) {
-            break;
-        }
-    }
-
-    return {
-        iterations: count,
-        time: Std.int(Math.round(t * 1000)),
-    };
-}
-    
-    
-        
-private static function benchmarkCombined_CachingKeysStringMap(entryCount:Int):BenchmarkResult {
-    var map = new CachingKeysStringMap<Int>();
-
-for (i in 0 ... entryCount) {
-    map.set(Std.string(i), i);
-}
-
-
-    var st:Float = Timer.stamp();
-    var t:Float = 0;
-
-    // warm-up jit
-    while (true) {
-        var dummy:Int = 0;
-
-for (key in map.keys()) {
-    dummy += (map.exists(key) ? map.get(key) : 0);
-}
-
-for (value in map) {
-    dummy++;
-}
-
-
-        t = Timer.stamp() - st;
-
-        if (t > 1) {
-            break;
-        }
-    }
-
-    st = Timer.stamp();
-    t = 0;
-    var count:Int = 0;
-
-    // actual computation
-    while (true) {
-        var dummy:Int = 0;
-
-for (key in map.keys()) {
-    dummy += (map.exists(key) ? map.get(key) : 0);
-}
-
-for (value in map) {
-    dummy++;
-}
-
-
-        count++;
-        t = Timer.stamp() - st;
-
-        if (t > 4) {
-            break;
-        }
-    }
-
-    return {
-        iterations: count,
-        time: Std.int(Math.round(t * 1000)),
-    };
-}
-    
-    
-        
-private static function benchmarkCombined_FastIteratingStringMap(entryCount:Int):BenchmarkResult {
-    var map = new FastIteratingStringMap<Int>();
-
-for (i in 0 ... entryCount) {
-    map.set(Std.string(i), i);
-}
-
-
-    var st:Float = Timer.stamp();
-    var t:Float = 0;
-
-    // warm-up jit
-    while (true) {
-        var dummy:Int = 0;
-
-for (key in map.keys()) {
-    dummy += (map.exists(key) ? map.get(key) : 0);
-}
-
-for (value in map) {
-    dummy++;
-}
-
-
-        t = Timer.stamp() - st;
-
-        if (t > 1) {
-            break;
-        }
-    }
-
-    st = Timer.stamp();
-    t = 0;
-    var count:Int = 0;
-
-    // actual computation
-    while (true) {
-        var dummy:Int = 0;
-
-for (key in map.keys()) {
-    dummy += (map.exists(key) ? map.get(key) : 0);
-}
-
-for (value in map) {
-    dummy++;
-}
-
-
-        count++;
-        t = Timer.stamp() - st;
-
-        if (t > 4) {
-            break;
-        }
-    }
-
-    return {
-        iterations: count,
-        time: Std.int(Math.round(t * 1000)),
-    };
-}
-    
-    
-        
-private static function benchmarkNoIterate_OldStringMap(entryCount:Int):BenchmarkResult {
-    var keys:Array<String> = new Array<String>();
-
-for (i in 0 ... entryCount) {
-    keys.push(Std.string(i));
-}
-
-
-    var st:Float = Timer.stamp();
-    var t:Float = 0;
-
-    // warm-up jit
-    while (true) {
-        var map = new OldStringMap<Int>();
-
-for (key in keys) {
-    map.set(key, 1);
-    map.set(key, map.exists(key) ? (map.get(key) + 1) : 0);
-}
-
-for (key in keys) {
-    map.remove(key);
-}
-
-
-        t = Timer.stamp() - st;
-
-        if (t > 1) {
-            break;
-        }
-    }
-
-    st = Timer.stamp();
-    t = 0;
-    var count:Int = 0;
-
-    // actual computation
-    while (true) {
-        var map = new OldStringMap<Int>();
-
-for (key in keys) {
-    map.set(key, 1);
-    map.set(key, map.exists(key) ? (map.get(key) + 1) : 0);
-}
-
-for (key in keys) {
-    map.remove(key);
-}
-
-
-        count++;
-        t = Timer.stamp() - st;
-
-        if (t > 4) {
-            break;
-        }
-    }
-
-    return {
-        iterations: count,
-        time: Std.int(Math.round(t * 1000)),
-    };
-}
-    
-    
-        
-private static function benchmarkNoIterate_NewStringMap(entryCount:Int):BenchmarkResult {
-    var keys:Array<String> = new Array<String>();
-
-for (i in 0 ... entryCount) {
-    keys.push(Std.string(i));
-}
-
-
-    var st:Float = Timer.stamp();
-    var t:Float = 0;
-
-    // warm-up jit
-    while (true) {
-        var map = new NewStringMap<Int>();
-
-for (key in keys) {
-    map.set(key, 1);
-    map.set(key, map.exists(key) ? (map.get(key) + 1) : 0);
-}
-
-for (key in keys) {
-    map.remove(key);
-}
-
-
-        t = Timer.stamp() - st;
-
-        if (t > 1) {
-            break;
-        }
-    }
-
-    st = Timer.stamp();
-    t = 0;
-    var count:Int = 0;
-
-    // actual computation
-    while (true) {
-        var map = new NewStringMap<Int>();
-
-for (key in keys) {
-    map.set(key, 1);
-    map.set(key, map.exists(key) ? (map.get(key) + 1) : 0);
-}
-
-for (key in keys) {
-    map.remove(key);
-}
-
-
-        count++;
-        t = Timer.stamp() - st;
-
-        if (t > 4) {
-            break;
-        }
-    }
-
-    return {
-        iterations: count,
-        time: Std.int(Math.round(t * 1000)),
-    };
-}
-    
-    
-        
-private static function benchmarkNoIterate_CachingKeysStringMap(entryCount:Int):BenchmarkResult {
-    var keys:Array<String> = new Array<String>();
-
-for (i in 0 ... entryCount) {
-    keys.push(Std.string(i));
-}
-
-
-    var st:Float = Timer.stamp();
-    var t:Float = 0;
-
-    // warm-up jit
-    while (true) {
-        var map = new CachingKeysStringMap<Int>();
-
-for (key in keys) {
-    map.set(key, 1);
-    map.set(key, map.exists(key) ? (map.get(key) + 1) : 0);
-}
-
-for (key in keys) {
-    map.remove(key);
-}
-
-
-        t = Timer.stamp() - st;
-
-        if (t > 1) {
-            break;
-        }
-    }
-
-    st = Timer.stamp();
-    t = 0;
-    var count:Int = 0;
-
-    // actual computation
-    while (true) {
-        var map = new CachingKeysStringMap<Int>();
-
-for (key in keys) {
-    map.set(key, 1);
-    map.set(key, map.exists(key) ? (map.get(key) + 1) : 0);
-}
-
-for (key in keys) {
-    map.remove(key);
-}
-
-
-        count++;
-        t = Timer.stamp() - st;
-
-        if (t > 4) {
-            break;
-        }
-    }
-
-    return {
-        iterations: count,
-        time: Std.int(Math.round(t * 1000)),
-    };
-}
-    
-    
-        
-private static function benchmarkNoIterate_FastIteratingStringMap(entryCount:Int):BenchmarkResult {
-    var keys:Array<String> = new Array<String>();
-
-for (i in 0 ... entryCount) {
-    keys.push(Std.string(i));
-}
-
-
-    var st:Float = Timer.stamp();
-    var t:Float = 0;
-
-    // warm-up jit
-    while (true) {
-        var map = new FastIteratingStringMap<Int>();
-
-for (key in keys) {
-    map.set(key, 1);
-    map.set(key, map.exists(key) ? (map.get(key) + 1) : 0);
-}
-
-for (key in keys) {
-    map.remove(key);
-}
-
-
-        t = Timer.stamp() - st;
-
-        if (t > 1) {
-            break;
-        }
-    }
-
-    st = Timer.stamp();
-    t = 0;
-    var count:Int = 0;
-
-    // actual computation
-    while (true) {
-        var map = new FastIteratingStringMap<Int>();
-
-for (key in keys) {
-    map.set(key, 1);
-    map.set(key, map.exists(key) ? (map.get(key) + 1) : 0);
-}
-
-for (key in keys) {
-    map.remove(key);
-}
-
-
-        count++;
-        t = Timer.stamp() - st;
-
-        if (t > 4) {
-            break;
-        }
-    }
-
-    return {
-        iterations: count,
-        time: Std.int(Math.round(t * 1000)),
-    };
-}
-    
-    
-        
 private static function benchmarkAll_OldStringMap(entryCount:Int):BenchmarkResult {
     var keys:Array<String> = [];
 var halfKeys1:Array<String> = [];
@@ -1431,36 +655,820 @@ for (key in halfKeys2) {
 }
     
     
+        
+private static function benchmarkCombined_OldStringMap(entryCount:Int):BenchmarkResult {
+    var map = new OldStringMap<Int>();
+
+for (i in 0 ... entryCount) {
+    map.set(Std.string(i), i);
+}
+
+
+    var st:Float = Timer.stamp();
+    var t:Float = 0;
+
+    // warm-up jit
+    while (true) {
+        var dummy:Int = 0;
+
+for (key in map.keys()) {
+    map.set(key, map.exists(key) ? (map.get(key) + 1) : 0);
+    dummy++;
+}
+
+for (value in map) {
+    dummy++;
+}
+
+
+        t = Timer.stamp() - st;
+
+        if (t > 1) {
+            break;
+        }
+    }
+
+    st = Timer.stamp();
+    t = 0;
+    var count:Int = 0;
+
+    // actual computation
+    while (true) {
+        var dummy:Int = 0;
+
+for (key in map.keys()) {
+    map.set(key, map.exists(key) ? (map.get(key) + 1) : 0);
+    dummy++;
+}
+
+for (value in map) {
+    dummy++;
+}
+
+
+        count++;
+        t = Timer.stamp() - st;
+
+        if (t > 4) {
+            break;
+        }
+    }
+
+    return {
+        iterations: count,
+        time: Std.int(Math.round(t * 1000)),
+    };
+}
+    
+    
+        
+private static function benchmarkCombined_NewStringMap(entryCount:Int):BenchmarkResult {
+    var map = new NewStringMap<Int>();
+
+for (i in 0 ... entryCount) {
+    map.set(Std.string(i), i);
+}
+
+
+    var st:Float = Timer.stamp();
+    var t:Float = 0;
+
+    // warm-up jit
+    while (true) {
+        var dummy:Int = 0;
+
+for (key in map.keys()) {
+    map.set(key, map.exists(key) ? (map.get(key) + 1) : 0);
+    dummy++;
+}
+
+for (value in map) {
+    dummy++;
+}
+
+
+        t = Timer.stamp() - st;
+
+        if (t > 1) {
+            break;
+        }
+    }
+
+    st = Timer.stamp();
+    t = 0;
+    var count:Int = 0;
+
+    // actual computation
+    while (true) {
+        var dummy:Int = 0;
+
+for (key in map.keys()) {
+    map.set(key, map.exists(key) ? (map.get(key) + 1) : 0);
+    dummy++;
+}
+
+for (value in map) {
+    dummy++;
+}
+
+
+        count++;
+        t = Timer.stamp() - st;
+
+        if (t > 4) {
+            break;
+        }
+    }
+
+    return {
+        iterations: count,
+        time: Std.int(Math.round(t * 1000)),
+    };
+}
+    
+    
+        
+private static function benchmarkCombined_CachingKeysStringMap(entryCount:Int):BenchmarkResult {
+    var map = new CachingKeysStringMap<Int>();
+
+for (i in 0 ... entryCount) {
+    map.set(Std.string(i), i);
+}
+
+
+    var st:Float = Timer.stamp();
+    var t:Float = 0;
+
+    // warm-up jit
+    while (true) {
+        var dummy:Int = 0;
+
+for (key in map.keys()) {
+    map.set(key, map.exists(key) ? (map.get(key) + 1) : 0);
+    dummy++;
+}
+
+for (value in map) {
+    dummy++;
+}
+
+
+        t = Timer.stamp() - st;
+
+        if (t > 1) {
+            break;
+        }
+    }
+
+    st = Timer.stamp();
+    t = 0;
+    var count:Int = 0;
+
+    // actual computation
+    while (true) {
+        var dummy:Int = 0;
+
+for (key in map.keys()) {
+    map.set(key, map.exists(key) ? (map.get(key) + 1) : 0);
+    dummy++;
+}
+
+for (value in map) {
+    dummy++;
+}
+
+
+        count++;
+        t = Timer.stamp() - st;
+
+        if (t > 4) {
+            break;
+        }
+    }
+
+    return {
+        iterations: count,
+        time: Std.int(Math.round(t * 1000)),
+    };
+}
+    
+    
+        
+private static function benchmarkCombined_FastIteratingStringMap(entryCount:Int):BenchmarkResult {
+    var map = new FastIteratingStringMap<Int>();
+
+for (i in 0 ... entryCount) {
+    map.set(Std.string(i), i);
+}
+
+
+    var st:Float = Timer.stamp();
+    var t:Float = 0;
+
+    // warm-up jit
+    while (true) {
+        var dummy:Int = 0;
+
+for (key in map.keys()) {
+    map.set(key, map.exists(key) ? (map.get(key) + 1) : 0);
+    dummy++;
+}
+
+for (value in map) {
+    dummy++;
+}
+
+
+        t = Timer.stamp() - st;
+
+        if (t > 1) {
+            break;
+        }
+    }
+
+    st = Timer.stamp();
+    t = 0;
+    var count:Int = 0;
+
+    // actual computation
+    while (true) {
+        var dummy:Int = 0;
+
+for (key in map.keys()) {
+    map.set(key, map.exists(key) ? (map.get(key) + 1) : 0);
+    dummy++;
+}
+
+for (value in map) {
+    dummy++;
+}
+
+
+        count++;
+        t = Timer.stamp() - st;
+
+        if (t > 4) {
+            break;
+        }
+    }
+
+    return {
+        iterations: count,
+        time: Std.int(Math.round(t * 1000)),
+    };
+}
+    
+    
+        
+private static function benchmarkNoIterate_OldStringMap(entryCount:Int):BenchmarkResult {
+    var keys:Array<String> = new Array<String>();
+
+for (i in 0 ... entryCount) {
+    keys.push(Std.string(i));
+}
+
+
+    var st:Float = Timer.stamp();
+    var t:Float = 0;
+
+    // warm-up jit
+    while (true) {
+        var map = new OldStringMap<Int>();
+
+for (key in keys) {
+    map.set(key, 1);
+    map.set(key, map.exists(key) ? (map.get(key) + 1) : 0);
+}
+
+for (key in keys) {
+    map.remove(key);
+}
+
+
+        t = Timer.stamp() - st;
+
+        if (t > 1) {
+            break;
+        }
+    }
+
+    st = Timer.stamp();
+    t = 0;
+    var count:Int = 0;
+
+    // actual computation
+    while (true) {
+        var map = new OldStringMap<Int>();
+
+for (key in keys) {
+    map.set(key, 1);
+    map.set(key, map.exists(key) ? (map.get(key) + 1) : 0);
+}
+
+for (key in keys) {
+    map.remove(key);
+}
+
+
+        count++;
+        t = Timer.stamp() - st;
+
+        if (t > 4) {
+            break;
+        }
+    }
+
+    return {
+        iterations: count,
+        time: Std.int(Math.round(t * 1000)),
+    };
+}
+    
+    
+        
+private static function benchmarkNoIterate_NewStringMap(entryCount:Int):BenchmarkResult {
+    var keys:Array<String> = new Array<String>();
+
+for (i in 0 ... entryCount) {
+    keys.push(Std.string(i));
+}
+
+
+    var st:Float = Timer.stamp();
+    var t:Float = 0;
+
+    // warm-up jit
+    while (true) {
+        var map = new NewStringMap<Int>();
+
+for (key in keys) {
+    map.set(key, 1);
+    map.set(key, map.exists(key) ? (map.get(key) + 1) : 0);
+}
+
+for (key in keys) {
+    map.remove(key);
+}
+
+
+        t = Timer.stamp() - st;
+
+        if (t > 1) {
+            break;
+        }
+    }
+
+    st = Timer.stamp();
+    t = 0;
+    var count:Int = 0;
+
+    // actual computation
+    while (true) {
+        var map = new NewStringMap<Int>();
+
+for (key in keys) {
+    map.set(key, 1);
+    map.set(key, map.exists(key) ? (map.get(key) + 1) : 0);
+}
+
+for (key in keys) {
+    map.remove(key);
+}
+
+
+        count++;
+        t = Timer.stamp() - st;
+
+        if (t > 4) {
+            break;
+        }
+    }
+
+    return {
+        iterations: count,
+        time: Std.int(Math.round(t * 1000)),
+    };
+}
+    
+    
+        
+private static function benchmarkNoIterate_CachingKeysStringMap(entryCount:Int):BenchmarkResult {
+    var keys:Array<String> = new Array<String>();
+
+for (i in 0 ... entryCount) {
+    keys.push(Std.string(i));
+}
+
+
+    var st:Float = Timer.stamp();
+    var t:Float = 0;
+
+    // warm-up jit
+    while (true) {
+        var map = new CachingKeysStringMap<Int>();
+
+for (key in keys) {
+    map.set(key, 1);
+    map.set(key, map.exists(key) ? (map.get(key) + 1) : 0);
+}
+
+for (key in keys) {
+    map.remove(key);
+}
+
+
+        t = Timer.stamp() - st;
+
+        if (t > 1) {
+            break;
+        }
+    }
+
+    st = Timer.stamp();
+    t = 0;
+    var count:Int = 0;
+
+    // actual computation
+    while (true) {
+        var map = new CachingKeysStringMap<Int>();
+
+for (key in keys) {
+    map.set(key, 1);
+    map.set(key, map.exists(key) ? (map.get(key) + 1) : 0);
+}
+
+for (key in keys) {
+    map.remove(key);
+}
+
+
+        count++;
+        t = Timer.stamp() - st;
+
+        if (t > 4) {
+            break;
+        }
+    }
+
+    return {
+        iterations: count,
+        time: Std.int(Math.round(t * 1000)),
+    };
+}
+    
+    
+        
+private static function benchmarkNoIterate_FastIteratingStringMap(entryCount:Int):BenchmarkResult {
+    var keys:Array<String> = new Array<String>();
+
+for (i in 0 ... entryCount) {
+    keys.push(Std.string(i));
+}
+
+
+    var st:Float = Timer.stamp();
+    var t:Float = 0;
+
+    // warm-up jit
+    while (true) {
+        var map = new FastIteratingStringMap<Int>();
+
+for (key in keys) {
+    map.set(key, 1);
+    map.set(key, map.exists(key) ? (map.get(key) + 1) : 0);
+}
+
+for (key in keys) {
+    map.remove(key);
+}
+
+
+        t = Timer.stamp() - st;
+
+        if (t > 1) {
+            break;
+        }
+    }
+
+    st = Timer.stamp();
+    t = 0;
+    var count:Int = 0;
+
+    // actual computation
+    while (true) {
+        var map = new FastIteratingStringMap<Int>();
+
+for (key in keys) {
+    map.set(key, 1);
+    map.set(key, map.exists(key) ? (map.get(key) + 1) : 0);
+}
+
+for (key in keys) {
+    map.remove(key);
+}
+
+
+        count++;
+        t = Timer.stamp() - st;
+
+        if (t > 4) {
+            break;
+        }
+    }
+
+    return {
+        iterations: count,
+        time: Std.int(Math.round(t * 1000)),
+    };
+}
+    
+    
+        
+private static function benchmarkIterateOnly_OldStringMap(entryCount:Int):BenchmarkResult {
+    var map = new OldStringMap<Int>();
+
+for (i in 0 ... entryCount) {
+    map.set(Std.string(i), i);
+}
+
+
+    var st:Float = Timer.stamp();
+    var t:Float = 0;
+
+    // warm-up jit
+    while (true) {
+        var dummy:Int = 0;
+
+for (key in map.keys()) {
+    dummy++;
+}
+
+for (value in map) {
+    dummy++;
+}
+
+
+        t = Timer.stamp() - st;
+
+        if (t > 1) {
+            break;
+        }
+    }
+
+    st = Timer.stamp();
+    t = 0;
+    var count:Int = 0;
+
+    // actual computation
+    while (true) {
+        var dummy:Int = 0;
+
+for (key in map.keys()) {
+    dummy++;
+}
+
+for (value in map) {
+    dummy++;
+}
+
+
+        count++;
+        t = Timer.stamp() - st;
+
+        if (t > 4) {
+            break;
+        }
+    }
+
+    return {
+        iterations: count,
+        time: Std.int(Math.round(t * 1000)),
+    };
+}
+    
+    
+        
+private static function benchmarkIterateOnly_NewStringMap(entryCount:Int):BenchmarkResult {
+    var map = new NewStringMap<Int>();
+
+for (i in 0 ... entryCount) {
+    map.set(Std.string(i), i);
+}
+
+
+    var st:Float = Timer.stamp();
+    var t:Float = 0;
+
+    // warm-up jit
+    while (true) {
+        var dummy:Int = 0;
+
+for (key in map.keys()) {
+    dummy++;
+}
+
+for (value in map) {
+    dummy++;
+}
+
+
+        t = Timer.stamp() - st;
+
+        if (t > 1) {
+            break;
+        }
+    }
+
+    st = Timer.stamp();
+    t = 0;
+    var count:Int = 0;
+
+    // actual computation
+    while (true) {
+        var dummy:Int = 0;
+
+for (key in map.keys()) {
+    dummy++;
+}
+
+for (value in map) {
+    dummy++;
+}
+
+
+        count++;
+        t = Timer.stamp() - st;
+
+        if (t > 4) {
+            break;
+        }
+    }
+
+    return {
+        iterations: count,
+        time: Std.int(Math.round(t * 1000)),
+    };
+}
+    
+    
+        
+private static function benchmarkIterateOnly_CachingKeysStringMap(entryCount:Int):BenchmarkResult {
+    var map = new CachingKeysStringMap<Int>();
+
+for (i in 0 ... entryCount) {
+    map.set(Std.string(i), i);
+}
+
+
+    var st:Float = Timer.stamp();
+    var t:Float = 0;
+
+    // warm-up jit
+    while (true) {
+        var dummy:Int = 0;
+
+for (key in map.keys()) {
+    dummy++;
+}
+
+for (value in map) {
+    dummy++;
+}
+
+
+        t = Timer.stamp() - st;
+
+        if (t > 1) {
+            break;
+        }
+    }
+
+    st = Timer.stamp();
+    t = 0;
+    var count:Int = 0;
+
+    // actual computation
+    while (true) {
+        var dummy:Int = 0;
+
+for (key in map.keys()) {
+    dummy++;
+}
+
+for (value in map) {
+    dummy++;
+}
+
+
+        count++;
+        t = Timer.stamp() - st;
+
+        if (t > 4) {
+            break;
+        }
+    }
+
+    return {
+        iterations: count,
+        time: Std.int(Math.round(t * 1000)),
+    };
+}
+    
+    
+        
+private static function benchmarkIterateOnly_FastIteratingStringMap(entryCount:Int):BenchmarkResult {
+    var map = new FastIteratingStringMap<Int>();
+
+for (i in 0 ... entryCount) {
+    map.set(Std.string(i), i);
+}
+
+
+    var st:Float = Timer.stamp();
+    var t:Float = 0;
+
+    // warm-up jit
+    while (true) {
+        var dummy:Int = 0;
+
+for (key in map.keys()) {
+    dummy++;
+}
+
+for (value in map) {
+    dummy++;
+}
+
+
+        t = Timer.stamp() - st;
+
+        if (t > 1) {
+            break;
+        }
+    }
+
+    st = Timer.stamp();
+    t = 0;
+    var count:Int = 0;
+
+    // actual computation
+    while (true) {
+        var dummy:Int = 0;
+
+for (key in map.keys()) {
+    dummy++;
+}
+
+for (value in map) {
+    dummy++;
+}
+
+
+        count++;
+        t = Timer.stamp() - st;
+
+        if (t > 4) {
+            break;
+        }
+    }
+
+    return {
+        iterations: count,
+        time: Std.int(Math.round(t * 1000)),
+    };
+}
+    
+    
 
     private static var benchmarkVariants = [
         
             {
-                name: "Iteration only",
-                note: "Just iterating, without get / set / exists / remove",
+                name: "All",
+                note: "Iterating plus get / set / exists and remove",
                 funcVariants: [
                     
                         {
                             type: "old",
                             mapClass: "OldStringMap",
-                            func: benchmarkIterateOnly_OldStringMap,
+                            func: benchmarkAll_OldStringMap,
                         },
                     
                         {
                             type: "new",
                             mapClass: "NewStringMap",
-                            func: benchmarkIterateOnly_NewStringMap,
+                            func: benchmarkAll_NewStringMap,
                         },
                     
                         {
                             type: "caching",
                             mapClass: "CachingKeysStringMap",
-                            func: benchmarkIterateOnly_CachingKeysStringMap,
+                            func: benchmarkAll_CachingKeysStringMap,
                         },
                     
                         {
                             type: "fast",
                             mapClass: "FastIteratingStringMap",
-                            func: benchmarkIterateOnly_FastIteratingStringMap,
+                            func: benchmarkAll_FastIteratingStringMap,
                         },
                     
                 ],
@@ -1531,32 +1539,32 @@ for (key in halfKeys2) {
             },
         
             {
-                name: "All",
-                note: "Iterating plus get / set / exists and remove",
+                name: "Iteration only",
+                note: "Just iterating, without get / set / exists / remove",
                 funcVariants: [
                     
                         {
                             type: "old",
                             mapClass: "OldStringMap",
-                            func: benchmarkAll_OldStringMap,
+                            func: benchmarkIterateOnly_OldStringMap,
                         },
                     
                         {
                             type: "new",
                             mapClass: "NewStringMap",
-                            func: benchmarkAll_NewStringMap,
+                            func: benchmarkIterateOnly_NewStringMap,
                         },
                     
                         {
                             type: "caching",
                             mapClass: "CachingKeysStringMap",
-                            func: benchmarkAll_CachingKeysStringMap,
+                            func: benchmarkIterateOnly_CachingKeysStringMap,
                         },
                     
                         {
                             type: "fast",
                             mapClass: "FastIteratingStringMap",
-                            func: benchmarkAll_FastIteratingStringMap,
+                            func: benchmarkIterateOnly_FastIteratingStringMap,
                         },
                     
                 ],
