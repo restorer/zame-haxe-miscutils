@@ -5,7 +5,7 @@ import haxe.Json;
 import haxe.Timer;
 import js.Browser;
 import js.html.ButtonElement;
-import org.zamedev.lib.FastIteratingStringMap;
+import org.zamedev.lib.ds.LinkedStringMap;
 
 typedef BenchmarkResult = {
     iterations:Int,
@@ -512,7 +512,7 @@ for (key in halfKeys2) {
     
     
         
-private static function benchmarkAll_FastIteratingStringMap(entryCount:Int):BenchmarkResult {
+private static function benchmarkAll_LinkedStringMap(entryCount:Int):BenchmarkResult {
     var keys:Array<String> = [];
 var halfKeys1:Array<String> = [];
 var halfKeys2:Array<String> = [];
@@ -535,7 +535,7 @@ for (i in 0 ... entryCount) {
 
     // warm-up jit
     while (true) {
-        var map = new FastIteratingStringMap<Int>();
+        var map = new LinkedStringMap<Int>();
 var dummy:Int = 0;
 
 for (key in keys) {
@@ -594,7 +594,7 @@ for (key in halfKeys2) {
 
     // actual computation
     while (true) {
-        var map = new FastIteratingStringMap<Int>();
+        var map = new LinkedStringMap<Int>();
 var dummy:Int = 0;
 
 for (key in keys) {
@@ -854,8 +854,8 @@ for (value in map) {
     
     
         
-private static function benchmarkCombined_FastIteratingStringMap(entryCount:Int):BenchmarkResult {
-    var map = new FastIteratingStringMap<Int>();
+private static function benchmarkCombined_LinkedStringMap(entryCount:Int):BenchmarkResult {
+    var map = new LinkedStringMap<Int>();
 
 for (i in 0 ... entryCount) {
     map.set(Std.string(i), i);
@@ -1118,7 +1118,7 @@ for (key in keys) {
     
     
         
-private static function benchmarkNoIterate_FastIteratingStringMap(entryCount:Int):BenchmarkResult {
+private static function benchmarkNoIterate_LinkedStringMap(entryCount:Int):BenchmarkResult {
     var keys:Array<String> = new Array<String>();
 
 for (i in 0 ... entryCount) {
@@ -1131,7 +1131,7 @@ for (i in 0 ... entryCount) {
 
     // warm-up jit
     while (true) {
-        var map = new FastIteratingStringMap<Int>();
+        var map = new LinkedStringMap<Int>();
 
 for (key in keys) {
     map.set(key, 1);
@@ -1156,7 +1156,7 @@ for (key in keys) {
 
     // actual computation
     while (true) {
-        var map = new FastIteratingStringMap<Int>();
+        var map = new LinkedStringMap<Int>();
 
 for (key in keys) {
     map.set(key, 1);
@@ -1376,8 +1376,8 @@ for (value in map) {
     
     
         
-private static function benchmarkIterateOnly_FastIteratingStringMap(entryCount:Int):BenchmarkResult {
-    var map = new FastIteratingStringMap<Int>();
+private static function benchmarkIterateOnly_LinkedStringMap(entryCount:Int):BenchmarkResult {
+    var map = new LinkedStringMap<Int>();
 
 for (i in 0 ... entryCount) {
     map.set(Std.string(i), i);
@@ -1466,9 +1466,9 @@ for (value in map) {
                         },
                     
                         {
-                            type: "fast",
-                            mapClass: "FastIteratingStringMap",
-                            func: benchmarkAll_FastIteratingStringMap,
+                            type: "linked",
+                            mapClass: "LinkedStringMap",
+                            func: benchmarkAll_LinkedStringMap,
                         },
                     
                 ],
@@ -1498,9 +1498,9 @@ for (value in map) {
                         },
                     
                         {
-                            type: "fast",
-                            mapClass: "FastIteratingStringMap",
-                            func: benchmarkCombined_FastIteratingStringMap,
+                            type: "linked",
+                            mapClass: "LinkedStringMap",
+                            func: benchmarkCombined_LinkedStringMap,
                         },
                     
                 ],
@@ -1530,9 +1530,9 @@ for (value in map) {
                         },
                     
                         {
-                            type: "fast",
-                            mapClass: "FastIteratingStringMap",
-                            func: benchmarkNoIterate_FastIteratingStringMap,
+                            type: "linked",
+                            mapClass: "LinkedStringMap",
+                            func: benchmarkNoIterate_LinkedStringMap,
                         },
                     
                 ],
@@ -1562,9 +1562,9 @@ for (value in map) {
                         },
                     
                         {
-                            type: "fast",
-                            mapClass: "FastIteratingStringMap",
-                            func: benchmarkIterateOnly_FastIteratingStringMap,
+                            type: "linked",
+                            mapClass: "LinkedStringMap",
+                            func: benchmarkIterateOnly_LinkedStringMap,
                         },
                     
                 ],

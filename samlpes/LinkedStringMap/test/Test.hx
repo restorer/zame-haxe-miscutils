@@ -1,7 +1,7 @@
 package ;
 
 import js.Browser;
-import org.zamedev.lib.FastIteratingStringMap;
+import org.zamedev.lib.LinkedStringMap;
 
 using org.zamedev.lib.LambdaExt;
 
@@ -400,7 +400,7 @@ class Test {
 
     private static function init():Void {
         test(new CachingKeysStringMap<Int>());
-        test(new FastIteratingStringMap<Int>());
+        test(new LinkedStringMap<Int>());
     }
 
     public static function main():Void {

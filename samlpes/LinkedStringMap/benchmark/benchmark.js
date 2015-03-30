@@ -162,16 +162,16 @@ _$CachingKeysStringMap_CachingKeysStringMapIterator.prototype = {
 		return this.map.get(this.keys[this.index++]);
 	}
 };
-var org_zamedev_lib_FastIteratingStringMap = function() {
+var org_zamedev_lib_ds_LinkedStringMap = function() {
 	this.data = { };
 	this.dataReserved = { };
 	this.head = null;
 	this.tail = null;
 };
-org_zamedev_lib_FastIteratingStringMap.__interfaces__ = [haxe_IMap];
-org_zamedev_lib_FastIteratingStringMap.prototype = {
+org_zamedev_lib_ds_LinkedStringMap.__interfaces__ = [haxe_IMap];
+org_zamedev_lib_ds_LinkedStringMap.prototype = {
 	set: function(key,value) {
-		if(__z_map_reserved[key] != null) {
+		if(__linked_map_reserved[key] != null) {
 			var _key = "$" + key;
 			if(this.dataReserved.hasOwnProperty(_key)) this.dataReserved[_key].value = value; else {
 				var item = { prev : this.tail, key : key, value : value, next : null};
@@ -189,13 +189,13 @@ org_zamedev_lib_FastIteratingStringMap.prototype = {
 		}
 	}
 	,get: function(key) {
-		if(__z_map_reserved[key] != null) {
+		if(__linked_map_reserved[key] != null) {
 			key = "$" + key;
 			if(this.dataReserved.hasOwnProperty(key)) return this.dataReserved[key].value; else return null;
 		} else if(this.data.hasOwnProperty(key)) return this.data[key].value; else return null;
 	}
 	,remove: function(key) {
-		if(__z_map_reserved[key] != null) {
+		if(__linked_map_reserved[key] != null) {
 			key = "$" + key;
 			if(!this.dataReserved.hasOwnProperty(key)) return false;
 			var item = this.dataReserved[key];
@@ -225,7 +225,7 @@ org_zamedev_lib_FastIteratingStringMap.prototype = {
 		}
 	}
 	,keys: function() {
-		if(this.head == null) return org_zamedev_lib_FastIteratingStringMap.emptyIterator;
+		if(this.head == null) return org_zamedev_lib_ds_LinkedStringMap.emptyIterator;
 		return { _item : this.head, hasNext : function() {
 			return this._item != null;
 		}, next : function() {
@@ -235,7 +235,7 @@ org_zamedev_lib_FastIteratingStringMap.prototype = {
 		}};
 	}
 	,iterator: function() {
-		if(this.head == null) return org_zamedev_lib_FastIteratingStringMap.emptyIterator;
+		if(this.head == null) return org_zamedev_lib_ds_LinkedStringMap.emptyIterator;
 		return { _item : this.head, hasNext : function() {
 			return this._item != null;
 		}, next : function() {
@@ -613,7 +613,7 @@ Benchmark.benchmarkAll_CachingKeysStringMap = function(entryCount) {
 	}
 	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
 };
-Benchmark.benchmarkAll_FastIteratingStringMap = function(entryCount) {
+Benchmark.benchmarkAll_LinkedStringMap = function(entryCount) {
 	var keys = [];
 	var halfKeys1 = [];
 	var halfKeys2 = [];
@@ -629,7 +629,7 @@ Benchmark.benchmarkAll_FastIteratingStringMap = function(entryCount) {
 	var st = haxe_Timer.stamp();
 	var t = 0;
 	while(true) {
-		var map = new org_zamedev_lib_FastIteratingStringMap();
+		var map = new org_zamedev_lib_ds_LinkedStringMap();
 		var dummy = 0;
 		var _g1 = 0;
 		while(_g1 < keys.length) {
@@ -641,7 +641,7 @@ Benchmark.benchmarkAll_FastIteratingStringMap = function(entryCount) {
 		var $it0 = map.keys();
 		while( $it0.hasNext() ) {
 			var key2 = $it0.next();
-			if(__z_map_reserved[key2] != null?map.dataReserved.hasOwnProperty("$" + key2):map.data.hasOwnProperty(key2)) dummy += map.get(key2); else dummy += 0;
+			if(__linked_map_reserved[key2] != null?map.dataReserved.hasOwnProperty("$" + key2):map.data.hasOwnProperty(key2)) dummy += map.get(key2); else dummy += 0;
 			idx++;
 			if(idx >= mid) break;
 		}
@@ -662,7 +662,7 @@ Benchmark.benchmarkAll_FastIteratingStringMap = function(entryCount) {
 		var $it2 = map.keys();
 		while( $it2.hasNext() ) {
 			var key4 = $it2.next();
-			if(__z_map_reserved[key4] != null?map.dataReserved.hasOwnProperty("$" + key4):map.data.hasOwnProperty(key4)) dummy += map.get(key4); else dummy += 0;
+			if(__linked_map_reserved[key4] != null?map.dataReserved.hasOwnProperty("$" + key4):map.data.hasOwnProperty(key4)) dummy += map.get(key4); else dummy += 0;
 		}
 		var $it3 = map.iterator();
 		while( $it3.hasNext() ) {
@@ -682,7 +682,7 @@ Benchmark.benchmarkAll_FastIteratingStringMap = function(entryCount) {
 	t = 0;
 	var count = 0;
 	while(true) {
-		var map1 = new org_zamedev_lib_FastIteratingStringMap();
+		var map1 = new org_zamedev_lib_ds_LinkedStringMap();
 		var dummy1 = 0;
 		var _g4 = 0;
 		while(_g4 < keys.length) {
@@ -694,7 +694,7 @@ Benchmark.benchmarkAll_FastIteratingStringMap = function(entryCount) {
 		var $it4 = map1.keys();
 		while( $it4.hasNext() ) {
 			var key7 = $it4.next();
-			if(__z_map_reserved[key7] != null?map1.dataReserved.hasOwnProperty("$" + key7):map1.data.hasOwnProperty(key7)) dummy1 += map1.get(key7); else dummy1 += 0;
+			if(__linked_map_reserved[key7] != null?map1.dataReserved.hasOwnProperty("$" + key7):map1.data.hasOwnProperty(key7)) dummy1 += map1.get(key7); else dummy1 += 0;
 			idx1++;
 			if(idx1 >= mid) break;
 		}
@@ -715,7 +715,7 @@ Benchmark.benchmarkAll_FastIteratingStringMap = function(entryCount) {
 		var $it6 = map1.keys();
 		while( $it6.hasNext() ) {
 			var key9 = $it6.next();
-			if(__z_map_reserved[key9] != null?map1.dataReserved.hasOwnProperty("$" + key9):map1.data.hasOwnProperty(key9)) dummy1 += map1.get(key9); else dummy1 += 0;
+			if(__linked_map_reserved[key9] != null?map1.dataReserved.hasOwnProperty("$" + key9):map1.data.hasOwnProperty(key9)) dummy1 += map1.get(key9); else dummy1 += 0;
 		}
 		var $it7 = map1.iterator();
 		while( $it7.hasNext() ) {
@@ -875,8 +875,8 @@ Benchmark.benchmarkCombined_CachingKeysStringMap = function(entryCount) {
 	}
 	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
 };
-Benchmark.benchmarkCombined_FastIteratingStringMap = function(entryCount) {
-	var map = new org_zamedev_lib_FastIteratingStringMap();
+Benchmark.benchmarkCombined_LinkedStringMap = function(entryCount) {
+	var map = new org_zamedev_lib_ds_LinkedStringMap();
 	var _g = 0;
 	while(_g < entryCount) {
 		var i = _g++;
@@ -889,7 +889,7 @@ Benchmark.benchmarkCombined_FastIteratingStringMap = function(entryCount) {
 		var $it0 = map.keys();
 		while( $it0.hasNext() ) {
 			var key = $it0.next();
-			map.set(key,(__z_map_reserved[key] != null?map.dataReserved.hasOwnProperty("$" + key):map.data.hasOwnProperty(key))?map.get(key) + 1:0);
+			map.set(key,(__linked_map_reserved[key] != null?map.dataReserved.hasOwnProperty("$" + key):map.data.hasOwnProperty(key))?map.get(key) + 1:0);
 			dummy++;
 		}
 		var $it1 = map.iterator();
@@ -908,7 +908,7 @@ Benchmark.benchmarkCombined_FastIteratingStringMap = function(entryCount) {
 		var $it2 = map.keys();
 		while( $it2.hasNext() ) {
 			var key1 = $it2.next();
-			map.set(key1,(__z_map_reserved[key1] != null?map.dataReserved.hasOwnProperty("$" + key1):map.data.hasOwnProperty(key1))?map.get(key1) + 1:0);
+			map.set(key1,(__linked_map_reserved[key1] != null?map.dataReserved.hasOwnProperty("$" + key1):map.data.hasOwnProperty(key1))?map.get(key1) + 1:0);
 			dummy1++;
 		}
 		var $it3 = map.iterator();
@@ -1075,7 +1075,7 @@ Benchmark.benchmarkNoIterate_CachingKeysStringMap = function(entryCount) {
 	}
 	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
 };
-Benchmark.benchmarkNoIterate_FastIteratingStringMap = function(entryCount) {
+Benchmark.benchmarkNoIterate_LinkedStringMap = function(entryCount) {
 	var keys = [];
 	var _g = 0;
 	while(_g < entryCount) {
@@ -1085,13 +1085,13 @@ Benchmark.benchmarkNoIterate_FastIteratingStringMap = function(entryCount) {
 	var st = haxe_Timer.stamp();
 	var t = 0;
 	while(true) {
-		var map = new org_zamedev_lib_FastIteratingStringMap();
+		var map = new org_zamedev_lib_ds_LinkedStringMap();
 		var _g1 = 0;
 		while(_g1 < keys.length) {
 			var key = keys[_g1];
 			++_g1;
 			map.set(key,1);
-			map.set(key,(__z_map_reserved[key] != null?map.dataReserved.hasOwnProperty("$" + key):map.data.hasOwnProperty(key))?map.get(key) + 1:0);
+			map.set(key,(__linked_map_reserved[key] != null?map.dataReserved.hasOwnProperty("$" + key):map.data.hasOwnProperty(key))?map.get(key) + 1:0);
 		}
 		var _g2 = 0;
 		while(_g2 < keys.length) {
@@ -1106,13 +1106,13 @@ Benchmark.benchmarkNoIterate_FastIteratingStringMap = function(entryCount) {
 	t = 0;
 	var count = 0;
 	while(true) {
-		var map1 = new org_zamedev_lib_FastIteratingStringMap();
+		var map1 = new org_zamedev_lib_ds_LinkedStringMap();
 		var _g3 = 0;
 		while(_g3 < keys.length) {
 			var key2 = keys[_g3];
 			++_g3;
 			map1.set(key2,1);
-			map1.set(key2,(__z_map_reserved[key2] != null?map1.dataReserved.hasOwnProperty("$" + key2):map1.data.hasOwnProperty(key2))?map1.get(key2) + 1:0);
+			map1.set(key2,(__linked_map_reserved[key2] != null?map1.dataReserved.hasOwnProperty("$" + key2):map1.data.hasOwnProperty(key2))?map1.get(key2) + 1:0);
 		}
 		var _g4 = 0;
 		while(_g4 < keys.length) {
@@ -1261,8 +1261,8 @@ Benchmark.benchmarkIterateOnly_CachingKeysStringMap = function(entryCount) {
 	}
 	return { iterations : count, time : Std["int"](Math.round(t * 1000))};
 };
-Benchmark.benchmarkIterateOnly_FastIteratingStringMap = function(entryCount) {
-	var map = new org_zamedev_lib_FastIteratingStringMap();
+Benchmark.benchmarkIterateOnly_LinkedStringMap = function(entryCount) {
+	var map = new org_zamedev_lib_ds_LinkedStringMap();
 	var _g = 0;
 	while(_g < entryCount) {
 		var i = _g++;
@@ -1396,13 +1396,13 @@ var __map_reserved = {}
 				return -1;
 			};
 		;
-var __z_map_reserved = {}
+var __linked_map_reserved = {}
 CachingKeysStringMap.emptyIterator = { hasNext : function() {
 	return false;
 }, next : function() {
 	return null;
 }};
-org_zamedev_lib_FastIteratingStringMap.emptyIterator = { hasNext : function() {
+org_zamedev_lib_ds_LinkedStringMap.emptyIterator = { hasNext : function() {
 	return false;
 }, next : function() {
 	return null;
@@ -1415,6 +1415,6 @@ Benchmark.repeatNumber = 0;
 Benchmark.iterationsSum = 0;
 Benchmark.timeSum = 0;
 Benchmark.resultDataList = [];
-Benchmark.benchmarkVariants = [{ name : "All", note : "Iterating plus get / set / exists and remove", funcVariants : [{ type : "old", mapClass : "OldStringMap", func : Benchmark.benchmarkAll_OldStringMap},{ type : "new", mapClass : "NewStringMap", func : Benchmark.benchmarkAll_NewStringMap},{ type : "caching", mapClass : "CachingKeysStringMap", func : Benchmark.benchmarkAll_CachingKeysStringMap},{ type : "fast", mapClass : "FastIteratingStringMap", func : Benchmark.benchmarkAll_FastIteratingStringMap}]},{ name : "Combined", note : "Iterating plus get / set / exists, without remove", funcVariants : [{ type : "old", mapClass : "OldStringMap", func : Benchmark.benchmarkCombined_OldStringMap},{ type : "new", mapClass : "NewStringMap", func : Benchmark.benchmarkCombined_NewStringMap},{ type : "caching", mapClass : "CachingKeysStringMap", func : Benchmark.benchmarkCombined_CachingKeysStringMap},{ type : "fast", mapClass : "FastIteratingStringMap", func : Benchmark.benchmarkCombined_FastIteratingStringMap}]},{ name : "Without iteration", note : "Just get / set / exists / remove, without iterating", funcVariants : [{ type : "old", mapClass : "OldStringMap", func : Benchmark.benchmarkNoIterate_OldStringMap},{ type : "new", mapClass : "NewStringMap", func : Benchmark.benchmarkNoIterate_NewStringMap},{ type : "caching", mapClass : "CachingKeysStringMap", func : Benchmark.benchmarkNoIterate_CachingKeysStringMap},{ type : "fast", mapClass : "FastIteratingStringMap", func : Benchmark.benchmarkNoIterate_FastIteratingStringMap}]},{ name : "Iteration only", note : "Just iterating, without get / set / exists / remove", funcVariants : [{ type : "old", mapClass : "OldStringMap", func : Benchmark.benchmarkIterateOnly_OldStringMap},{ type : "new", mapClass : "NewStringMap", func : Benchmark.benchmarkIterateOnly_NewStringMap},{ type : "caching", mapClass : "CachingKeysStringMap", func : Benchmark.benchmarkIterateOnly_CachingKeysStringMap},{ type : "fast", mapClass : "FastIteratingStringMap", func : Benchmark.benchmarkIterateOnly_FastIteratingStringMap}]}];
+Benchmark.benchmarkVariants = [{ name : "All", note : "Iterating plus get / set / exists and remove", funcVariants : [{ type : "old", mapClass : "OldStringMap", func : Benchmark.benchmarkAll_OldStringMap},{ type : "new", mapClass : "NewStringMap", func : Benchmark.benchmarkAll_NewStringMap},{ type : "caching", mapClass : "CachingKeysStringMap", func : Benchmark.benchmarkAll_CachingKeysStringMap},{ type : "linked", mapClass : "LinkedStringMap", func : Benchmark.benchmarkAll_LinkedStringMap}]},{ name : "Combined", note : "Iterating plus get / set / exists, without remove", funcVariants : [{ type : "old", mapClass : "OldStringMap", func : Benchmark.benchmarkCombined_OldStringMap},{ type : "new", mapClass : "NewStringMap", func : Benchmark.benchmarkCombined_NewStringMap},{ type : "caching", mapClass : "CachingKeysStringMap", func : Benchmark.benchmarkCombined_CachingKeysStringMap},{ type : "linked", mapClass : "LinkedStringMap", func : Benchmark.benchmarkCombined_LinkedStringMap}]},{ name : "Without iteration", note : "Just get / set / exists / remove, without iterating", funcVariants : [{ type : "old", mapClass : "OldStringMap", func : Benchmark.benchmarkNoIterate_OldStringMap},{ type : "new", mapClass : "NewStringMap", func : Benchmark.benchmarkNoIterate_NewStringMap},{ type : "caching", mapClass : "CachingKeysStringMap", func : Benchmark.benchmarkNoIterate_CachingKeysStringMap},{ type : "linked", mapClass : "LinkedStringMap", func : Benchmark.benchmarkNoIterate_LinkedStringMap}]},{ name : "Iteration only", note : "Just iterating, without get / set / exists / remove", funcVariants : [{ type : "old", mapClass : "OldStringMap", func : Benchmark.benchmarkIterateOnly_OldStringMap},{ type : "new", mapClass : "NewStringMap", func : Benchmark.benchmarkIterateOnly_NewStringMap},{ type : "caching", mapClass : "CachingKeysStringMap", func : Benchmark.benchmarkIterateOnly_CachingKeysStringMap},{ type : "linked", mapClass : "LinkedStringMap", func : Benchmark.benchmarkIterateOnly_LinkedStringMap}]}];
 Benchmark.main();
 })(typeof console != "undefined" ? console : {log:function(){}});

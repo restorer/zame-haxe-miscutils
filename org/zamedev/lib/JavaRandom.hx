@@ -23,13 +23,13 @@ class JavaRandom {
 
     public function randNext(bits:Int):Int {
         _seed = Int64.and(Int64.add(Int64.mul(_seed, MULTIPLIER), ADDEND), MASK);
-        return Int64.getLow(Int64.and(Int64.shr(_seed, 48 - bits), MASK_INT));
+        return (Int64.and(Int64.shr(_seed, 48 - bits), MASK_INT)).low;
     }
 
     public function rand(n:Int):Int {
         // i.e., n is a power of 2
         if ((n & -n) == n) {
-            return Int64.getLow(Int64.and(Int64.shr(Int64.mul(Int64.ofInt(n), Int64.ofInt(randNext(31))), 31), MASK_INT));
+            return (Int64.and(Int64.shr(Int64.mul(Int64.ofInt(n), Int64.ofInt(randNext(31))), 31), MASK_INT)).low;
         }
 
         while (true) {

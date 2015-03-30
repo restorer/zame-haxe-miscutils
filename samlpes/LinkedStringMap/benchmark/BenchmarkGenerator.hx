@@ -28,7 +28,7 @@ import haxe.Json;
 import haxe.Timer;
 import js.Browser;
 import js.html.ButtonElement;
-import org.zamedev.lib.FastIteratingStringMap;
+import org.zamedev.lib.ds.LinkedStringMap;
 
 typedef BenchmarkResult = {
     iterations:Int,
@@ -488,8 +488,8 @@ for (key in halfKeys2) {
         type: "caching",
         mapClass: "CachingKeysStringMap",
     }, {
-        type: "fast",
-        mapClass: "FastIteratingStringMap",
+        type: "linked",
+        mapClass: "LinkedStringMap",
     }];
 
     private static function splitTemplate(templateStr:String, vars:DynamicExt):DynamicExt {
