@@ -47,10 +47,12 @@ class UrlLoaderExt {
         }
     }
 
-    private function onLoaderError(_):Void {
+    private function onLoaderError(e:Dynamic):Void {
         urlLoader.removeEventListener(Event.COMPLETE, onLoaderComplete);
         urlLoader.removeEventListener(IOErrorEvent.IO_ERROR, onLoaderError);
         urlLoader.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, onLoaderError);
+
+        trace(e);
 
         if (onError != null) {
             onError(this);

@@ -38,7 +38,7 @@ class DynamicTools {
     }
 
     public static function asFloat(value:Dynamic, def:Float = 0.0):Float {
-        if (Std.is(value, Float) || Std.is(value, Float)) {
+        if (Std.is(value, Float) || Std.is(value, Int)) {
             return value;
         } else {
             return def;
@@ -46,7 +46,7 @@ class DynamicTools {
     }
 
     public static function asNullFloat(value:Dynamic):Null<Float> {
-        if (Std.is(value, Float) || Std.is(value, Float)) {
+        if (Std.is(value, Float) || Std.is(value, Int)) {
             return value;
         } else {
             return null;
