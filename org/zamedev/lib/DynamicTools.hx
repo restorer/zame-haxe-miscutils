@@ -68,4 +68,16 @@ class DynamicTools {
             return Std.string(value);
         }
     }
+
+    public static function dynamicPath(jsondynamic:DynamicExt, jsonPath:Array<Dynamic>):Null<Dynamic> {
+        /*
+            finds an element in a nested map/json file with a given path.
+        */
+        var elem:Null<Dynamic> = jsondynamic;
+        for (i in 0...jsonPath.length) {
+            elem = Reflect.field(elem, jsonPath[i]);
+            if (elem == null) break;
+        }
+        return elem;
+    }
 }
