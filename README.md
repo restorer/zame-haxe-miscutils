@@ -43,7 +43,7 @@ import org.zamedev.lib.DynamicExt;
 using org.zamedev.lib.DynamicTools;
 
 var node:DynamicExt = haxe.Json.parse('{"a":{"b":"c"},"stringval":"haxe","arrayval":["haxe","cool"],"intval":42,"floatval":24.42,"boolval":true}');
-trace(node.dynamicPath(["a", "b"])); // Returns "c"
+trace(node.byPath(["a", "b"])); // Returns "c"
 trace(node["stringval"].asString());
 trace(node["arrayval"].asArray());
 trace(node["intval"].asInt());

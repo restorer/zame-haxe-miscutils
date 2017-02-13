@@ -69,7 +69,7 @@ class DynamicTools {
         }
     }
 
-    public static function dynamicPath(jsondynamic:DynamicExt, jsonPath:Array<Dynamic>):Null<Dynamic> {
+    public static function byPath(jsondynamic:DynamicExt, jsonPath:Array<Dynamic>):Null<DynamicExt> {
         /*
             finds an element in a nested map/json file with a given path.
         */
