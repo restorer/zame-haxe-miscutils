@@ -1,6 +1,6 @@
 package org.zamedev.lib;
 
-class LabmdaExt {
+class LambdaExt {
     /**
         Creates an Array from Iterator `it`.
     **/
