@@ -17,6 +17,10 @@ import openfl.system.LoaderContext;
 import openfl.utils.ByteArray;
 
 class NetLoader {
+    #if debug_netloader
+        private static var requestUid:Int = 0;
+    #end
+
     private var urlRequest:URLRequest;
 
     public function new(url:String = null):Void {
@@ -68,12 +72,24 @@ class NetLoader {
         var urlLoader = new URLLoader();
         var removeListeners:Void->Void = null;
 
+        #if debug_netloader
+            var uid = ++requestUid;
+        #end
+
         var onLoaderComplete = function(_):Void {
+            #if debug_netloader
+                trace('[NetLoader.loadText:response] #${uid} data=[[ ${urlLoader.data} ]]');
+            #end
+
             removeListeners();
             tcs.setResult(Std.string(urlLoader.data));
         };
 
         var onLoaderError = function(e:Event):Void {
+            #if debug_netloader
+                trace('[NetLoader.loadText:response] #${uid} error="${e.type}"');
+            #end
+
             removeListeners();
             tcs.setError(e.type);
         }
@@ -89,9 +105,17 @@ class NetLoader {
         urlLoader.addEventListener(IOErrorEvent.IO_ERROR, onLoaderError);
         urlLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onLoaderError);
 
+        #if debug_netloader
+            trace('[NetLoader.loadText:request] #${uid} method="${urlRequest.method}" url="${urlRequest.url}" data=[[ ${urlRequest.data} ]]');
+        #end
+
         try {
             urlLoader.load(urlRequest);
         } catch (e:Dynamic) {
+            #if debug_netloader
+                trace('[NetLoader.loadText:request] #${uid} error="${e}"');
+            #end
+
             removeListeners();
             tcs.setError(Std.string(e));
         }
@@ -104,12 +128,26 @@ class NetLoader {
         var urlLoader = new URLLoader();
         var removeListeners:Void->Void = null;
 
+        #if debug_netloader
+            var uid = ++requestUid;
+        #end
+
         var onLoaderComplete = function(_):Void {
+            var result:ByteArray = cast urlLoader.data;
+
+            #if debug_netloader
+                trace('[NetLoader.loadBinary:response] #${uid} ' + (result == null ? "data=null" : 'data.length=${result.length}'));
+            #end
+
             removeListeners();
-            tcs.setResult(cast urlLoader.data);
+            tcs.setResult(result);
         }
 
         var onLoaderError = function(e:Event):Void {
+            #if debug_netloader
+                trace('[NetLoader.loadBinary:response] #${uid} error="${e.type}"');
+            #end
+
             removeListeners();
             tcs.setError(e.type);
         }
@@ -125,9 +163,17 @@ class NetLoader {
         urlLoader.addEventListener(IOErrorEvent.IO_ERROR, onLoaderError);
         urlLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onLoaderError);
 
+        #if debug_netloader
+            trace('[NetLoader.loadBinary:request] #${uid} method="${urlRequest.method}" url="${urlRequest.url}" data=[[ ${urlRequest.data} ]]');
+        #end
+
         try {
             urlLoader.load(urlRequest);
         } catch (e:Dynamic) {
+            #if debug_netloader
+                trace('[NetLoader.loadBinary:request] #${uid} error="${e}"');
+            #end
+
             removeListeners();
             tcs.setError(Std.string(e));
         }
@@ -140,13 +186,31 @@ class NetLoader {
         var loader = new Loader();
         var removeListeners:Void->Void = null;
 
+        #if debug_netloader
+            var uid = ++requestUid;
+        #end
+
         var onLoaderComplete = function(_):Void {
+            var bitmap:Bitmap = cast loader.content;
+            var result = (bitmap == null ? null : bitmap.bitmapData);
+
+            #if debug_netloader
+                trace('[NetLoader.loadImage:response] #${uid} ' + (result == null
+                    ? "data=null"
+                    : 'data.width=${result.width} data.height=${result.height}'
+                ));
+            #end
+
             removeListeners();
-            tcs.setResult((cast loader.content:Bitmap).bitmapData);
+            tcs.setResult(result);
             loader.unload();
         }
 
         var onLoaderError = function(e:Event):Void {
+            #if debug_netloader
+                trace('[NetLoader.loadImage:response] #${uid} error="${e.type}"');
+            #end
+
             removeListeners();
             tcs.setError(e.type);
         }
@@ -161,9 +225,17 @@ class NetLoader {
         loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, onLoaderError);
         loader.contentLoaderInfo.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onLoaderError);
 
+        #if debug_netloader
+            trace('[NetLoader.loadImage:request] #${uid} method="${urlRequest.method}" url="${urlRequest.url}" data=[[ ${urlRequest.data} ]]');
+        #end
+
         try {
             loader.load(urlRequest, new LoaderContext(true));
         } catch (e:Dynamic) {
+            #if debug_netloader
+                trace('[NetLoader.loadImage:request] #${uid} error="${e}"');
+            #end
+
             removeListeners();
             tcs.setError(Std.string(e));
         }

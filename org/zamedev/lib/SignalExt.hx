@@ -8,7 +8,7 @@ class Slot3<T1, T2, T3> extends Slot<Signal3<T1, T2, T3>, T1->T2->T3->Void> {
     public var param2:T2;
     public var param3:T3;
 
-    public function new(signal:Signal3<T1, T2, T3>, listener:T1->T2->T3->Void, once:Bool = false, priority:Int = 0) {
+    public function new(signal:Signal3<T1, T2, T3>, listener:T1->T2->T3->Void, ?once:Bool = false, ?priority:Int = 0) {
         super(signal, listener, once, priority);
     }
 
@@ -30,7 +30,7 @@ class Slot4<T1, T2, T3, T4> extends Slot<Signal4<T1, T2, T3, T4>, T1->T2->T3->T4
     public var param3:T3;
     public var param4:T4;
 
-    public function new(signal:Signal4<T1, T2, T3, T4>, listener:T1->T2->T3->T4->Void, once:Bool = false, priority:Int = 0) {
+    public function new(signal:Signal4<T1, T2, T3, T4>, listener:T1->T2->T3->T4->Void, ?once:Bool = false, ?priority:Int = 0) {
         super(signal, listener, once, priority);
     }
 
@@ -61,7 +61,7 @@ class Signal3<T1, T2, T3> extends Signal<Slot3<T1, T2, T3>, T1->T2->T3->Void> {
         }
     }
 
-    override function createSlot(listener:T1->T2->T3->Void, once:Bool = false, priority:Int = 0) {
+    override function createSlot(listener:T1->T2->T3->Void, ?once:Bool = false, ?priority:Int = 0) {
         return new Slot3<T1, T2, T3>(this, listener, once, priority);
     }
 }
@@ -80,7 +80,7 @@ class Signal4<T1, T2, T3, T4> extends Signal<Slot4<T1, T2, T3, T4>, T1->T2->T3->
         }
     }
 
-    override function createSlot(listener:T1->T2->T3->T4->Void, once:Bool = false, priority:Int = 0) {
+    override function createSlot(listener:T1->T2->T3->T4->Void, ?once:Bool = false, ?priority:Int = 0) {
         return new Slot4<T1, T2, T3, T4>(this, listener, once, priority);
     }
 }
