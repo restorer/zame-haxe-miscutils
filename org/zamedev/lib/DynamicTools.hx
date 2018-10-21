@@ -17,6 +17,20 @@ class DynamicTools {
         }
     }
 
+    public static function asArrayElement(value:Dynamic, index:Int):DynamicExt {
+        if (index >= 0 && Std.is(value, Array)) {
+            var elements:Array<DynamicExt> = cast value;
+
+            if (index < elements.length) {
+                return elements[index];
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
     public static function asInt(value:Dynamic, def:Int = 0):Int {
         if (Std.is(value, Int)) {
             return value;
