@@ -357,7 +357,7 @@ class LinkedStringMapKeyValueIterator<T> {
         item = item.next;
         return { key : result.key, value : result.value };
     }
-};
+}
 
 class LinkedStringMap<T> {
     private static var emptyIterator = {
