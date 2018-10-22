@@ -2,7 +2,7 @@ package org.zamedev.lib.ds;
 
 // Taken from https://gist.github.com/RealyUniqueName/2fbeb1ec17e637d6eaf50b0facde206f
 
-class KeyValuePair<K, V> {
+class KeyValuePairExt<K, V> {
     public var key(default, null) : K;
     public var value(default, null) : V;
 

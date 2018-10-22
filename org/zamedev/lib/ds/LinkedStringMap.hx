@@ -4,32 +4,50 @@ package org.zamedev.lib.ds;
 
 class LinkedStringMap<T> implements haxe.Constraints.IMap<String, T> {
     private static var emptyIterator = {
-        hasNext: function() {
+        hasNext : function() {
             return false;
         },
 
-        next: function() {
+        next : function() {
             return null;
         }
     };
 
-    private var data:Dynamic;
-    private var dataReserved:Dynamic;
-    private var head:Dynamic;
-    private var tail:Dynamic;
+    private var data : Dynamic;
+    private var dataReserved : Dynamic;
+    private var head : Dynamic;
+    private var tail : Dynamic;
 
-    static function __init__():Void {
+    private static function __init__() : Void {
         untyped __js__("var __linked_map_reserved = {}");
     }
 
-    public function new():Void {
+    public function new() {
         data = {};
         dataReserved = {};
         head = null;
         tail = null;
     }
 
-    public function set(key:String, value:T):Void {
+    public function get(key : String) : Null<T> {
+        if (untyped __js__("__linked_map_reserved")[key] != null) {
+            key = "$" + key;
+
+            if (untyped dataReserved.hasOwnProperty(key)) {
+                return untyped dataReserved[key].value;
+            } else {
+                return null;
+            }
+        } else {
+            if (untyped data.hasOwnProperty(key)) {
+                return untyped data[key].value;
+            } else {
+                return null;
+            }
+        }
+    }
+
+    public function set(key : String, value : T) : Void {
         if (untyped __js__("__linked_map_reserved")[key] != null) {
             var _key = "$" + key;
 
@@ -37,10 +55,10 @@ class LinkedStringMap<T> implements haxe.Constraints.IMap<String, T> {
                 untyped dataReserved[_key].value = value;
             } else {
                 var item = {
-                    prev: tail,
-                    key: key,
-                    value: value,
-                    next: null
+                    prev : tail,
+                    key : key,
+                    value : value,
+                    next : null
                 };
 
                 untyped dataReserved[_key] = item;
@@ -60,10 +78,10 @@ class LinkedStringMap<T> implements haxe.Constraints.IMap<String, T> {
                 untyped data[key].value = value;
             } else {
                 var item = {
-                    prev: tail,
-                    key: key,
-                    value: value,
-                    next: null
+                    prev : tail,
+                    key : key,
+                    value : value,
+                    next : null
                 };
 
                 untyped data[key] = item;
@@ -81,25 +99,7 @@ class LinkedStringMap<T> implements haxe.Constraints.IMap<String, T> {
         }
     }
 
-    public function get(key:String):Null<T> {
-        if (untyped __js__("__linked_map_reserved")[key] != null) {
-            key = "$" + key;
-
-            if (untyped dataReserved.hasOwnProperty(key)) {
-                return untyped dataReserved[key].value;
-            } else {
-                return null;
-            }
-        } else {
-            if (untyped data.hasOwnProperty(key)) {
-                return untyped data[key].value;
-            } else {
-                return null;
-            }
-        }
-    }
-
-    public inline function exists(key:String):Bool {
+    public inline function exists(key : String) : Bool {
         if (untyped __js__("__linked_map_reserved")[key] != null) {
             return untyped dataReserved.hasOwnProperty("$" + key);
         } else {
@@ -107,7 +107,7 @@ class LinkedStringMap<T> implements haxe.Constraints.IMap<String, T> {
         }
     }
 
-    public function remove(key:String):Bool {
+    public function remove(key : String) : Bool {
         if (untyped __js__("__linked_map_reserved")[key] != null) {
             key = "$" + key;
 
@@ -116,8 +116,8 @@ class LinkedStringMap<T> implements haxe.Constraints.IMap<String, T> {
             }
 
             var item = untyped dataReserved[key];
-            var prev:Dynamic = item.prev;
-            var next:Dynamic = item.next;
+            var prev : Dynamic = item.prev;
+            var next : Dynamic = item.next;
 
             untyped __js__("delete")(dataReserved[key]);
 
@@ -147,8 +147,8 @@ class LinkedStringMap<T> implements haxe.Constraints.IMap<String, T> {
             }
 
             var item = untyped data[key];
-            var prev:Dynamic = item.prev;
-            var next:Dynamic = item.next;
+            var prev : Dynamic = item.prev;
+            var next : Dynamic = item.next;
 
             untyped __js__("delete")(data[key]);
 
@@ -175,19 +175,19 @@ class LinkedStringMap<T> implements haxe.Constraints.IMap<String, T> {
         }
     }
 
-    public function keys():Iterator<String> {
+    public function keys() : Iterator<String> {
         if (head == null) {
             return untyped emptyIterator;
         }
 
         return untyped {
-            _item: head,
+            _item : head,
 
-            hasNext: function() {
+            hasNext : function() {
                 return (__this__._item != null);
             },
 
-            next: function() {
+            next : function() {
                 var result = __this__._item.key;
                 __this__._item = __this__._item.next;
                 return result;
@@ -195,19 +195,19 @@ class LinkedStringMap<T> implements haxe.Constraints.IMap<String, T> {
         };
     }
 
-    public function iterator():Iterator<T> {
+    public function iterator() : Iterator<T> {
         if (head == null) {
             return untyped emptyIterator;
         }
 
         return untyped {
-            _item: head,
+            _item : head,
 
-            hasNext: function() {
+            hasNext : function() {
                 return (__this__._item != null);
             },
 
-            next: function() {
+            next : function() {
                 var result = __this__._item.value;
                 __this__._item = __this__._item.next;
                 return result;
@@ -215,7 +215,37 @@ class LinkedStringMap<T> implements haxe.Constraints.IMap<String, T> {
         };
     }
 
-    public function toString():String {
+    public function keyValueIterator() : KeyValueIterator<String, T> {
+        if (head == null) {
+            return untyped emptyIterator;
+        }
+
+        return untyped {
+            _item : head,
+
+            hasNext : function() {
+                return (__this__._item != null);
+            },
+
+            next : function() {
+                var result = __this__._item;
+                __this__._item = __this__._item.next;
+                return { key : result.key, value : result.value };
+            }
+        };
+    }
+
+    public function copy() : LinkedStringMap<T> {
+        var copied = new LinkedStringMap<T>();
+
+        for (key in keys()) {
+            copied.set(key, get(key));
+        }
+
+        return copied;
+    }
+
+    public function toString() : String {
         var s = new StringBuf();
         s.add("{");
 
@@ -240,7 +270,7 @@ class LinkedStringMap<T> implements haxe.Constraints.IMap<String, T> {
     }
 
     /*
-    public function toDebugString():String {
+    public function toDebugString() : String {
         var s = new StringBuf();
         s.add("{");
         s.add(" head: ");
@@ -261,83 +291,107 @@ class LinkedStringMap<T> implements haxe.Constraints.IMap<String, T> {
 
 import haxe.ds.StringMap;
 
-typedef LinkedStringMapItem<T> = {
-    prev:LinkedStringMapItem<T>,
-    key:String,
-    value:T,
-    next:LinkedStringMapItem<T>,
+class LinkedStringMapItem<T> {
+    public var prev : Null<LinkedStringMapItem<T>>;
+    public var key : String;
+    public var value : T;
+    public var next : Null<LinkedStringMapItem<T>>;
+
+    public function new(prev : Null<LinkedStringMapItem<T>>, key : String, value : T, next : Null<LinkedStringMapItem<T>>) {
+        this.prev = prev;
+        this.key = key;
+        this.value = value;
+        this.next = next;
+    }
+}
+
+class LinkedStringMapKeyIterator<T> {
+    private var item : Null<LinkedStringMapItem<T>>;
+
+    public inline function new(head : LinkedStringMapItem<T>) {
+        this.item = head;
+    }
+
+    public inline function hasNext() : Bool {
+        return (item != null);
+    }
+
+    public inline function next() : String {
+        var result : String = item.key;
+        item = item.next;
+        return result;
+    }
+}
+
+class LinkedStringMapValueIterator<T> {
+    private var item : Null<LinkedStringMapItem<T>>;
+
+    public inline function new(head : LinkedStringMapItem<T>) {
+        this.item = head;
+    }
+
+    public inline function hasNext() : Bool {
+        return (item != null);
+    }
+
+    public inline function next() : T {
+        var result : T = item.value;
+        item = item.next;
+        return result;
+    }
+}
+
+class LinkedStringMapKeyValueIterator<T> {
+    private var item : Null<LinkedStringMapItem<T>>;
+
+    public inline function new(head : LinkedStringMapItem<T>) {
+        this.item = head;
+    }
+
+    public inline function hasNext() : Bool {
+        return (item != null);
+    }
+
+    public inline function next() : { key : String, value : T } {
+        var result : LinkedStringMapItem<T> = item;
+        item = item.next;
+        return { key : result.key, value : result.value };
+    }
 };
-
-class LinkedStringMapKeysIterator<T> {
-    private var item:LinkedStringMapItem<T>;
-
-    public inline function new(head:LinkedStringMapItem<T>):Void {
-        this.item = head;
-    }
-
-    public inline function hasNext():Bool {
-        return (item != null);
-    }
-
-    public inline function next():String {
-        var result:String = item.key;
-        item = item.next;
-        return result;
-    }
-}
-
-class LinkedStringMapValuesIterator<T> {
-    private var item:LinkedStringMapItem<T>;
-
-    public inline function new(head:LinkedStringMapItem<T>):Void {
-        this.item = head;
-    }
-
-    public inline function hasNext():Bool {
-        return (item != null);
-    }
-
-    public inline function next():T {
-        var result:T = item.value;
-        item = item.next;
-        return result;
-    }
-}
 
 class LinkedStringMap<T> {
     private static var emptyIterator = {
-        hasNext: function() {
+        hasNext : function() {
             return false;
         },
 
-        next: function() {
+        next : function() {
             return null;
         }
     };
 
-    private var data:StringMap<LinkedStringMapItem<T>>;
-    private var head:LinkedStringMapItem<T>;
-    private var tail:LinkedStringMapItem<T>;
+    private var data : StringMap<LinkedStringMapItem<T>>;
+    private var head : Null<LinkedStringMapItem<T>>;
+    private var tail : Null<LinkedStringMapItem<T>>;
 
-    public inline function new():Void {
+    public inline function new() {
         data = new StringMap<LinkedStringMapItem<T>>();
         head = null;
         tail = null;
     }
 
-    public function set(key:String, value:T):Void {
-        var item:LinkedStringMapItem<T> = data.get(key);
+    public inline function get(key : String) : Null<T> {
+        var item = data.get(key);
+        return (item == null ? null : item.value);
+    }
+
+    public function set(key : String, value : T) : Void {
+        var item = data.get(key);
 
         if (item != null) {
             item.value = value;
         } else {
-            item = {
-                prev: tail,
-                key: key,
-                value: value,
-                next: null,
-            };
-
+            item = new LinkedStringMapItem<T>(tail, key, value, null);
             data.set(key, item);
 
             if (tail != null) {
@@ -352,24 +406,19 @@ class LinkedStringMap<T> {
         }
     }
 
-    public inline function get(key:String):Null<T> {
-        var item = data.get(key);
-        return (item == null ? null : item.value);
-    }
-
-    public inline function exists(key:String):Bool {
+    public inline function exists(key : String) : Bool {
         return data.exists(key);
     }
 
-    public function remove(key:String):Bool {
+    public function remove(key : String) : Bool {
         var item = data.get(key);
 
         if (item == null) {
             return false;
         }
 
-        var prev:LinkedStringMapItem<T> = item.prev;
-        var next:LinkedStringMapItem<T> = item.next;
+        var prev = item.prev;
+        var next = item.next;
 
         data.remove(key);
 
@@ -395,19 +444,33 @@ class LinkedStringMap<T> {
         return true;
     }
 
-    public function keys():Iterator<String> {
-        return (head == null ? cast emptyIterator : new LinkedStringMapKeysIterator<T>(head));
+    public function keys() : Iterator<String> {
+        return (head == null ? cast emptyIterator : new LinkedStringMapKeyIterator<T>(head));
     }
 
-    public function iterator():Iterator<T> {
-        return (head == null ? cast emptyIterator : new LinkedStringMapValuesIterator<T>(head));
+    public function iterator() : Iterator<T> {
+        return (head == null ? cast emptyIterator : new LinkedStringMapValueIterator<T>(head));
     }
 
-    public function toString():String {
+    public function keyValueIterator() : KeyValueIterator<String, T> {
+        return (head == null ? cast emptyIterator : new LinkedStringMapKeyValueIterator<T>(head));
+    }
+
+    public function copy() : LinkedStringMap<T> {
+        var copied = new LinkedStringMap<T>();
+
+        for (key in keys()) {
+            copied.set(key, get(key));
+        }
+
+        return copied;
+    }
+
+    public function toString() : String {
         var s = new StringBuf();
         s.add("{");
 
-        var item:LinkedStringMapItem<T> = head;
+        var item = head;
 
         while (item != null) {
             s.add(item.key);
