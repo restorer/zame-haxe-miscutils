@@ -1,15 +1,15 @@
 package org.zamedev.lib.ds;
 
 @:multiType(@:followWithAbstracts T)
-abstract HashSet<T>(ISet<T>) {
+abstract HashSet<T>(haxe.Constraints.IMap<T, Bool>) {
     public function new();
 
     public inline function add(key : T) : Void {
-        this.add(key);
+        this.set(key, true);
     }
 
-    public inline function exists(key : T) : Bool {
-        return this.exists(key);
+    public inline function exists(key : Null<T>) : Bool {
+        return (key == null ? false : this.exists(key));
     }
 
     public inline function remove(key : T) : Bool {
@@ -21,17 +21,17 @@ abstract HashSet<T>(ISet<T>) {
     }
 
     @:to
-    static inline function toHashStringSet<T : String>(t : ISet<T>) : HashStringSet {
-        return new HashStringSet();
+    static inline function toHashStringSet<T : String>(t : haxe.Constraints.IMap<T, Bool>) : haxe.ds.StringMap<Bool> {
+        return new haxe.ds.StringMap<Bool>();
     }
 
     @:to
-    static inline function toHashIntSet<T : Int>(t : ISet<T>) : HashIntSet {
-        return new HashIntSet();
+    static inline function toHashIntSet<T : Int>(t : haxe.Constraints.IMap<T, Bool>) : haxe.ds.IntMap<Bool> {
+        return new haxe.ds.IntMap<Bool>();
     }
 
     @:to
-    static inline function toObjectIntSet<T : {}>(t : ISet<T>) : HashObjectSet<T> {
-        return new HashObjectSet<T>();
+    static inline function toObjectIntSet<T : {}>(t : haxe.Constraints.IMap<T, Bool>) : haxe.ds.ObjectMap<{}, Bool> {
+        return new haxe.ds.ObjectMap<{}, Bool>();
     }
 }
