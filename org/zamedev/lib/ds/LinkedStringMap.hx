@@ -215,25 +215,27 @@ class LinkedStringMap<T> implements haxe.Constraints.IMap<String, T> {
         };
     }
 
-    public function keyValueIterator() : KeyValueIterator<String, T> {
-        if (head == null) {
-            return untyped emptyIterator;
-        }
-
-        return untyped {
-            _item : head,
-
-            hasNext : function() {
-                return (__this__._item != null);
-            },
-
-            next : function() {
-                var result = __this__._item;
-                __this__._item = __this__._item.next;
-                return { key : result.key, value : result.value };
+    #if (haxe_ver >= "4.0.0")
+        public function keyValueIterator() : KeyValueIterator<String, T> {
+            if (head == null) {
+                return untyped emptyIterator;
             }
-        };
-    }
+
+            return untyped {
+                _item : head,
+
+                hasNext : function() {
+                    return (__this__._item != null);
+                },
+
+                next : function() {
+                    var result = __this__._item;
+                    __this__._item = __this__._item.next;
+                    return { key : result.key, value : result.value };
+                }
+            };
+        }
+    #end
 
     public function copy() : LinkedStringMap<T> {
         var copied = new LinkedStringMap<T>();

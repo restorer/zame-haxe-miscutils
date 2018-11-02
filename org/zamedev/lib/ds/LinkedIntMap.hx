@@ -163,9 +163,11 @@ class LinkedIntMap<T> implements haxe.Constraints.IMap<Int, T> {
         return (head == null ? cast emptyIterator : new LinkedIntMapValueIterator<T>(head));
     }
 
-    public function keyValueIterator() : KeyValueIterator<Int, T> {
-        return (head == null ? cast emptyIterator : new LinkedIntMapKeyValueIterator<T>(head));
-    }
+    #if (haxe_ver >= "4.0.0")
+        public function keyValueIterator() : KeyValueIterator<Int, T> {
+            return (head == null ? cast emptyIterator : new LinkedIntMapKeyValueIterator<T>(head));
+        }
+    #end
 
     public function copy() : LinkedIntMap<T> {
         var copied = new LinkedIntMap<T>();
