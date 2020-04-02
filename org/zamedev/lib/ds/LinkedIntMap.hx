@@ -85,10 +85,8 @@ class LinkedIntMap<T> implements haxe.Constraints.IMap<Int, T> {
     private var head : Null<LinkedIntMapItem<T>>;
     private var tail : Null<LinkedIntMapItem<T>>;
 
-    public inline function new():Void {
-        data = new IntMap<LinkedIntMapItem<T>>();
-        head = null;
-        tail = null;
+    public function new() {
+        initialize();
     }
 
     public inline function get(key : Int) : Null<T> {
@@ -179,6 +177,12 @@ class LinkedIntMap<T> implements haxe.Constraints.IMap<Int, T> {
         return copied;
     }
 
+    #if (haxe_ver >= "4.0.1")
+        public function clear() : Void {
+            initialize();
+        }
+    #end
+
     public function toString() : String {
         var s = new StringBuf();
         s.add("{");
@@ -199,5 +203,11 @@ class LinkedIntMap<T> implements haxe.Constraints.IMap<Int, T> {
 
         s.add("}");
         return s.toString();
+    }
+
+    private inline function initialize() {
+        data = new IntMap<LinkedIntMapItem<T>>();
+        head = null;
+        tail = null;
     }
 }

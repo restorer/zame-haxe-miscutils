@@ -247,6 +247,9 @@ class LinkedStringMap<T> implements haxe.Constraints.IMap<String, T> {
         return copied;
     }
 
+    #if (haxe_ver >= "4.0.1")
+    #end
+
     public function toString() : String {
         var s = new StringBuf();
         s.add("{");
@@ -376,10 +379,8 @@ class LinkedStringMap<T> {
     private var head : Null<LinkedStringMapItem<T>>;
     private var tail : Null<LinkedStringMapItem<T>>;
 
-    public inline function new() {
-        data = new StringMap<LinkedStringMapItem<T>>();
-        head = null;
-        tail = null;
+    public function new() {
+        initialize();
     }
 
     public inline function get(key : String) : Null<T> {
@@ -468,6 +469,12 @@ class LinkedStringMap<T> {
         return copied;
     }
 
+    #if (haxe_ver >= "4.0.1")
+        public function clear() : Void {
+            initialize();
+        }
+    #end
+
     public function toString() : String {
         var s = new StringBuf();
         s.add("{");
@@ -488,6 +495,12 @@ class LinkedStringMap<T> {
 
         s.add("}");
         return s.toString();
+    }
+
+    private inline function initialize() : Void {
+        data = new StringMap<LinkedStringMapItem<T>>();
+        head = null;
+        tail = null;
     }
 }
 
