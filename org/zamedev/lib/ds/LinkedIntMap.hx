@@ -177,7 +177,7 @@ class LinkedIntMap<T> implements haxe.Constraints.IMap<Int, T> {
         return copied;
     }
 
-    #if (haxe_ver >= "4.0.1")
+    #if (haxe_ver >= "4.0.0")
         public function clear() : Void {
             initialize();
         }

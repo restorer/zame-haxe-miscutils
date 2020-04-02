@@ -41,7 +41,7 @@ abstract LinkedMap<K, V>(haxe.Constraints.IMap<K, V>) {
         }
     #end
 
-    #if (haxe_ver >= "4.0.1")
+    #if (haxe_ver >= "4.0.0")
         public inline function clear() : Void {
             return this.clear();
         }
