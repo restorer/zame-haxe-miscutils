@@ -10,13 +10,13 @@ import openfl.net.URLRequest;
 import openfl.net.URLRequestMethod;
 
 class UrlLoaderExt {
-    private var urlLoader:URLLoader;
-    private var onComplete:UrlLoaderExt->Void;
-    private var onError:UrlLoaderExt->Void;
+    private var urlLoader : URLLoader;
+    private var onComplete : UrlLoaderExt->Void;
+    private var onError : UrlLoaderExt->Void;
 
-    public var data(get, never):String;
+    public var data(get, never) : String;
 
-    public function new(onComplete:UrlLoaderExt->Void, onError:UrlLoaderExt->Void) {
+    public function new(onComplete : UrlLoaderExt->Void, onError : UrlLoaderExt->Void) {
         this.onComplete = onComplete;
         this.onError = onError;
 
@@ -28,16 +28,16 @@ class UrlLoaderExt {
         urlLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onLoaderError);
     }
 
-    public function load(urlRequest:URLRequest):Void {
+    public function load(urlRequest : URLRequest) : Void {
         try {
             urlLoader.load(urlRequest);
-        } catch (e:Dynamic) {
+        } catch (e : Dynamic) {
             trace(e);
             onLoaderError(null);
         }
     }
 
-    private function onLoaderComplete(_):Void {
+    private function onLoaderComplete(_) : Void {
         urlLoader.removeEventListener(Event.COMPLETE, onLoaderComplete);
         urlLoader.removeEventListener(IOErrorEvent.IO_ERROR, onLoaderError);
         urlLoader.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, onLoaderError);
@@ -47,7 +47,7 @@ class UrlLoaderExt {
         }
     }
 
-    private function onLoaderError(e:Dynamic):Void {
+    private function onLoaderError(e : Dynamic) : Void {
         urlLoader.removeEventListener(Event.COMPLETE, onLoaderComplete);
         urlLoader.removeEventListener(IOErrorEvent.IO_ERROR, onLoaderError);
         urlLoader.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, onLoaderError);
@@ -60,11 +60,11 @@ class UrlLoaderExt {
     }
 
     @:noComplete
-    private function get_data():String {
+    private function get_data() : String {
         return Std.string(urlLoader.data);
     }
 
-    public static function createJsonRequest(url:String, data:Dynamic):URLRequest {
+    public static function createJsonRequest(url : String, data : Dynamic) : URLRequest {
         var urlRequest = new URLRequest(url);
         urlRequest.method = URLRequestMethod.POST;
 

@@ -23,10 +23,7 @@ class LinkedStringMap<T> implements haxe.Constraints.IMap<String, T> {
     }
 
     public function new() {
-        data = {};
-        dataReserved = {};
-        head = null;
-        tail = null;
+        initialize();
     }
 
     public function get(key : String) : Null<T> {
@@ -247,7 +244,10 @@ class LinkedStringMap<T> implements haxe.Constraints.IMap<String, T> {
         return copied;
     }
 
-    #if (haxe_ver >= "4.0.1")
+    #if (haxe_ver >= "4.0.0")
+        public function clear() : Void {
+            initialize();
+        }
     #end
 
     public function toString() : String {
@@ -290,6 +290,13 @@ class LinkedStringMap<T> implements haxe.Constraints.IMap<String, T> {
         return s.toString();
     }
     */
+
+    private inline function initialize() {
+        data = {};
+        dataReserved = {};
+        head = null;
+        tail = null;
+    }
 }
 
 #else

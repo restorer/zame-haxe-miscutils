@@ -1,7 +1,7 @@
 package org.zamedev.lib;
 
 class DynamicTools {
-    public static function asDynamic(value:Dynamic):DynamicExt {
+    public static function asDynamic(value : Dynamic) : DynamicExt {
         if (value == null) {
             return {};
         } else {
@@ -9,7 +9,7 @@ class DynamicTools {
         }
     }
 
-    public static function asArray(value:Dynamic):Array<DynamicExt> {
+    public static function asArray(value : Dynamic) : Array<DynamicExt> {
         if (Std.is(value, Array)) {
             return value;
         } else {
@@ -17,9 +17,9 @@ class DynamicTools {
         }
     }
 
-    public static function asArrayElement(value:Dynamic, index:Int):DynamicExt {
+    public static function asArrayElement(value : Dynamic, index : Int) : DynamicExt {
         if (index >= 0 && Std.is(value, Array)) {
-            var elements:Array<DynamicExt> = cast value;
+            var elements : Array<DynamicExt> = cast value;
 
             if (index < elements.length) {
                 return elements[index];
@@ -31,7 +31,7 @@ class DynamicTools {
         }
     }
 
-    public static function asInt(value:Dynamic, def:Int = 0):Int {
+    public static function asInt(value : Dynamic, def : Int = 0) : Int {
         if (Std.is(value, Int)) {
             return value;
         } else if (Std.is(value, Float)) {
@@ -41,7 +41,7 @@ class DynamicTools {
         }
     }
 
-    public static function asNullInt(value:Dynamic):Null<Int> {
+    public static function asNullInt(value : Dynamic) : Null<Int> {
         if (Std.is(value, Int)) {
             return value;
         } else if (Std.is(value, Float)) {
@@ -51,7 +51,7 @@ class DynamicTools {
         }
     }
 
-    public static function asFloat(value:Dynamic, def:Float = 0.0):Float {
+    public static function asFloat(value : Dynamic, def : Float = 0.0) : Float {
         if (Std.is(value, Float) || Std.is(value, Int)) {
             return value;
         } else {
@@ -59,7 +59,7 @@ class DynamicTools {
         }
     }
 
-    public static function asNullFloat(value:Dynamic):Null<Float> {
+    public static function asNullFloat(value : Dynamic) : Null<Float> {
         if (Std.is(value, Float) || Std.is(value, Int)) {
             return value;
         } else {
@@ -67,7 +67,7 @@ class DynamicTools {
         }
     }
 
-    public static function asBool(value:Dynamic, def:Bool = false):Bool {
+    public static function asBool(value : Dynamic, def : Bool = false) : Bool {
         if (Std.is(value, Bool)) {
             return value;
         } else {
@@ -75,7 +75,7 @@ class DynamicTools {
         }
     }
 
-    public static function asString(value:Dynamic, def:String = ""):String {
+    public static function asString(value : Dynamic, def : String = "") : String {
         if (value == null) {
             return def;
         } else {
@@ -86,7 +86,7 @@ class DynamicTools {
     /**
      * Finds an element in a nested objects with a given path.
      */
-    public static function byPath(value:Dynamic, path:Array<String>):DynamicExt {
+    public static function byPath(value : Dynamic, path : Array<String>) : DynamicExt {
         var node = value;
 
         for (key in path) {

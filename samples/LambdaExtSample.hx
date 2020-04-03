@@ -8,10 +8,10 @@ class LambdaExtSample {
         map["foo"] = "bar";
         map["bar"] = "baz";
 
-        var arrayval:Array<String> = map.keys().array();
-        trace(arrayval);
+        var result1 : Array<String> = map.keys().array();
+        trace(result1);
 
-        var listval:List<String> = map.keys().map(function(v) { return v.toUpperCase(); });
-        trace(listval);
+        var result2 : Array<String> = map.keys().map(function(v) { return v.toUpperCase(); });
+        trace(result2);
     }
 }

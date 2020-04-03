@@ -1,7 +1,7 @@
 package org.zamedev.lib;
 
 class XmlExt {
-    public static function innerText(node:Xml, def:String = ""):String {
+    public static function innerText(node : Xml, def : String = "") : String {
         var child = node.firstChild();
 
         if (child != null && (child.nodeType == Xml.PCData || child.nodeType == Xml.CData)) {

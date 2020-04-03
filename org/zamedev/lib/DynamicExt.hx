@@ -6,12 +6,12 @@ abstract DynamicExt(Dynamic) from Dynamic to Dynamic {
     }
 
     @:arrayAccess
-    public inline function set(key:String, value:Dynamic):Void {
+    public inline function set(key : String, value : Dynamic) : Void {
         Reflect.setField(this, key, value);
     }
 
     @:arrayAccess
-    public inline function get(key:String):DynamicExt {
+    public inline function get(key : String) : DynamicExt {
         #if js
             return untyped this[key];
         #else
@@ -19,15 +19,15 @@ abstract DynamicExt(Dynamic) from Dynamic to Dynamic {
         #end
     }
 
-    public inline function exists(key:String):Bool {
+    public inline function exists(key : String) : Bool {
         return Reflect.hasField(this, key);
     }
 
-    public inline function remove(key:String):Bool {
+    public inline function remove(key : String) : Bool {
         return Reflect.deleteField(this, key);
     }
 
-    public inline function keys():Array<String> {
+    public inline function keys() : Array<String> {
         return Reflect.fields(this);
     }
 }

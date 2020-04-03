@@ -1,10 +1,13 @@
 # Misc utils for Haxe
 
-  - DynamicExt - pure haxe
-  - DynamicTools - pure haxe
-  - LambdaExt - pure haxe
-  - XmlExt - pure haxe
-  - UrlLoaderExt - for openfl
+  - `DynamicExt` - pure haxe
+  - `DynamicTools` - pure haxe
+  - `JavaRandom` - pure haxe
+  - `LambdaExt` - pure haxe
+  - `SignalExt` - for msignal
+  - `UrlLoaderExt` - for openfl
+  - `XmlExt` - pure haxe
+  - `ds.*` - pure haxe
 
 [About](http://blog.zame-dev.org/5-more-things-i-dont-like-in-haxe-and-how-to-fix-them/)
 
@@ -42,7 +45,7 @@ Along with DynamicExt allows to parse json in a safe manner.
 import org.zamedev.lib.DynamicExt;
 using org.zamedev.lib.DynamicTools;
 
-var node:DynamicExt = haxe.Json.parse('{"a":{"b":"c"},"stringval":"haxe","arrayval":["haxe","cool"],"intval":42,"floatval":24.42,"boolval":true}');
+var node : DynamicExt = haxe.Json.parse('{"a":{"b":"c"},"stringval":"haxe","arrayval":["haxe","cool"],"intval":42,"floatval":24.42,"boolval":true}');
 trace(node["stringval"].asString());
 trace(node["arrayval"].asArray());
 trace(node["intval"].asInt());
@@ -64,11 +67,11 @@ var map = new Map<String, String>();
 map["foo"] = "bar";
 map["bar"] = "baz";
 
-var arrayval:Array<String> = map.keys().array();
-trace(arrayval);
+var result1 : Array<String> = map.keys().array();
+trace(result1);
 
-var listval:List<String> = map.keys().map(function(v) { return v.toUpperCase(); });
-trace(listval);
+var result2 : Array<String> = map.keys().map(function(v) { return v.toUpperCase(); });
+trace(result2);
 ```
 
 ### XmlExt
@@ -88,7 +91,7 @@ for (node in root.firstElement().elements()) {
 Simplify work with json-based server API.
 
 ```haxe
-var loader = new UrlLoaderExt(function(loader:UrlLoaderExt) {
+var loader = new UrlLoaderExt(function(loader : UrlLoaderExt) {
     trace("success");
     trace(loader.data);
 }, function(_) {
