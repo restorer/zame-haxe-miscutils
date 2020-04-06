@@ -52,23 +52,25 @@ class LinkedIntMapValueIterator<T> {
     }
 }
 
-class LinkedIntMapKeyValueIterator<T> {
-    private var item : Null<LinkedIntMapItem<T>>;
+#if (haxe_ver >= "4.0.0")
+    class LinkedIntMapKeyValueIterator<T> {
+        private var item : Null<LinkedIntMapItem<T>>;
 
-    public inline function new(head : LinkedIntMapItem<T>) {
-        this.item = head;
-    }
+        public inline function new(head : LinkedIntMapItem<T>) {
+            this.item = head;
+        }
 
-    public inline function hasNext() : Bool {
-        return (item != null);
-    }
+        public inline function hasNext() : Bool {
+            return (item != null);
+        }
 
-    public inline function next() : { key : Int, value : T } {
-        var result : LinkedIntMapItem<T> = item;
-        item = item.next;
-        return { key : result.key, value : result.value };
+        public inline function next() : { key : Int, value : T } {
+            var result : LinkedIntMapItem<T> = item;
+            item = item.next;
+            return { key : result.key, value : result.value };
+        }
     }
-}
+#end
 
 class LinkedIntMap<T> implements haxe.Constraints.IMap<Int, T> {
     private static var emptyIterator = {

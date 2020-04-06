@@ -353,23 +353,25 @@ class LinkedStringMapValueIterator<T> {
     }
 }
 
-class LinkedStringMapKeyValueIterator<T> {
-    private var item : Null<LinkedStringMapItem<T>>;
+#if (haxe_ver >= "4.0.0")
+    class LinkedStringMapKeyValueIterator<T> {
+        private var item : Null<LinkedStringMapItem<T>>;
 
-    public inline function new(head : LinkedStringMapItem<T>) {
-        this.item = head;
-    }
+        public inline function new(head : LinkedStringMapItem<T>) {
+            this.item = head;
+        }
 
-    public inline function hasNext() : Bool {
-        return (item != null);
-    }
+        public inline function hasNext() : Bool {
+            return (item != null);
+        }
 
-    public inline function next() : { key : String, value : T } {
-        var result : LinkedStringMapItem<T> = item;
-        item = item.next;
-        return { key : result.key, value : result.value };
+        public inline function next() : { key : String, value : T } {
+            var result : LinkedStringMapItem<T> = item;
+            item = item.next;
+            return { key : result.key, value : result.value };
+        }
     }
-}
+#end
 
 class LinkedStringMap<T> {
     private static var emptyIterator = {
@@ -462,9 +464,11 @@ class LinkedStringMap<T> {
         return (head == null ? cast emptyIterator : new LinkedStringMapValueIterator<T>(head));
     }
 
-    public function keyValueIterator() : KeyValueIterator<String, T> {
-        return (head == null ? cast emptyIterator : new LinkedStringMapKeyValueIterator<T>(head));
-    }
+    #if (haxe_ver >= "4.0.0")
+        public function keyValueIterator() : KeyValueIterator<String, T> {
+            return (head == null ? cast emptyIterator : new LinkedStringMapKeyValueIterator<T>(head));
+        }
+    #end
 
     public function copy() : LinkedStringMap<T> {
         var copied = new LinkedStringMap<T>();
