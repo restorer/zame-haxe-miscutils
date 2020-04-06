@@ -34,7 +34,11 @@ class LambdaExt {
         The order of elements is preserved.
         If `f` is null, the result is unspecified.
     **/
+    #if (haxe_ver >= "4.0.0")
     public static inline function map<A, B>(it : Iterator<A>, f : (A) -> B) : Array<B> {
+    #else
+    public static inline function map<A, B>(it : Iterator<A>, f : A -> B) : Array<B> {
+    #end
         return [for (x in it) f(x)];
     }
 
@@ -43,7 +47,11 @@ class LambdaExt {
         The order of elements is preserved.
         If `f` is null, the result is unspecified.
     **/
+    #if (haxe_ver >= "4.0.0")
     public static inline function mapi<A, B>(it : Iterator<A>, f : (Int, A) -> B) : Array<B> {
+    #else
+    public static inline function mapi<A, B>(it : Iterator<A>, f : Int -> A -> B) : Array<B> {
+    #end
         var i = 0;
         return [for (x in it) f(i++, x)];
     }
@@ -61,7 +69,11 @@ class LambdaExt {
         The order of elements is preserved.
         If `f` is null, the result is unspecified.
     **/
+    #if (haxe_ver >= "4.0.0")
     public static inline function flatMap<A, B>(it : Iterator<A>, f: (A) -> Iterator<B>) : Array<B> {
+    #else
+    public static inline function flatMap<A, B>(it : Iterator<A>, f: A -> Iterator<B>) : Array<B> {
+    #end
         return LambdaExt.flatten(LambdaExt.map(it, f).iterator());
     }
 
@@ -87,7 +99,11 @@ class LambdaExt {
         If no such element is found, the result is false.
         If `f` is null, the result is unspecified.
     **/
+    #if (haxe_ver >= "4.0.0")
     public static function exists<A>(it : Iterator<A>, f : (A) -> Bool) : Bool {
+    #else
+    public static function exists<A>(it : Iterator<A>, f : A -> Bool) : Bool {
+    #end
         for (x in it) {
             if (f(x)) {
                 return true;
@@ -104,7 +120,11 @@ class LambdaExt {
         In particular, this function always returns true if `it` is empty.
         If `f` is null, the result is unspecified.
     **/
+    #if (haxe_ver >= "4.0.0")
     public static function foreach<A>(it : Iterator<A>, f : (A) -> Bool) : Bool {
+    #else
+    public static function foreach<A>(it : Iterator<A>, f : A -> Bool) : Bool {
+    #end
         for (x in it) {
             if (!f(x)) {
                 return false;
@@ -118,7 +138,11 @@ class LambdaExt {
         Calls `f` on all elements of `it`, in order.
         If `f` is null, the result is unspecified.
     **/
+    #if (haxe_ver >= "4.0.0")
     public static function iter<A>(it : Iterator<A>, f : (A) -> Void) : Void {
+    #else
+    public static function iter<A>(it : Iterator<A>, f : A -> Void) : Void {
+    #end
         for (x in it) {
             f(x);
         }
@@ -130,7 +154,11 @@ class LambdaExt {
         If `it` is empty, the result is the empty Array even if `f` is null.
         Otherwise if `f` is null, the result is unspecified.
     **/
+    #if (haxe_ver >= "4.0.0")
     public static function filter<A>(it : Iterator<A>, f : (A) -> Bool) : Array<A> {
+    #else
+    public static function filter<A>(it : Iterator<A>, f : A -> Bool) : Array<A> {
+    #end
         return [for (x in it) if (f(x)) x];
     }
 
@@ -144,7 +172,11 @@ class LambdaExt {
 
         If `it` or `f` are null, the result is unspecified.
     **/
+    #if (haxe_ver >= "4.0.0")
     public static function fold<A, B>(it : Iterator<A>, f : (A, B) -> B, first : B) : B {
+    #else
+    public static function fold<A, B>(it : Iterator<A>, f : A -> B -> B, first : B) : B {
+    #end
         for (x in it) {
             first = f(x, first);
         }
@@ -158,7 +190,11 @@ class LambdaExt {
 
         This function traverses all elements.
     **/
+    #if (haxe_ver >= "4.0.0")
     public static function count<A>(it : Iterator<A>, ?pred : (A) -> Bool) : Int {
+    #else
+    public static function count<A>(it : Iterator<A>, ?pred : A -> Bool) : Int {
+    #end
         var n = 0;
 
         if (pred == null) {
@@ -208,7 +244,11 @@ class LambdaExt {
         If no such element is found, the result is null.
         If `f` is null, the result is unspecified.
     **/
+    #if (haxe_ver >= "4.0.0")
     public static function find<T>(it : Iterator<T>, f : (T) -> Bool) : Null<T> {
+    #else
+    public static function find<T>(it : Iterator<T>, f : T -> Bool) : Null<T> {
+    #end
         for (v in it) {
             if (f(v)) {
                 return v;
@@ -257,7 +297,11 @@ class LambdaExt {
         The order of elements is preserved.
         If `f` is null, the result is unspecified.
     **/
+    #if (haxe_ver >= "4.0.0")
     public static inline function flatMapIteratorIterable<A, B>(it : Iterator<A>, f: (A) -> Iterable<B>) : Array<B> {
+    #else
+    public static inline function flatMapIteratorIterable<A, B>(it : Iterator<A>, f: A -> Iterable<B>) : Array<B> {
+    #end
         return LambdaExt.flattenIteratorIterable(LambdaExt.map(it, f).iterator());
     }
 }
