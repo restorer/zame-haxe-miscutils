@@ -1,0 +1,4 @@
+# @install: lix --silent download "haxelib:/hashlink#0.1.0" into hashlink/0.1.0/haxelib
+# @run: haxelib run-dir hashlink ${HAXE_LIBCACHE}/hashlink/0.1.0/haxelib
+-cp ${HAXE_LIBCACHE}/hashlink/0.1.0/haxelib/
+-D hashlink=0.1.0

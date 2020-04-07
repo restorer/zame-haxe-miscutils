@@ -1,0 +1,12 @@
+{
+    "name": "zame-miscutils",
+    "url": "https://github.com/restorer/zame-miscutils",
+    "license": "MIT",
+    "tags": [],
+    "description": "Misc utils for Haxe",
+    "version": "0.0.0",
+    "releasenote": "Initial release",
+    "contributors": [
+        "restorer"
+    ]
+}

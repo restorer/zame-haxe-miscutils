@@ -17,11 +17,9 @@ abstract LinkedMap<K, V>(haxe.Constraints.IMap<K, V>) {
         return this.exists(key);
     }
 
-    #if (haxe_ver >= "4.0.0")
-        public inline function remove(key : K) : Bool {
-            return this.remove(key);
-        }
-    #end
+    public inline function remove(key : K) : Bool {
+        return this.remove(key);
+    }
 
     public inline function keys() : Iterator<K> {
         return this.keys();
@@ -39,9 +37,7 @@ abstract LinkedMap<K, V>(haxe.Constraints.IMap<K, V>) {
         public inline function copy() : haxe.Constraints.IMap<K, V> {
             return this.copy();
         }
-    #end
 
-    #if (haxe_ver >= "4.0.0")
         public inline function clear() : Void {
             return this.clear();
         }

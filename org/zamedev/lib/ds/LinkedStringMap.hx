@@ -244,11 +244,9 @@ class LinkedStringMap<T> implements haxe.Constraints.IMap<String, T> {
         return copied;
     }
 
-    #if (haxe_ver >= "4.0.0")
-        public function clear() : Void {
-            initialize();
-        }
-    #end
+    public function clear() : Void {
+        initialize();
+    }
 
     public function toString() : String {
         var s = new StringBuf();
@@ -480,11 +478,9 @@ class LinkedStringMap<T> {
         return copied;
     }
 
-    #if (haxe_ver >= "4.0.0")
-        public function clear() : Void {
-            initialize();
-        }
-    #end
+    public function clear() : Void {
+        initialize();
+    }
 
     public function toString() : String {
         var s = new StringBuf();

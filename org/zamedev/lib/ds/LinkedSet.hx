@@ -9,7 +9,7 @@ abstract LinkedSet<T>(LinkedMap<T, Bool>) {
     }
 
     public inline function exists(key : Null<T>) : Bool {
-        return (key == null ? null : this.exists(key));
+        return (key == null ? false : this.exists(key));
     }
 
     public inline function remove(key : T) : Bool {
