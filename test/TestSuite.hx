@@ -1,11 +1,10 @@
 package ;
 
-import utest.Runner;
-import utest.ui.Report;
+import utest.UTest;
 
 class TestSuite {
     public static function main() {
-        utest.UTest.run([
+        UTest.run([
             new test.DynamicExtTest(),
             new test.DynamicToolsTest(),
             new test.JavaRandomTest(),
