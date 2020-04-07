@@ -1,6 +1,6 @@
 {
     "name": "zame-miscutils",
-    "url": "https://github.com/restorer/zame-miscutils",
+    "url": "https://github.com/restorer/zame-haxe-miscutils",
     "license": "MIT",
     "tags": [],
     "description": "Misc utils for Haxe",

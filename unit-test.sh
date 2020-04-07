@@ -138,8 +138,8 @@ has_target () {
     TARGET="$1"
     shift
 
-    [[ " $@ " =~ " $TARGET " ]] && return 0
     [[ " $@ " =~ " -${TARGET} " ]] && return 1
+    [[ " $@ " =~ " $TARGET " ]] && return 0
 
     while [[ $# -gt 0 ]] ; do
         [ "${1:0:1}" != "-" ] && return 1
@@ -187,7 +187,7 @@ EOF
     has_target php "$@" && target_php "$BUILD" "$HXML"
     has_target java "$@" && target_java "$BUILD" "$HXML"
     has_target python "$@" && target_python "$BUILD" "$HXML"
-    has_target cs "$@" && target_cs "$BUILD" "$HXML"
+    # has_target cs "$@" && target_cs "$BUILD" "$HXML"
     has_target cppia "$@" && target_cppia "$BUILD" "$HXML"
     has_target lua "$@" && target_lua "$BUILD" "$HXML"
     has_target lua_vanilla "$@" && target_lua_vanilla "$BUILD" "$HXML"
@@ -203,7 +203,7 @@ EOF
     haxe "$HXML"
 }
 
-run_tests haxe3 "$@" && run_tests haxe4 "$@"
+run_tests haxe3 -hl -hlc "$@" && run_tests haxe4 "$@"
 RESULT="$?"
 
 cleanup
